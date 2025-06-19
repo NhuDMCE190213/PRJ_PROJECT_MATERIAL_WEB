@@ -1,8 +1,8 @@
-D:\SU25\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\Constants.java
-D:\SU25\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\db\DBContext.java
-D:\SU25\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\MaGiamGia.java
-D:\SU25\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Product.java
-D:\SU25\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\MaGiamGiaDAO.java
-D:\SU25\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ProductServlet.java
-D:\SU25\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\SaleServlet.java
-D:\SU25\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\ProductDao.java
+C:\Users\PC\Desktop\CacLopFPT\Ki4_SE1902\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\MaGiamGia.java
+C:\Users\PC\Desktop\CacLopFPT\Ki4_SE1902\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Product.java
+C:\Users\PC\Desktop\CacLopFPT\Ki4_SE1902\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\SaleServlet.java
+C:\Users\PC\Desktop\CacLopFPT\Ki4_SE1902\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\db\DBContext.java
+C:\Users\PC\Desktop\CacLopFPT\Ki4_SE1902\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\ProductDao.java
+C:\Users\PC\Desktop\CacLopFPT\Ki4_SE1902\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ProductServlet.java
+C:\Users\PC\Desktop\CacLopFPT\Ki4_SE1902\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\MaGiamGiaDAO.java
+C:\Users\PC\Desktop\CacLopFPT\Ki4_SE1902\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\Constants.java

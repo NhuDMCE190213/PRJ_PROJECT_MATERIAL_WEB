@@ -19,7 +19,7 @@ import model.Product;
  *
  * @author Le Duy Khanh - CE190235
  */
-@WebServlet(name = "ProductServlet2", urlPatterns = {"/product2"})
+@WebServlet(name = "ProductServlet", urlPatterns = {"/product"})
 public class ProductServlet extends HttpServlet {
 
     /**
