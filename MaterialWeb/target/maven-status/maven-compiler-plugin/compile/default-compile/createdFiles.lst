@@ -1,0 +1,5 @@
+model\MaGiamGia.class
+db\DBContext.class
+controller\SaleServlet.class
+constant\Constants.class
+dao\MaGiamGiaDAO.class
