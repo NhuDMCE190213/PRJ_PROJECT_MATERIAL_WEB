@@ -2,7 +2,7 @@ dao\ProductDao.class
 controller\ProductServlet.class
 model\Product.class
 constant\Constants.class
-dao\MaGiamGiaDAO.class
-model\MaGiamGia.class
+dao\SaleDAO.class
 db\DBContext.class
 controller\SaleServlet.class
+model\Sale.class
