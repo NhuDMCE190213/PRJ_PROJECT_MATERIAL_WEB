@@ -64,13 +64,15 @@ public class SaleServlet extends HttpServlet {
         SaleDAO saleDAO = new SaleDAO();
         List<Sale> salesList = saleDAO.getAll();
         request.setAttribute("salesList", salesList);
-        
+
         String view = request.getParameter("view");
 
         String namePage = "";
 
         if (view == null || view.equals("") || view.equalsIgnoreCase("list")) {
             namePage = "list";
+        } else if (view.equalsIgnoreCase("create")) {
+            namePage = "create";
         }
 
         request.getRequestDispatcher("/WEB-INF/sale/" + namePage + ".jsp").forward(request, response);
