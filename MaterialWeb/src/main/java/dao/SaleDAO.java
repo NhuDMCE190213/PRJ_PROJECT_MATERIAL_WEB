@@ -25,11 +25,14 @@ public class SaleDAO extends DBContext {
     public static void main(String[] args) {
         SaleDAO dao = new SaleDAO();
 
-        List<Sale> salesList = dao.getAll();
-
-        for (Sale sale : salesList) {
-            System.out.println(sale);
-        }
+//        List<Sale> salesList = dao.getAll();
+//
+//        for (Sale sale : salesList) {
+//            System.out.println(sale);
+//        }
+//        System.out.println(dao.stringConvertDateTime("2025-06-21T20:00"));
+//        System.out.println(dao.create("Minh Nhu", 100, 0, 10, true, "2025-06-21T20:00", "2025-06-21T09:00"));
+//        Sale{id=0, name=, discount=, typeOfDiscount=0, amount=10, coHanSuDung=false, dateStart=, dateEnd=}
     }
 
     public List<Sale> getAll() {
@@ -66,14 +69,20 @@ public class SaleDAO extends DBContext {
     public int create(String name, int discount, int typeOfDiscount, int soLuong, boolean coHanSuDung, String dateStart, String dateEnd) {
         try {
 
-            String query = "INSERT INTO MaGiamGia (Name, Discount, TypeOfDiscount, SoLuong, CoHanSuDung, DateStart, DateEnd)\n"
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?);";
+            dateStart = this.stringConvertDateTime(dateStart);
+            dateEnd = this.stringConvertDateTime(dateEnd);
+
+            String query = "INSERT INTO sale (id, name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd)\n"
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
             if (idTop == -1) {
                 idTop = getNextIDTop();
             }
             idTop++;
 
-            return this.executeQuery(query, new Object[]{idTop, new Object[]{idTop, name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd}});
+            Sale sale = new Sale(idTop, name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd);
+            System.out.println(sale);
+
+            return this.executeQuery(query, new Object[]{idTop, name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd});
 
         } catch (SQLException ex) {
             Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,15 +115,15 @@ public class SaleDAO extends DBContext {
 
     public void remove(int id) {
         try {
-            String query = "DELETE FROM Artist WHERE ArtistId = ?;";
+            String query = "DELETE FROM sale WHERE id = ?;";
             PreparedStatement pstatement = this.getConnection().prepareStatement(query);
 
             pstatement.setInt(1, id);
 
-            if (pstatement.executeUpdate() == 1) {
-                System.out.println("Removed");
+            if (this.executeQuery(query, new Object[]{id}) >= 1) {
+                System.out.println("Removed a sale");
             } else {
-                System.out.println("The ID is not existed!!!");
+                System.out.println("Removing is failure!");
             }
 
         } catch (SQLException ex) {
@@ -124,20 +133,14 @@ public class SaleDAO extends DBContext {
 
     public int getNextIDTop() {
         try {
-            String query = "SELECT TOP 1 ArtistID FROM Artist ORDER BY ArtistID DESC";
-            PreparedStatement pstatement = this.getConnection().prepareStatement(query);
-            ResultSet rs = pstatement.executeQuery();
+            String query = "SELECT TOP 1 id FROM sale ORDER BY id DESC";
+            ResultSet rs = this.executeSelectionQuery(query, null);
 
             int id = -1;
             while (rs.next()) {
                 id = rs.getInt(1);
             }
 
-//            if (id == -1) {
-//                return 0;
-//            } else {
-//                return id + 1;
-//            }
             return id;
 
         } catch (SQLException ex) {
@@ -176,5 +179,15 @@ public class SaleDAO extends DBContext {
         }
 
         return 0;
+    }
+
+    public String stringConvertDateTime(String str) {
+        String[] strs = str.split("T");
+
+        if (strs.length >= 2) {
+            return String.format("%s %s", strs[0], strs[1]).trim();
+        } else {
+            return null;
+        }
     }
 }

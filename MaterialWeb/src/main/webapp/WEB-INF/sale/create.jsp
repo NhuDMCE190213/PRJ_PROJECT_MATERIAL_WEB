@@ -11,93 +11,93 @@
 
     <div class="container">
         <h1 class="mt-5">Add new Sale</h1>
-        <!--<form method="post" action="<c:url value="sale"/>">-->
-        <form method="post" action="#">
-        <table class="table">
-            <tr>
-                <td>
-                </td>
-                <td>
-                </td>
-            </tr>
+        <form method="post" action="<c:url value="sale"/>">
+            <table class="table">
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                </tr>
 
-            <tr>
-                <td>
-                    <label for="saleName">Tên Sale</label>
-                </td>
-                <td>
-                    <input type="text" name="saleName" id="saleName">
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <label for="name">Tên Sale</label>
+                    </td>
+                    <td>
+                        <input  type="text" name="name" id="name">
+                    </td>
+                </tr>
 
-            <tr>
-                <td>
-                    <label for="discount">Giảm giá</label>
-                </td>
-                <td>
-                    <input type="number" name="discount" id="discount">
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <label for="discount">Giảm giá</label>
+                    </td>
+                    <td>
+                        <input type="number" name="discount" id="discount">
+                    </td>
+                </tr>
 
-            <tr>
-                <td>
-                    <label for="typeOfDiscount">Loại giảm giá</label>
-                </td>
-                <td>
-                    <select name="typeOfDiscount">
-                        <option value="0">Percent</option>
-                        <option value="1">Direct</option>
-                    </select>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <label for="typeOfDiscount">Loại giảm giá</label>
+                    </td>
+                    <td>
+                        <select name="typeOfDiscount">
+                            <option value="0">Percent</option>
+                            <option value="1">Direct</option>
+                        </select>
+                    </td>
+                </tr>
 
-            <tr>
-                <td>
-                    <label for="amount">Số lượng</label>
-                </td>
-                <td>
-                    <input type="number" name="amount" id="amount">
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <label for="amount">Số lượng</label>
+                    </td>
+                    <td>
+                        <input type="number" name="amount" id="amount">
+                    </td>
+                </tr>
 
-            <tr>
-                <td>
-                    <label for="coHanSuDung">Có hạn sử dụng</label>
-                </td>
-                <td>
-                    <input type="checkbox" name="coHanSuDung" checked />
-                </td>
-            </tr>
-            
-            <tr>
-                <td>
-                    <label for="dateStart">Ngày bắt đầu</label>
-                </td>
-                <td>
-                    <input type="datetime-local" name="dateStart" checked />
-                </td>
-            </tr>
-            
-            <tr>
-                <td>
-                    <label for="dateEnd">Ngày kết thúc</label>
-                </td>
-                <td>
-                    <input type="datetime-local" name="dateEnd" checked />
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <label for="coHanSuDung">Có hạn sử dụng</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="coHanSuDung" checked/>
+                    </td>
+                </tr>
 
-            <tr>
-                <td>
-                </td>
-                <td>
-                    <button class="btn btn-outline-dark" type="submit" name="action" value="create">Save</button>
-                    <!--<input type="submit" value="Cancel" name="Cancel">-->
-                    <a class="btn btn-outline-dark" href="<%=request.getContextPath()%>/artist">Cancel</a>
-                </td>
-            </tr>
-        </table>
+                <tr>
+                    <td>
+                        <label for="dateStart">Ngày bắt đầu</label>
+                    </td>
+                    <td>
+                        <input type="datetime-local" name="dateStart" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="dateEnd">Ngày kết thúc</label>
+                    </td>
+                    <td>
+                        <input type="datetime-local" name="dateEnd"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-dark" type="submit" name="action" value="create">Save</button>
+                        <!--<input type="submit" value="Cancel" name="Cancel">-->
+                        <a class="btn btn-outline-dark" href="<c:url value="sale"/>">Cancel</a>
+                    </td>
+                </tr>
+            </table>
         </form>
+
     </div>
 
 </main>

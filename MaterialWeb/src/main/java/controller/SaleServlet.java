@@ -22,6 +22,8 @@ import model.Sale;
 @WebServlet(name = "SaleServlet", urlPatterns = {"/sale"})
 public class SaleServlet extends HttpServlet {
 
+    SaleDAO saleDAO = new SaleDAO();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -61,7 +63,6 @@ public class SaleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        SaleDAO saleDAO = new SaleDAO();
         List<Sale> salesList = saleDAO.getAll();
         request.setAttribute("salesList", salesList);
 
@@ -73,6 +74,8 @@ public class SaleServlet extends HttpServlet {
             namePage = "list";
         } else if (view.equalsIgnoreCase("create")) {
             namePage = "create";
+        } else if (view.equalsIgnoreCase("delete")) {
+            namePage = "remove";
         }
 
         request.getRequestDispatcher("/WEB-INF/sale/" + namePage + ".jsp").forward(request, response);
@@ -89,7 +92,46 @@ public class SaleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+//        Sale sale = new Sale(0, name, discount, typeOfDiscount, amount, coHanSuDung, dateStart, dateEnd);
+//        System.out.println(sale);
+        String action = request.getParameter("action");
+        if (action != null && !action.isEmpty()) {
+
+            if (action.equalsIgnoreCase("create")) {
+                String name = request.getParameter("name");
+                int discount = Integer.parseInt(request.getParameter("discount"));
+                int typeOfDiscount = Integer.parseInt(request.getParameter("typeOfDiscount"));
+                int amount = Integer.parseInt(request.getParameter("amount"));
+                boolean coHanSuDung = request.getParameter("coHanSuDung") != null;
+                String dateStart = "";
+                String dateEnd = "";
+                if (coHanSuDung) {
+                    dateStart = request.getParameter("dateStart");
+                    dateEnd = request.getParameter("dateEnd");
+                }
+
+                // chua co check cac dieu kien
+                if (name != null && !name.isEmpty()) {
+                    if (saleDAO.create(name, discount, typeOfDiscount, amount, coHanSuDung, dateStart, dateEnd) >= 1) {
+                        System.out.println("Creating a new sale successful");
+                    } else {
+                        System.out.println("Creation successful");
+                    }
+                }
+            } else if (action.equalsIgnoreCase("remove")) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                saleDAO.remove(id);
+            } else if (action.equalsIgnoreCase("edit")) {
+                String name = request.getParameter("name");
+//                int id = Integer.parseInt(action[1]);
+                int id = Integer.parseInt(request.getParameter("id"));
+
+//                saleDAO.update(id, name);
+            }
+        }
+
+        response.sendRedirect(request.getContextPath() + "/sale");
     }
 
     /**

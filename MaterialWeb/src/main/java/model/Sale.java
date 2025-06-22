@@ -5,6 +5,7 @@
 package model;
 
 import constant.Constants.*;
+import static constant.Constants.*;
 
 /**
  *
@@ -63,6 +64,10 @@ public class Sale {
     public void setTypeOfDiscount(int typeOfDiscount) {
         this.typeOfDiscount = typeOfDiscount;
     }
+    
+    public String getCurrentDiscount() {
+        return ((typeOfDiscount == 1)?"-":"") + discount + ((typeOfDiscount == 0)?"%":"");
+    }
 
     public int getAmount() {
         return amount;
@@ -70,6 +75,10 @@ public class Sale {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+    
+    public String getCurrentAmount() {
+        return (amount < INFINITY)?("" + amount):"Non-limit";
     }
 
     public boolean isCoHanSuDung() {

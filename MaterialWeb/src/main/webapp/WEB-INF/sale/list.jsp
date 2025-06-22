@@ -13,7 +13,9 @@
         <h2>Danh sách Sale</h2>
 
         <p class="text-end">
-            <a href="#" class="btn btn-success">Add New</a>
+            <a href="<c:url value="sale?view=create">
+                   <c:param name="view" value="create"/>
+               </c:url>" class="btn btn-success">Add New</a>
         </p>
 
         <table class="table table-bordered table-hover text-center">
@@ -40,15 +42,18 @@
                             <tr>
                                 <th>${sale.id}</th>
                                 <td>${sale.name}</td>
-                                <td>${(sale.typeOfDiscount == 1)?"-":""}${sale.discount}${(sale.typeOfDiscount == 0)?"%":""}</td>
-                                <td>${(sale.amount < 999999)?("" + sale.amount):"Non-limit"}</td>
+                                <td>${sale.currentDiscount}</td>
+                                <td>${sale.currentAmount}</td>
                                 <td>${sale.dateStart}</td>
                                 <td>${sale.dateEnd}</d>
                                 <td>
                                     <a href="#" class="btn btn-primary">
                                         Edit
                                     </a>
-                                    <a href="#" class="btn btn-danger">
+                                    <a href="<c:url value="sale">
+                                           <c:param name="view" value="delete"/>
+                                           <c:param name="index" value="${loop.index}"/>
+                                       </c:url>" class="btn btn-danger">
                                         Delete
                                     </a>
                                 </td>
