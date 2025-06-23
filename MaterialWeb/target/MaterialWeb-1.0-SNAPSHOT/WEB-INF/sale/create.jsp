@@ -25,7 +25,7 @@
                         <label for="name">Tên Sale</label>
                     </td>
                     <td>
-                        <input  type="text" name="name" id="name">
+                        <input  type="text" name="name"  id="name" class="form-control" required>
                     </td>
                 </tr>
 
@@ -34,7 +34,7 @@
                         <label for="discount">Giảm giá</label>
                     </td>
                     <td>
-                        <input type="number" name="discount" id="discount">
+                        <input type="number" name="discount" id="discount" class="form-control" required>
                     </td>
                 </tr>
 
@@ -43,7 +43,7 @@
                         <label for="typeOfDiscount">Loại giảm giá</label>
                     </td>
                     <td>
-                        <select name="typeOfDiscount">
+                        <select name="typeOfDiscount" class="form-select" required>
                             <option value="0">Percent</option>
                             <option value="1">Direct</option>
                         </select>
@@ -55,7 +55,7 @@
                         <label for="amount">Số lượng</label>
                     </td>
                     <td>
-                        <input type="number" name="amount" id="amount">
+                        <input type="number" name="amount" id="amount" class="form-control" required>
                     </td>
                 </tr>
 
@@ -64,7 +64,7 @@
                         <label for="coHanSuDung">Có hạn sử dụng</label>
                     </td>
                     <td>
-                        <input type="checkbox" name="coHanSuDung" checked/>
+                        <input type="checkbox" name="coHanSuDung" checked class="form-check"/>
                     </td>
                 </tr>
 
