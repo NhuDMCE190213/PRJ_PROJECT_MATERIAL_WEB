@@ -11,4 +11,7 @@ dao\OrderDao.class
 model\OrderItem.class
 model\Product.class
 db\DBContext.class
+controller\ProfileServlet.class
+model\Account.class
 controller\HomeServlet.class
+model\User.class
