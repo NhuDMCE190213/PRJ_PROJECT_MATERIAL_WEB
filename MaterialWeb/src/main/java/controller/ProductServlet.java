@@ -1,6 +1,7 @@
 package controller;
 
 import dao.ProductDao;
+import jakarta.faces.annotation.View;
 import model.Product;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,38 +17,118 @@ public class ProductServlet extends HttpServlet {
             throws ServletException, IOException {
 
         ProductDao dao = new ProductDao();
-
+        String view = request.getParameter("view");
         // Xử lý phân trang
-        int page = 1;
-        int pageSize = 9;
+        if (view == null || view.isBlank() || view.equals("list")) {
+            int page = 1;
+            int pageSize = 9;
 
-        try {
-            String pageParam = request.getParameter("page");
-            if (pageParam != null) {
-                page = Integer.parseInt(pageParam);
-                if (page < 1) page = 1;
+            try {
+                String pageParam = request.getParameter("page");
+                if (pageParam != null) {
+                    page = Integer.parseInt(pageParam);
+                    if (page < 1) {
+                        page = 1;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                page = 1;
             }
-        } catch (NumberFormatException e) {
-            page = 1;
+
+            List<Product> products = dao.getProductsByPage(page, pageSize);
+            int totalProducts = dao.countProducts();
+            int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
+
+            // Truyền dữ liệu sang JSP
+            request.setAttribute("list", products);
+            request.setAttribute("page", page);
+            request.setAttribute("totalPages", totalPages);
+
+            // Forward đến trang JSP hiển thị sản phẩm
+            request.getRequestDispatcher("/WEB-INF/product/list.jsp").forward(request, response);
+        } else if (view.equals("create")) {
+            request.getRequestDispatcher("/WEB-INF/product/create.jsp").forward(request, response);
+
+        } else if (view.equals("update")) {
+            String idRaw = request.getParameter("id");
+            try {
+                int id = Integer.parseInt(idRaw);
+                Product product = dao.getById(id);
+                if (product != null) {
+                    request.setAttribute("product", product);
+                    request.getRequestDispatcher("/WEB-INF/product/update.jsp").forward(request, response);
+                } else {
+                    response.getWriter().println("Không tìm thấy sản phẩm.");
+                }
+            } catch (NumberFormatException e) {
+                response.getWriter().println("ID không hợp lệ.");
+            }
+
+        } else if (view.equals("delete")) {
+            String idRaw = request.getParameter("id");
+            try {
+                int id = Integer.parseInt(idRaw);
+                Product product = dao.getById(id);
+                if (product != null) {
+                    request.setAttribute("product", product);
+                    request.getRequestDispatcher("/WEB-INF/product/delete.jsp").forward(request, response);
+                } else {
+                    response.getWriter().println("Không tìm thấy sản phẩm.");
+                }
+            } catch (NumberFormatException e) {
+                response.getWriter().println("ID không hợp lệ.");
+            }
+
+        } else {
+            response.getWriter().println("Tham số 'view' không hợp lệ.");
         }
-
-        List<Product> products = dao.getProductsByPage(page, pageSize);
-        int totalProducts = dao.countProducts();
-        int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
-
-        // Truyền dữ liệu sang JSP
-        request.setAttribute("list", products);
-        request.setAttribute("page", page);
-        request.setAttribute("totalPages", totalPages);
-
-        // Forward đến trang JSP hiển thị sản phẩm
-        request.getRequestDispatcher("/WEB-INF/product/list.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Không cần xử lý POST trong phân trang
-        response.sendRedirect("product");
+        String action = request.getParameter("action");
+        if ("create".equals(action)) {
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+            int price = Integer.parseInt(request.getParameter("price"));
+            int stockQuantity = Integer.parseInt(request.getParameter("stockQuantity"));
+            String unit = request.getParameter("unit");
+            String brandName = request.getParameter("brandName");
+
+            Product product = new Product(0, name, description, categoryId, price, stockQuantity, unit, brandName);
+            ProductDao dao = new ProductDao();
+            dao.insert(product); // bạn phải có phương thức insert phù hợp
+
+            response.sendRedirect(request.getContextPath() + "/product?view=list");
+
+        } else if ("update".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String name = request.getParameter("name");
+            String description = request.getParameter("description");
+            int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+            int price = Integer.parseInt(request.getParameter("price"));
+            int stockQuantity = Integer.parseInt(request.getParameter("stockQuantity"));
+            String unit = request.getParameter("unit");
+            String brandName = request.getParameter("brandName");
+
+            Product product = new Product(id, name, description, categoryId, price, stockQuantity, unit, brandName);
+            ProductDao dao = new ProductDao();
+            dao.update(product);
+
+            response.sendRedirect(request.getContextPath() + "/product?view=list");
+
+        } else if ("delete".equals(action)) {
+            try {
+                int id = Integer.parseInt(request.getParameter("id"));
+                ProductDao dao = new ProductDao();
+                dao.delete(id);
+                response.sendRedirect(request.getContextPath() + "/product?view=list");
+            } catch (NumberFormatException e) {
+                response.getWriter().println("ID không hợp lệ khi xóa!");
+            }
+
+        }
     }
 }

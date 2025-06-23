@@ -1,9 +1,14 @@
-C:\Users\dlthp\Documents\Slide and Tutorial\Slide and Tutorial\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\HomeServlet.java
-C:\Users\dlthp\Documents\Slide and Tutorial\Slide and Tutorial\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Sale.java
-C:\Users\dlthp\Documents\Slide and Tutorial\Slide and Tutorial\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\SaleServlet.java
-C:\Users\dlthp\Documents\Slide and Tutorial\Slide and Tutorial\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\SaleDAO.java
-C:\Users\dlthp\Documents\Slide and Tutorial\Slide and Tutorial\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\ProductDao.java
-C:\Users\dlthp\Documents\Slide and Tutorial\Slide and Tutorial\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\db\DBContext.java
-C:\Users\dlthp\Documents\Slide and Tutorial\Slide and Tutorial\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Product.java
-C:\Users\dlthp\Documents\Slide and Tutorial\Slide and Tutorial\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ProductServlet.java
-C:\Users\dlthp\Documents\Slide and Tutorial\Slide and Tutorial\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\Constants.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\OrderItem.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\ProductDao.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Cart.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\SaleDAO.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\Constants.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\db\DBContext.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ProductServlet.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\SaleServlet.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\CartItem.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\HomeServlet.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\OrderDao.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Sale.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Product.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Order.java
