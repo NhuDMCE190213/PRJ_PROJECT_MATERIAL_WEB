@@ -1,81 +1,46 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import db.DBContext;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Product;
+import java.sql.*;
+import java.util.*;
 
 public class ProductDao extends DBContext {
-
-    public static void main(String[] args) {
-        ProductDao dao = new ProductDao();
-        List<Product> list = dao.getAll();
-        for (Product pr : list) {
-            System.out.println(pr.getName());
-        }
-    }
-    // CRUD
-
-    // Create
-//    public int create(String name) {
-//        try {
-//            String getNextIdQuery = "select Max(ArtistId) + 1 from Artist";
-//            PreparedStatement ps = this.getConnection().prepareStatement(getNextIdQuery);
-//            ResultSet rs = ps.executeQuery();
-//            int nextId = 1;
-//            if (rs.next()) {
-//                nextId = rs.getInt(1);
-//            }
-//
-//            String createQuery = "insert into Artist value (?, ?)";
-//            ps = this.getConnection().prepareStatement(createQuery);
-//            ps.setObject(1, nextId);
-//            ps.setObject(2, name);
-//
-//            return ps.executeUpdate();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(ProductDao.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return 0;
-//    }
-
-    // Read ( list )
-    public List<Product> getAll() {
+  // Trả về danh sách sản phẩm theo từng trang (phân trang)
+    public List<Product> getProductsByPage(int page, int pageSize) {
         List<Product> list = new ArrayList<>();
+        
         try {
-            String query = "select id, name, description, category_id, price, stock_quantity, unit, brand_name FROM products";
-            PreparedStatement pstatment = this.getConnection().prepareStatement(query);
-            ResultSet rs = pstatment.executeQuery();
-
+            String sql = "SELECT * FROM products ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+             // Tính OFFSET: số dòng cần bỏ qua
+            ps.setInt(1, (page - 1) * pageSize);
+             // Số dòng cần lấy
+            ps.setInt(2, pageSize);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String description = rs.getString("description");
-                int categoryId = rs.getInt("category_id");
-                int price = rs.getInt("price");
-                int stockQuantity = rs.getInt("stock_quantity");
-                String unit = rs.getString("unit");
-                String brandName = rs.getString("brand_name");
-
-                Product pr = new Product(id, name, description, categoryId, price, stockQuantity, unit, brandName);
-                list.add(pr);
+                list.add(new Product(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("description"),
+                    rs.getInt("category_id"),
+                    rs.getInt("price"),
+                    rs.getInt("stock_quantity"),
+                    rs.getString("unit"),
+                    rs.getString("brand_name")
+                ));
             }
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductDao.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (Exception e) { e.printStackTrace(); }
         return list;
     }
-
-    // Read by id
-    // update
-    // delete
+// Đếm tổng số sản phẩm trong bảng (dùng để tính tổng số trang)
+    public int countProducts() {
+        try {
+            String sql = "SELECT COUNT(*) FROM products";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+        } catch (Exception e) { e.printStackTrace(); }
+        return 0;
+    }
 }

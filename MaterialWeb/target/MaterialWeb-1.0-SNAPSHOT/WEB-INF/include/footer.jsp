@@ -4,7 +4,7 @@
     Author     : Dai Minh Nhu - CE190213
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
      	<!-- Start Footer Section -->
  <footer class="text-center text-white">
   <!-- Grid container -->
@@ -50,8 +50,8 @@
     java.time.Year currentYear = java.time.Year.now();
 %>
   <div class="text-center pt-0 pb-5" >
-    Â© <%= currentYear.getValue() %> Copyright:
-    <a class="text-white" href="<%=request.getContextPath()%>/homepage">Peragi.com</a>
+    © <%= currentYear.getValue() %> Copyright:
+    <a class="text-white" href="<%=request.getContextPath()%>/home">Peragi.com</a>
   </div>
   <!-- Copyright -->
 </footer>

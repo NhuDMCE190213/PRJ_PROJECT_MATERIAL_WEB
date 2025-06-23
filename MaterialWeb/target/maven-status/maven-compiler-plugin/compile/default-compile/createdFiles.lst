@@ -5,4 +5,5 @@ constant\Constants.class
 dao\SaleDAO.class
 db\DBContext.class
 controller\SaleServlet.class
+controller\HomeServlet.class
 model\Sale.class

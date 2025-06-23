@@ -4,7 +4,7 @@
     Author     : Dai Minh Nhu - CE190213
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -19,10 +19,10 @@
     <body>
         <header>
             <!-- Start Header/Navigation -->
-            <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark" arial-label="Furni navigation bar">
+            <nav class="custom-navbar navbar navbar navbar-expand-md navbar-dark bg-dark">
 
                 <div class="container">
-                    <a class="navbar-brand" href="<%=request.getContextPath()%>/homepage">Peragi<span>.</span></a>
+                    <a class="navbar-brand" href="<%=request.getContextPath()%>/home">Peragi<span>.</span></a>
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni" aria-controls="navbarsFurni" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -31,9 +31,9 @@
                     <div class="collapse navbar-collapse" id="navbarsFurni">
                         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                             <li class="nav-item active">
-                                <a class="nav-link" href="<%=request.getContextPath()%>/homepage">Home</a>
+                                <a class="nav-link" href="<%=request.getContextPath()%>/home">Home</a>
                             </li>
-                            <li><a class="nav-link" href="#">Shop</a></li>
+                            <li><a class="nav-link" href="<%=request.getContextPath()%>/product">Products</a></li>
                             <li><a class="nav-link" href="#">About us</a></li>
 
                             <li><a class="nav-link" href="#">Contact us</a></li>
