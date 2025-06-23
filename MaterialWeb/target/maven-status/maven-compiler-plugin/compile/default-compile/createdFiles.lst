@@ -1,9 +1,14 @@
 dao\ProductDao.class
+model\CartItem.class
 controller\ProductServlet.class
-model\Product.class
+model\Cart.class
 constant\Constants.class
 dao\SaleDAO.class
-db\DBContext.class
 controller\SaleServlet.class
-controller\HomeServlet.class
+model\Order.class
 model\Sale.class
+dao\OrderDao.class
+model\OrderItem.class
+model\Product.class
+db\DBContext.class
+controller\HomeServlet.class
