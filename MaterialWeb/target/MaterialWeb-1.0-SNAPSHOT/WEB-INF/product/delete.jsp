@@ -4,58 +4,53 @@
     Author     : Le Duy Khanh - CE190235
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="model.Product" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="/WEB-INF/include/header.jsp" %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/assets/style.css"/>
-
-<%
-    Product p = (Product) request.getAttribute("product");
-%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/style.css"/>
 
 <main>
     <div class="container">
         <h1 class="mt-5 text-danger">Xóa Sản Phẩm</h1>
 
-        <form method="post" action="<c:url value='/product'/>">
+        <form method="post" action="${pageContext.request.contextPath}/product">
             <input type="hidden" name="action" value="delete" />
-            <input type="hidden" name="id" value="<%= p.getId()%>" />
+            <input type="hidden" name="id" value="${product.id}" />
 
             <p>Bạn có chắc chắn muốn xóa sản phẩm này không?</p>
 
             <table class="table">
                 <tr>
                     <th>ID</th>
-                    <td><%= p.getId()%></td>
+                    <td>${product.id}</td>
                 </tr>
                 <tr>
                     <th>Tên sản phẩm</th>
-                    <td><%= p.getName()%></td>
+                    <td>${product.name}</td>
                 </tr>
                 <tr>
                     <th>Mô tả</th>
-                    <td><%= p.getDescription()%></td>
+                    <td>${product.description}</td>
                 </tr>
                 <tr>
                     <th>Giá</th>
-                    <td><%= p.getPrice()%></td>
+                    <td>${product.price}</td>
                 </tr>
                 <tr>
                     <th>Số lượng</th>
-                    <td><%= p.getStockQuantity()%></td>
+                    <td>${product.stockQuantity}</td>
                 </tr>
                 <tr>
                     <th>Đơn vị</th>
-                    <td><%= p.getUnit()%></td>
+                    <td>${product.unit}</td>
                 </tr>
                 <tr>
                     <th>Thương hiệu</th>
-                    <td><%= p.getBrandName()%></td>
+                    <td>${product.brandName}</td>
                 </tr>
             </table>
 
             <button class="btn btn-danger" type="submit">Delete</button>
-            <a class="btn btn-secondary" href="<c:url value='/product?view=list'/>">Cancel</a>
+            <a class="btn btn-secondary" href="${pageContext.request.contextPath}/product?view=list">Cancel</a>
         </form>
     </div>
 </main>

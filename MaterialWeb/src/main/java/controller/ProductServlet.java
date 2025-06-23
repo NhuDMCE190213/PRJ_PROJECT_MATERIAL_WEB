@@ -1,7 +1,6 @@
 package controller;
 
 import dao.ProductDao;
-import jakarta.faces.annotation.View;
 import model.Product;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -34,9 +33,21 @@ public class ProductServlet extends HttpServlet {
             } catch (NumberFormatException e) {
                 page = 1;
             }
+            String keyword = request.getParameter("keyword");
+            List<Product> products;
+            int totalProducts;
 
-            List<Product> products = dao.getProductsByPage(page, pageSize);
-            int totalProducts = dao.countProducts();
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                products = dao.searchByName(keyword, page, pageSize);
+                totalProducts = dao.countByKeyword(keyword);
+                request.setAttribute("keyword", keyword); // để hiển thị lại trong ô tìm kiếm
+            } else {
+                products = dao.getProductsByPage(page, pageSize);
+                totalProducts = dao.countProducts();
+            }
+//            List<Product> products = dao.getProductsByPage(page, pageSize);            
+//            int totalProducts = dao.countProducts();
+
             int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
 
             // Truyền dữ liệu sang JSP

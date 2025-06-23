@@ -1,111 +1,83 @@
-<%-- Import necessary classes for Product model and List --%>
-
-<%@page import="model.Product"%>
-<%@page import="java.util.List"%>
-
-<%-- Set content type and character encoding for the JSP page --%>
-<%@page contentType="text/html;charset=UTF-8" %>
-<%-- Debugging output to show current page and total pages --%>
-<%= "DEBUG page=" + request.getAttribute("page") + ", totalPages=" + request.getAttribute("totalPages")%>
-
+<%@page contentType="text/html;charset=UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@include file="/WEB-INF/include/header.jsp" %>
 
 <!DOCTYPE html>
 <html>
     <head>
-
-        <%-- Title of the HTML page --%>
         <title>Sản phẩm</title>
-        <%-- Link to Bootstrap CSS for styling --%>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
-    <%-- Set background color of the body to light gray --%>
     <body class="bg-light">
-        <%@include file="/WEB-INF/include/header.jsp" %>
-        <%-- Main container for the page content, with padding --%>
+
         <div class="container py-5">
-            <%-- Page heading --%>
             <h2 class="mb-4 text-center text-primary">Danh sách sản phẩm</h2>
-            <div class="text-end mb-3">
-                <a href="product?view=create" class="btn btn-success">
+
+            <div class="d-flex  d-flex justify-content-end gap-2 align-items-center mb-3">
+                <form class="d-flex align-items-center gap-2" method="get" action="${pageContext.request.contextPath}/product">
+                    <input type="hidden" name="view" value="list" />
+                    <input type="text" name="keyword" class="form-control form-control-sm" style="width: 250px;" 
+                           placeholder="Tìm sản phẩm..." value="${param.keyword}" />
+                    <button class="btn btn-outline-primary btn-sm" type="submit">🔍 Tìm</button>
+                </form>
+
+                <a href="${pageContext.request.contextPath}/product?view=create" class="btn btn-success btn-sm">
                     + Thêm sản phẩm
                 </a>
             </div>
 
-            <%-- Row to display product cards --%>
+
+
             <div class="row">
-                <%
-                    // Retrieve the list of products from the request attributes
-                    List<Product> list = (List<Product>) request.getAttribute("list");
-                    // Check if the list is not null and not empty
-                    if (list != null && !list.isEmpty()) {
-                        // Loop through each product in the list
-                        for (Product p : list) {
-                %>
-                <%-- Column for a single product card, occupying 4 columns on medium-sized screens and up --%>
-                <div class="col-md-4 mb-4">
-                    <%-- Card component for displaying product details, with full height and shadow --%>
-                    <div class="card h-100 shadow-sm">
-                        <%-- Card body for content --%>
-                        <div class="card-body">
-                            <%-- Product name --%>
-                            <h5 class="card-title text-success"><%= p.getName()%></h5>
-                            <%-- Product description --%>
-                            <p class="card-text"><%= p.getDescription()%></p>
-                            <%-- List group for additional product details --%>
-                            <ul class="list-group list-group-flush small">
-                                <%-- Product category ID --%>
-                                <li class="list-group-item">Danh mục: <%= p.getCategoryId()%></li>
-                                    <%-- Product price, formatted as Vietnamese Dong --%>
-                                <li class="list-group-item">Giá: <strong><%= String.format("%,d VNĐ", p.getPrice())%></strong></li>
-                                    <%-- Product stock quantity and unit --%>
-                                <li class="list-group-item">Số lượng: <%= p.getStockQuantity()%> <%= p.getUnit()%></li>
-                                    <%-- Product brand name --%>
-                                <li class="list-group-item">Thương hiệu: <%= p.getBrandName()%></li>
-                            </ul>
-                            <div "class="mt-3 d-flex justify-content-home gap-2">
-                                <a href="product?view=update&id=<%= p.getId()%>" class="btn btn-primary btn-sm">
-                                    ✏️ EDIT
-                                </a>
-                                <a href="product?view=delete&id=<%= p.getId()%>" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xoá sản phẩm này?');">
-                                    🗑️ DELETE
-                                </a>
+                <c:choose>
+                    <c:when test="${not empty list}">
+                        <c:forEach var="p" items="${list}">
+                            <div class="col-md-4 mb-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-success">${p.name}</h5>
+                                        <p class="card-text">${p.description}</p>
+                                        <ul class="list-group list-group-flush small">
+                                            <li class="list-group-item">Danh mục: ${p.categoryId}</li>
+                                            <li class="list-group-item">
+                                                Giá:
+                                                <strong>
+                                                    <fmt:formatNumber value="${p.price}" type="number" groupingUsed="true"/> VNĐ
+                                                </strong>
+                                            </li>
+                                            <li class="list-group-item">Số lượng: ${p.stockQuantity} ${p.unit}</li>
+                                            <li class="list-group-item">Thương hiệu: ${p.brandName}</li>
+                                        </ul>
+                                        <div class="mt-3 d-flex justify-content-start gap-2">
+                                            <a href="${pageContext.request.contextPath}/product?view=update&id=${p.id}" class="btn btn-primary btn-sm">✏️ EDIT</a>
+                                            <a href="${pageContext.request.contextPath}/product?view=delete&id=${p.id}" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc muốn xoá sản phẩm này?');">🗑️ DELETE</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-
-                    </div>
-
-                </div>
-                <% }
-                } else { %>
-                <%-- Display a warning if no products are found --%>
-                <div class="alert alert-warning text-center">Không có sản phẩm nào.</div>
-                <% } %>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="alert alert-warning text-center">Không có sản phẩm nào.</div>
+                    </c:otherwise>
+                </c:choose>
             </div>
 
-            <%-- PAGINATION SECTION --%>
-            <%
-                // Retrieve current page and total pages from request attributes
-                Integer currentPage = (Integer) request.getAttribute("page");
-                Integer totalPages = (Integer) request.getAttribute("totalPages");
-                // Check if total pages exist and are greater than 1 to display pagination
-                if (totalPages != null && totalPages > 1) {
-            %>
-            <%-- Navigation for pagination --%>
-            <nav>
-                <%-- Unordered list for pagination links, centered --%>
-                <ul class="pagination justify-content-center">
-                    <%-- Loop to generate pagination links for each page --%>
-                    <% for (int i = 1; i <= totalPages; i++) {%>
-                    <%-- Pagination item, with 'active' class if it's the current page --%>
-                    <li class="page-item <%= (i == currentPage) ? "active" : ""%>">
-                        <%-- Link to the product list page with the corresponding page number --%>
-                        <a class="page-link" href="product?view=list&page=<%= i%>"><%= i%></a>
-                    </li>
-                    <% } %>
-                </ul>
-            </nav>
-            <% }%>
+            <!-- PHÂN TRANG -->
+            <c:if test="${totalPages > 1}">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <c:forEach var="i" begin="1" end="${totalPages}">
+                            <li class="page-item ${i == page ? 'active' : ''}">
+                                <a class="page-link" href="${pageContext.request.contextPath}/product?view=list&page=${i}">${i}</a>
+                            </li>
+                        </c:forEach>
+                    </ul>
+                </nav>
+            </c:if>
         </div>
+
         <%@include file="/WEB-INF/include/footer.jsp" %>
     </body>
 </html>
