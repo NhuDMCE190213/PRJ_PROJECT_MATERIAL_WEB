@@ -5,7 +5,7 @@
 package model;
 
 import static constant.Constants.*;
-import static constant.ValidationFunction.isEmptyString;
+import static constant.CommonFunction.getVNDString;
 import java.time.LocalDateTime;
 
 /**
@@ -67,7 +67,15 @@ public class Sale {
     }
 
     public String getCurrentDiscount() {
-        return ((typeOfDiscount == 1) ? "-" : "") + discount + ((typeOfDiscount == 0) ? "%" : "");
+        String result = "" + discount;
+        
+        if (typeOfDiscount == constant.Constants.DIRECT) {
+            result = "-" + getVNDString(result);
+        } else if (typeOfDiscount == constant.Constants.PERCENT) {
+            result = result + "%";
+        }
+        
+        return result;
     }
 
     public int getAmount() {
@@ -127,6 +135,11 @@ public class Sale {
             outOfDate = newNow.compareTo(dateEnd) > 0;
             notYet = newNow.compareTo(dateStart) < 0;
         }
+        
+//        System.out.println(!outOfDate);
+//        System.out.println(!notYet);
+//        System.out.println(!notRemaing);
+//        System.out.println(id);
 
         return !outOfDate && !notYet && !notRemaing;
     }

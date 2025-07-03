@@ -4,6 +4,7 @@
  */
 package controller;
 
+import static constant.CommonFunction.stringConvertDateTime;
 import dao.SaleDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,12 +76,15 @@ public class SaleServlet extends HttpServlet {
         } else if (view.equalsIgnoreCase("create")) {
             namePage = "create";
         } else if (view.equalsIgnoreCase("delete")) {
-            namePage = "remove";
-        }  else if (view.equalsIgnoreCase("edit")) {
-            
             int id = Integer.parseInt(request.getParameter("id"));
             request.setAttribute("currentSale", saleDAO.getElementByID(id));
-            
+
+            namePage = "remove";
+        } else if (view.equalsIgnoreCase("edit")) {
+
+            int id = Integer.parseInt(request.getParameter("id"));
+            request.setAttribute("currentSale", saleDAO.getElementByID(id));
+
             namePage = "edit";
         }
 
@@ -112,14 +116,18 @@ public class SaleServlet extends HttpServlet {
                 boolean coHanSuDung = request.getParameter("coHanSuDung") != null;
                 String dateStart = "";
                 String dateEnd = "";
-                
+
                 if (coHanSuDung) {
                     dateStart = request.getParameter("dateStart");
                     dateEnd = request.getParameter("dateEnd");
 
+                    dateStart = stringConvertDateTime(dateStart);
+                    dateEnd = stringConvertDateTime(dateEnd);
+
                     if (dateStart == null || dateEnd == null) {
                         coHanSuDung = false;
                     }
+
                 }
 
                 if (saleDAO.create(name, discount, typeOfDiscount, amount, coHanSuDung, dateStart, dateEnd) >= 1) {
@@ -131,12 +139,37 @@ public class SaleServlet extends HttpServlet {
             } else if (action.equalsIgnoreCase("remove")) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 saleDAO.remove(id);
-            } else if (action.equalsIgnoreCase("edit")) {
-                String name = request.getParameter("name");
-//                int id = Integer.parseInt(action[1]);
-                int id = Integer.parseInt(request.getParameter("id"));
 
-//                saleDAO.update(id, name);
+            } else if (action.equalsIgnoreCase("edit")) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                String name = request.getParameter("name");
+                int discount = Integer.parseInt(request.getParameter("discount"));
+                int typeOfDiscount = Integer.parseInt(request.getParameter("typeOfDiscount"));
+                int amount = Integer.parseInt(request.getParameter("amount"));
+                boolean coHanSuDung = request.getParameter("coHanSuDung") != null;
+                String dateStart = "";
+                String dateEnd = "";
+
+                if (coHanSuDung) {
+                    dateStart = request.getParameter("dateStart");
+                    dateEnd = request.getParameter("dateEnd");
+                    
+                    System.out.println(dateStart + "\n" + dateEnd);
+
+                    dateStart = stringConvertDateTime(dateStart);
+                    dateEnd = stringConvertDateTime(dateEnd);
+
+                    if (dateStart == null || dateEnd == null) {
+                        coHanSuDung = false;
+                    }
+                } else {
+                    dateStart = null;
+                    dateEnd = null;
+                }
+
+//                Sale sale = new Sale(id, name, discount, typeOfDiscount, amount, coHanSuDung, dateStart, dateEnd);
+//                System.out.println(sale);
+                saleDAO.update(id, name, discount, typeOfDiscount, amount, coHanSuDung, dateStart, dateEnd);
             }
         }
 

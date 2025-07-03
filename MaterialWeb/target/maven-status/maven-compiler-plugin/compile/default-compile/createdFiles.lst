@@ -1,3 +1,4 @@
+constant\CommonFunction.class
 dao\ProductDao.class
 model\CartItem.class
 controller\CartServlet.class
@@ -8,7 +9,6 @@ dao\SaleDAO.class
 controller\SaleServlet.class
 model\Sale.class
 model\Product.class
-constant\ValidationFunction.class
 db\DBContext.class
 controller\ProfileServlet.class
 model\Account.class

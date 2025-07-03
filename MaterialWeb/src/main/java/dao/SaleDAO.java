@@ -4,6 +4,7 @@
  */
 package dao;
 
+import static constant.CommonFunction.*;
 import db.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,13 @@ public class SaleDAO extends DBContext {
     public static void main(String[] args) {
         SaleDAO dao = new SaleDAO();
 
-        System.out.println("2025-07-24 19:45:34.0".compareTo("2025-07-24 19:45:00.0"));
+        for (int i = 1; i < 10; i++) {
+            System.out.println(getVNDString(String.valueOf((int) Math.pow(10, i))));
+//            System.out.println(String.valueOf((int)Math.pow(10, i)));
+        }
+
+//        System.out.println(getVNDString("10000"));
+//        System.out.println("2025-07-24 19:45:34.0".compareTo("2025-07-24 19:45:00.0"));
 //        List<Sale> salesList = dao.getAll();
 //
 //        for (Sale sale : salesList) {
@@ -97,8 +104,8 @@ public class SaleDAO extends DBContext {
     public int create(String name, int discount, int typeOfDiscount, int soLuong, boolean coHanSuDung, String dateStart, String dateEnd) {
         try {
 
-            dateStart = this.stringConvertDateTime(dateStart);
-            dateEnd = this.stringConvertDateTime(dateEnd);
+//            dateStart = stringConvertDateTime(dateStart);
+//            dateEnd = stringConvertDateTime(dateEnd);
 
             String query = "INSERT INTO sale (id, name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd)\n"
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
@@ -124,6 +131,9 @@ public class SaleDAO extends DBContext {
                     + "SET name = ?, discount = ?, typeOfDiscount = ?, soLuong = ?, coHanSuDung = ?, dateStart = ?, dateEnd = ?\n"
                     + "WHERE id = ?;";
 
+//            Sale sale = new Sale(id, name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd);
+//            System.out.println(sale);
+            
             int result = this.executeQuery(query, new Object[]{name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd, id});
 
             if (result == 1) {
@@ -203,15 +213,5 @@ public class SaleDAO extends DBContext {
         }
 
         return 0;
-    }
-
-    public String stringConvertDateTime(String str) {
-        String[] strs = str.split("T");
-
-        if (strs.length >= 2) {
-            return String.format("%s %s", strs[0], strs[1]).trim();
-        } else {
-            return null;
-        }
     }
 }

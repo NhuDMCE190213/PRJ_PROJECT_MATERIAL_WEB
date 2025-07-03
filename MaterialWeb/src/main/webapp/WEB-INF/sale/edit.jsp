@@ -52,7 +52,7 @@
                         <label for="discount">Giảm giá</label>
                     </th>
                     <td>
-                        <input type="number" name="discount" id="discount" value="${currentSale.discount}" class="form-control" required>
+                        <input type="number" name="discount" id="discount" value="${currentSale.discount}" class="form-control" min="0" required>
                     </td>
                 </tr>
 
@@ -73,7 +73,7 @@
                         <label for="amount">Số lượng</label>
                     </th>
                     <td>
-                        <input  type="number" name="amount" id="amount" value="${currentSale.amount}" class="form-control" required> 
+                        <input  type="number" name="amount" id="amount" value="${currentSale.amount}" class="form-control" min="0" required> 
                     </td>
                 </tr>
 
