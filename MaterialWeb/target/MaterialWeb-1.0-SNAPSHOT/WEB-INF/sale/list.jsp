@@ -39,7 +39,7 @@
                     </c:when>
                     <c:otherwise>
                         <c:forEach var="sale" items="${salesList}" varStatus="loop">
-                            <tr>
+                            <tr style="color: ${(sale.availableSale)?"red":"green"}">
                                 <th>${sale.id}</th>
                                 <td>${sale.name}</td>
                                 <td>${sale.currentDiscount}</td>
@@ -47,12 +47,15 @@
                                 <td>${sale.dateStart}</td>
                                 <td>${sale.dateEnd}</d>
                                 <td>
-                                    <a href="#" class="btn btn-primary">
+                                    <a href="<c:url value="sale">
+                                           <c:param name="view" value="edit"/>
+                                           <c:param name="id" value="${sale.id}"/>
+                                       </c:url>" class="btn btn-primary">
                                         Edit
                                     </a>
                                     <a href="<c:url value="sale">
                                            <c:param name="view" value="delete"/>
-                                           <c:param name="index" value="${loop.index}"/>
+                                           <c:param name="id" value="${sale.id}"/>
                                        </c:url>" class="btn btn-danger">
                                         Delete
                                     </a>

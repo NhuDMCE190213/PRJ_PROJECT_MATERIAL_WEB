@@ -25,6 +25,7 @@ public class SaleDAO extends DBContext {
     public static void main(String[] args) {
         SaleDAO dao = new SaleDAO();
 
+        System.out.println("2025-07-24 19:45:34.0".compareTo("2025-07-24 19:45:00.0"));
 //        List<Sale> salesList = dao.getAll();
 //
 //        for (Sale sale : salesList) {
@@ -66,6 +67,33 @@ public class SaleDAO extends DBContext {
         return list;
     }
 
+    public Sale getElementByID(int id) {
+
+        try {
+            String query = "SELECT name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd\n"
+                    + "FROM Sale where id = ?\n"
+                    + "order by id";
+
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{id});
+
+            while (rs.next()) {
+                String name = rs.getString(1);
+                int discount = rs.getInt(2);
+                int typeOfDiscount = rs.getInt(3);
+                int soLuong = rs.getInt(4);
+                boolean soHanSuDung = rs.getBoolean(5);
+                String dateStart = rs.getString(6);
+                String dateEnd = rs.getString(7);
+
+                return new Sale(id, name, discount, typeOfDiscount, soLuong, soHanSuDung, dateStart, dateEnd);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+
     public int create(String name, int discount, int typeOfDiscount, int soLuong, boolean coHanSuDung, String dateStart, String dateEnd) {
         try {
 
@@ -92,15 +120,11 @@ public class SaleDAO extends DBContext {
 
     public void update(int id, String name, int discount, int typeOfDiscount, int soLuong, boolean coHanSuDung, String dateStart, String dateEnd) {
         try {
-            String query = "UPDATE MaGiamGia\n"
-                    + "SET Name = ?, Discount = ?, TypeOfDiscount = ?, SoLuong = ?, CoHanSuDung = ?, DateStart = ?, DateEnd = ?\n"
-                    + "WHERE Id = ?;";
+            String query = "UPDATE sale\n"
+                    + "SET name = ?, discount = ?, typeOfDiscount = ?, soLuong = ?, coHanSuDung = ?, dateStart = ?, dateEnd = ?\n"
+                    + "WHERE id = ?;";
 
             int result = this.executeQuery(query, new Object[]{name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd, id});
-//            PreparedStatement pstatement = this.getConnection().prepareStatement(query);
-//
-//            pstatement.setInt(2, id);
-//            pstatement.setString(1, name);
 
             if (result == 1) {
                 System.out.println("Updated");

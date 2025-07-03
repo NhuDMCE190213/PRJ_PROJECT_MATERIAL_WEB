@@ -4,8 +4,9 @@
  */
 package model;
 
-import constant.Constants.*;
 import static constant.Constants.*;
+import static constant.ValidationFunction.isEmptyString;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -64,9 +65,9 @@ public class Sale {
     public void setTypeOfDiscount(int typeOfDiscount) {
         this.typeOfDiscount = typeOfDiscount;
     }
-    
+
     public String getCurrentDiscount() {
-        return ((typeOfDiscount == 1)?"-":"") + discount + ((typeOfDiscount == 0)?"%":"");
+        return ((typeOfDiscount == 1) ? "-" : "") + discount + ((typeOfDiscount == 0) ? "%" : "");
     }
 
     public int getAmount() {
@@ -76,9 +77,9 @@ public class Sale {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-    
+
     public String getCurrentAmount() {
-        return (amount < INFINITY)?("" + amount):"Non-limit";
+        return (amount < INFINITY) ? ("" + amount) : "Non-limit";
     }
 
     public boolean isCoHanSuDung() {
@@ -103,6 +104,31 @@ public class Sale {
 
     public void setDateEnd(String dateEnd) {
         this.dateEnd = dateEnd;
+    }
+
+    public boolean isAvailableSale() {
+        String[] now = LocalDateTime.now().toString().split("T");
+
+        String date = now[0];
+        String time = now[1].substring(0, 10);
+
+        String newNow = date + " " + time;
+
+//        System.out.println(date + " " + time);
+//        System.out.println(newNow.compareTo(dateEnd));
+        boolean outOfDate;
+        boolean notYet;
+        boolean notRemaing = amount <= 0;
+
+        if (!coHanSuDung) {
+            outOfDate = false;
+            notYet = false;
+        } else {
+            outOfDate = newNow.compareTo(dateEnd) > 0;
+            notYet = newNow.compareTo(dateStart) < 0;
+        }
+
+        return !outOfDate && !notYet && !notRemaing;
     }
 
     @Override

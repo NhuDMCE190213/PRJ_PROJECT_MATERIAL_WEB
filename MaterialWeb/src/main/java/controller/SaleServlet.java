@@ -76,6 +76,12 @@ public class SaleServlet extends HttpServlet {
             namePage = "create";
         } else if (view.equalsIgnoreCase("delete")) {
             namePage = "remove";
+        }  else if (view.equalsIgnoreCase("edit")) {
+            
+            int id = Integer.parseInt(request.getParameter("id"));
+            request.setAttribute("currentSale", saleDAO.getElementByID(id));
+            
+            namePage = "edit";
         }
 
         request.getRequestDispatcher("/WEB-INF/sale/" + namePage + ".jsp").forward(request, response);
@@ -106,19 +112,22 @@ public class SaleServlet extends HttpServlet {
                 boolean coHanSuDung = request.getParameter("coHanSuDung") != null;
                 String dateStart = "";
                 String dateEnd = "";
+                
                 if (coHanSuDung) {
                     dateStart = request.getParameter("dateStart");
                     dateEnd = request.getParameter("dateEnd");
-                }
 
-                // chua co check cac dieu kien
-                if (name != null && !name.isEmpty()) {
-                    if (saleDAO.create(name, discount, typeOfDiscount, amount, coHanSuDung, dateStart, dateEnd) >= 1) {
-                        System.out.println("Creating a new sale successful");
-                    } else {
-                        System.out.println("Creation successful");
+                    if (dateStart == null || dateEnd == null) {
+                        coHanSuDung = false;
                     }
                 }
+
+                if (saleDAO.create(name, discount, typeOfDiscount, amount, coHanSuDung, dateStart, dateEnd) >= 1) {
+                    System.out.println("Creating a new sale successful");
+                } else {
+                    System.out.println("Creation successful");
+                }
+
             } else if (action.equalsIgnoreCase("remove")) {
                 int id = Integer.parseInt(request.getParameter("id"));
                 saleDAO.remove(id);
