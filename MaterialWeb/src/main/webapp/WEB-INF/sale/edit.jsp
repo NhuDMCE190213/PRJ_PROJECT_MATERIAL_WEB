@@ -7,7 +7,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/include/header.jsp" %>
-<c:set var="currentSale" value="${salesList[param.index * 1]}"/>
+
+<%--<c:forEach items="${salesList}" var="sale" varStatus="loop">
+    <c:if test="${sale.id == id}">
+        <c:set var="currentSale" value="${salesList[loop.index]}"/>
+    </c:if>
+</c:forEach>--%>
 
 <main>
 
@@ -29,7 +34,7 @@
                         <label for="id">ID</label>
                     </th>
                     <td>
-                        ${currentSale.id}
+                        <label id="id">${currentSale.id}</label>
                     </td>
                 </tr>
 
@@ -38,7 +43,7 @@
                         <label for="name">Tên Sale</label>
                     </th>
                     <td>
-                        <input  type="text" name="name" id="name" value="${currentSale.name}">
+                        <input type="text" name="name" id="name" value="${currentSale.name}" class="form-control" required>
                     </td>
                 </tr>
 
@@ -47,16 +52,16 @@
                         <label for="discount">Giảm giá</label>
                     </th>
                     <td>
-                        <input type="number" name="discount" id="discount" value="${currentSale.currentDiscount}">
+                        <input type="number" name="discount" id="discount" value="${currentSale.discount}" class="form-control" min="0" required>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <th>
                         <label for="typeOfDiscount">Loại giảm giá</label>
-                    </td>
+                    </th>
                     <td>
-                        <select name="typeOfDiscount">
+                        <select name="typeOfDiscount" class="form-select">
                             <option value="0" ${(currentSale.typeOfDiscount == 0)? "selected": ""}>Percent</option>
                             <option value="1" ${(currentSale.typeOfDiscount == 1)? "selected": ""}>Direct</option>
                         </select>
@@ -68,36 +73,43 @@
                         <label for="amount">Số lượng</label>
                     </th>
                     <td>
-                        <input  type="number" name="amount" id="amount" value="${currentSale.amount}">
+                        <input  type="number" name="amount" id="amount" value="${currentSale.amount}" class="form-control" min="0" required> 
                     </td>
                 </tr>
 
-                <c:if test="${currentSale.coHanSuDung}">
-                    <tr>
-                        <th>
-                            <label for="dateStart">Ngày bắt đầu</label>
-                        </th>
-                        <td>
-                            ${currentSale.dateStart}
-                        </td>
-                    </tr>
+                <tr>
+                    <th>
+                        <label for="coHanSuDung">Có hạn sử dụng</label>
+                    </th>
+                    <td>
+                        <input type="checkbox" name="coHanSuDung" ${(currentSale.coHanSuDung == true)?"checked":""} class="form-check"/>
+                    </td>
+                </tr>
 
-                    <tr>
-                        <th>
-                            <label for="dateEnd">Ngày kết thúc</label>
-                        </th>
-                        <td>
-                            ${currentSale.dateEnd}
-                        </td>
-                    </tr>
-                </c:if>
+                <tr>
+                    <th>
+                        <label for="dateStart">Ngày bắt đầu</label>
+                    </th>
+                    <td>
+                        <input type="datetime-local" name="dateStart" class="form-control" value="${currentSale.dateStart}"/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        <label for="dateEnd">Ngày kết thúc</label>
+                    </th>
+                    <td>
+                        <input type="datetime-local" name="dateEnd" class="form-control" value="${currentSale.dateEnd}"/>
+                    </td>
+                </tr>
 
 
                 <tr>
                     <td>
                     </td>
                     <td>
-                        <button class="btn btn-outline-dark" type="submit" name="action" value="remove">Save</button>
+                        <button class="btn btn-outline-dark" type="submit" name="action" value="edit">Save</button>
                         <a class="btn btn-outline-dark" href="<c:url value="sale"/>">Cancel</a>
                     </td>
                 </tr>

@@ -1,14 +1,13 @@
+constant\CommonFunction.class
 dao\ProductDao.class
 model\CartItem.class
+controller\CartServlet.class
 controller\ProductServlet.class
 model\Cart.class
 constant\Constants.class
 dao\SaleDAO.class
 controller\SaleServlet.class
-model\Order.class
 model\Sale.class
-dao\OrderDao.class
-model\OrderItem.class
 model\Product.class
 db\DBContext.class
 controller\ProfileServlet.class

@@ -21,27 +21,27 @@
                 </tr>
 
                 <tr>
-                    <td>
+                    <th>
                         <label for="name">Tên Sale</label>
-                    </td>
+                    </th>
                     <td>
-                        <input  type="text" name="name"  id="name" class="form-control" required>
+                        <input type="text" name="name"  id="name" class="form-control" required>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <th>
                         <label for="discount">Giảm giá</label>
-                    </td>
+                    </th>
                     <td>
-                        <input type="number" name="discount" id="discount" class="form-control" required>
+                        <input type="number" name="discount" id="discount" class="form-control" min="0" required>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <th>
                         <label for="typeOfDiscount">Loại giảm giá</label>
-                    </td>
+                    </th>
                     <td>
                         <select name="typeOfDiscount" class="form-select" required>
                             <option value="0">Percent</option>
@@ -51,38 +51,38 @@
                 </tr>
 
                 <tr>
-                    <td>
+                    <th>
                         <label for="amount">Số lượng</label>
-                    </td>
+                    </th>
                     <td>
-                        <input type="number" name="amount" id="amount" class="form-control" required>
+                        <input type="number" name="amount" id="amount" class="form-control" min="0" required>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <th>
                         <label for="coHanSuDung">Có hạn sử dụng</label>
-                    </td>
+                    </th>
                     <td>
                         <input type="checkbox" name="coHanSuDung" checked class="form-check"/>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <th>
                         <label for="dateStart">Ngày bắt đầu</label>
-                    </td>
+                    </th>
                     <td>
-                        <input type="datetime-local" name="dateStart" />
+                        <input type="datetime-local" name="dateStart" class="form-control"/>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>
+                    <th>
                         <label for="dateEnd">Ngày kết thúc</label>
-                    </td>
+                    </th>
                     <td>
-                        <input type="datetime-local" name="dateEnd"/>
+                        <input type="datetime-local" name="dateEnd" class="form-control"/>
                     </td>
                 </tr>
 
