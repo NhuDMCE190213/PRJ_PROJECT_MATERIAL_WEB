@@ -56,6 +56,10 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contact us</a>
                         </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%=request.getContextPath()%>/orders">Order</a>
+                        </li>
 
                         <li>
                             <a href="<%=request.getContextPath()%>/cart">
