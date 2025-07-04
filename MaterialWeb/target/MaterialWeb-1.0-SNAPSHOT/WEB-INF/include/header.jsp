@@ -30,13 +30,20 @@
 
                     <div class="collapse navbar-collapse" id="navbarsFurni">
                         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
-                            <li class="nav-item active">
+                            <!--<li class="nav-item active">-->
+                            <li class="nav-item">
                                 <a class="nav-link" href="<%=request.getContextPath()%>/home">Home</a>
                             </li>
-                            <li><a class="nav-link" href="<%=request.getContextPath()%>/product">Products</a></li>
-                            <li><a class="nav-link" href="#">About us</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<%=request.getContextPath()%>/product">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">About us</a>
+                            </li>
 
-                            <li><a class="nav-link" href="#">Contact us</a></li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Contact us</a>
+                            </li>
 
                             <li><a><svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
