@@ -1,6 +1,11 @@
 ﻿use vlxd
 go
 
+-- Xóa bảng Sale nếu đã tồn tại
+IF OBJECT_ID('Sale', 'U') IS NOT NULL
+    DROP TABLE Sale;
+GO
+
 CREATE TABLE Sale (
     id INT PRIMARY KEY,
     name NVARCHAR(255) NOT NULL,
