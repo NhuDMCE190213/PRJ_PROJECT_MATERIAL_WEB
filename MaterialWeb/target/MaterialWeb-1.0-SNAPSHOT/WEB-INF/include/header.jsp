@@ -11,10 +11,22 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="keywords" content="bootstrap, bootstrap4" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
         <title>Web Vat lieu xay dung uy tin nhat Viet nam</title>
+
         <link href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/stylesheet.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+        <!-- Bootstrap Icons CDN -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+
+        <c:if test="${not empty ratingAddition}">
+            <!--<script type="text/javascript" src="dist/js/jquery-1.10.2.js"></script>-->
+            
+            <script src="<%=request.getContextPath()%>/assets/js/forRating.js"></script>
+        </c:if>
+
     </head>
     <body>
         <header>
