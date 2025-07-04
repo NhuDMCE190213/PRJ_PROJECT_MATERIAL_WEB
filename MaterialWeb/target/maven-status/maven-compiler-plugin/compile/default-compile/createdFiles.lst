@@ -6,13 +6,16 @@ dao\RatingDAO.class
 controller\ProductServlet.class
 model\Cart.class
 constant\Constants.class
+dao\CategoryDAO.class
 controller\OrderServlet.class
 dao\SaleDAO.class
 controller\SaleServlet.class
+filter\CategoryFilter.class
 model\Order.class
 model\Sale.class
 controller\RatingServlet.class
 model\Product.class
+model\Category.class
 db\DBContext.class
 controller\ProfileServlet.class
 model\Account.class

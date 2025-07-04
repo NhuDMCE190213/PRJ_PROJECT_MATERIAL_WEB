@@ -11,12 +11,15 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="keywords" content="bootstrap, bootstrap4" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
         <title>Web Vat lieu xay dung uy tin nhat Viet nam</title>
 
         <link href="<%=request.getContextPath()%>/assets/css/bootstrap.min.css" rel="stylesheet">
         <link href="<%=request.getContextPath()%>/assets/css/stylesheet.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
         <!-- Bootstrap Icons CDN -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
@@ -46,9 +49,19 @@
                         <li class="nav-item">
                             <a class="nav-link" href="<%=request.getContextPath()%>/home">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<%=request.getContextPath()%>/product">Products</a>
-                        </li>
+                   <li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Products</a>
+  <ul class=" custom-navbar dropdown-menu ">
+    <c:forEach var="c" items="${categories}">
+      <li >
+        <a class="dropdown-item" href="${pageContext.request.contextPath}/product?cid=${c.id}">
+          ${c.name}
+        </a>
+      </li>
+    </c:forEach>
+  </ul>
+</li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="#">About us</a>
                         </li>

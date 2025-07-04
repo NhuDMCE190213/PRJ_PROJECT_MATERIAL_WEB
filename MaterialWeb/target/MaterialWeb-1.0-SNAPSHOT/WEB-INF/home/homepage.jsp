@@ -200,9 +200,19 @@
       </div>
 
     </div>
+            <!-- Check More Button aligned right -->
+   <div class="d-flex justify-content-center align-items-center pt-5">
+    <div class="center-box border rounded text-center">
+
+        <a class="btn btn-outline-secondary btn-lg" href="<%=request.getContextPath()%>/product">View All>>></a>
+    </div>
   </div>
+
+
+  </div>
+          
 </section>
-         
+      
 <!--------- End top selling---->
 <!--sale banne--->
 <div class="container-fluid bg-warning text-dark py-4">
@@ -226,69 +236,40 @@
   </div>
 </div>
 <!---end sale banner-->
-<div class="container-fluid  text-dark py-5">
+<!--------Categories--------->
+<div class="container-fluid  text-dark py-0">
   <div class="container text-center">
-    <h1 class="fw-bold mt-5 mb-0 bg-dark text-light p-2 border-success d-inline-block">Latest Products</h1>
+    <h1 class="fw-bold mt-5 mb-0 bg-light text-dark p-2 border-success d-inline-block">What are you looking for?</h1>
   
   </div>
 </div>
+<%@ page import="java.util.*, model.Category, dao.CategoryDAO" %>
+<%
+    CategoryDAO dao = new CategoryDAO();
+    List<Category> categories = dao.getAllCategories();
+%>
 
-<div class="container mt-0 my-5">
-  <h2 class="text-left   fw-bold border-2 border-dark">Type A</h2>
-  <div class=" border-bottom border-2 border-dark"></div>
-  <div class="row justify-content-center">
-
-    <!-- Product Card 1 -->
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 text-center border-0 shadow-sm">
-        <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top p-3" alt="Jumkas">
-        <div class="card-body">
-          <h5 class="fw-bold">Nigra</h5>
-          <p class="text-danger mb-1">Start Price <span class="text-dark">$100</span></p>
-        </div>
-        <div class="card-footer d-flex justify-content-between border-0 bg-white px-3 pb-3">
-          <a href="#" class="text-danger fw-bold">Buy Now</a>
-          <a href="#" class="text-dark">See More</a>
+<section class="py-5 ">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      <% for (Category c : categories) { %>
+      <div class="col">
+        <div class="card h-100 text-center shadow-lg border-0 hover-shadow">
+          <div class="card-body">
+            <div class="mb-3">
+              <i class="bi <%= c.getIconClass() %> fs-1 <%= c.getTextColor() %>"></i>
+            </div>
+            <h5 class="card-title"><%= c.getName() %></h5>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Product Card 2 -->
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 text-center border-0 shadow-sm">
-        <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top p-3" alt="Necklaces">
-        <div class="card-body">
-          <h5 class="fw-bold">Nigka</h5>
-          <p class="text-danger mb-1">Start Price <span class="text-dark">$100</span></p>
-        </div>
-        <div class="card-footer d-flex justify-content-between border-0 bg-white px-3 pb-3">
-          <a href="#" class="text-danger fw-bold">Buy Now</a>
-          <a href="#" class="text-dark">See More</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Product Card 3 -->
-    <div class="col-md-4 mb-4">
-      <div class="card h-100 text-center border-0 shadow-sm">
-        <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top p-3" alt="Kangans">
-        <div class="card-body">
-          <h5 class="fw-bold">Nigpar</h5>
-          <p class="text-danger mb-1">Start Price <span class="text-dark">$100</span></p>
-        </div>
-        <div class="card-footer d-flex justify-content-between border-0 bg-white px-3 pb-3">
-          <a href="#" class="text-danger fw-bold">Buy Now</a>
-          <a href="#" class="text-dark">See More</a>
-        </div>
-      </div>
+      <% } %>
     </div>
   </div>
+</section>
 
-  <!-- Check More Button aligned right -->
-  <div class="d-flex justify-content-end">
-    <a href="#" class="btn btn-danger">Check More</a>
-  </div>
-</div>
+
+
 
 
         </main> 

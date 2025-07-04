@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.CategoryDAO;
 import dao.ProductDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Category;
 import model.Product;
 
 /**
@@ -73,6 +75,10 @@ public class HomeServlet extends HttpServlet {
         /*
 HOMEPAGE.JSP
          */
+        CategoryDAO dao = new CategoryDAO();
+List<Category> list = dao.getAllCategories();
+request.setAttribute("categories", list);
+
         request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
 
 //        } else if (view.equals("create")) {
