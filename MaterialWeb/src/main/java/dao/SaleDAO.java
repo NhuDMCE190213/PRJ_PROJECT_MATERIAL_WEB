@@ -5,6 +5,7 @@
 package dao;
 
 import static constant.CommonFunction.*;
+import static constant.Constants.MAX_ELEMENTS_PER_PAGE;
 import db.DBContext;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,10 +27,12 @@ public class SaleDAO extends DBContext {
     public static void main(String[] args) {
         SaleDAO dao = new SaleDAO();
 
-        for (int i = 1; i < 10; i++) {
-            System.out.println(getVNDString(String.valueOf((int) Math.pow(10, i))));
-//            System.out.println(String.valueOf((int)Math.pow(10, i)));
-        }
+//        for (int i = 1; i < 10; i++) {
+//            System.out.println(getVNDString(String.valueOf((int) Math.pow(10, i))));
+////            System.out.println(String.valueOf((int)Math.pow(10, i)));
+//        }
+
+            System.out.println(dao.countItem());
 
 //        System.out.println(getVNDString("10000"));
 //        System.out.println("2025-07-24 19:45:34.0".compareTo("2025-07-24 19:45:00.0"));
@@ -52,6 +55,39 @@ public class SaleDAO extends DBContext {
                     + "order by id";
 
             ResultSet rs = this.executeSelectionQuery(query, null);
+
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                int discount = rs.getInt(3);
+                int typeOfDiscount = rs.getInt(4);
+                int soLuong = rs.getInt(5);
+                boolean soHanSuDung = rs.getBoolean(6);
+                String dateStart = rs.getString(7);
+                String dateEnd = rs.getString(8);
+
+                Sale sale = new Sale(id, name, discount, typeOfDiscount, soLuong, soHanSuDung, dateStart, dateEnd);
+
+                list.add(sale);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+    }
+
+    public List<Sale> getAll(int page) {
+        List<Sale> list = new ArrayList<>();
+
+        try {
+            String query = "SELECT id, name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd\n"
+                    + "FROM Sale\n"
+                    + "order by id\n"
+                    + "OFFSET ? ROWS \n"
+                    + "FETCH NEXT ? ROWS ONLY;";
+
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{(page - 1) * MAX_ELEMENTS_PER_PAGE, MAX_ELEMENTS_PER_PAGE});
 
             while (rs.next()) {
                 int id = rs.getInt(1);
@@ -106,7 +142,6 @@ public class SaleDAO extends DBContext {
 
 //            dateStart = stringConvertDateTime(dateStart);
 //            dateEnd = stringConvertDateTime(dateEnd);
-
             String query = "INSERT INTO sale (id, name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd)\n"
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
             if (idTop == -1) {
@@ -133,7 +168,6 @@ public class SaleDAO extends DBContext {
 
 //            Sale sale = new Sale(id, name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd);
 //            System.out.println(sale);
-            
             int result = this.executeQuery(query, new Object[]{name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd, id});
 
             if (result == 1) {
@@ -186,7 +220,7 @@ public class SaleDAO extends DBContext {
 
     public int getNextIDInside() {
         try {
-            String query = "select ArtistId from Artist";
+            String query = "select id from sale";
             PreparedStatement pstatement = this.getConnection().prepareStatement(query);
             ResultSet rs = pstatement.executeQuery();
 
@@ -210,6 +244,20 @@ public class SaleDAO extends DBContext {
 
         } catch (SQLException ex) {
             Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return 0;
+    }
+    
+    public int countItem() {
+        try {
+            String query = "select count(id) as numrow from sale";
+            ResultSet rs = this.executeSelectionQuery(query, null);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error");
         }
 
         return 0;
