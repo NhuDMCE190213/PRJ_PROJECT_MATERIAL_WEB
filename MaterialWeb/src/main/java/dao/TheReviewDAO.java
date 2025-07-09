@@ -17,35 +17,62 @@ import model.TheReview;
  *
  * @author Dai Minh Nhu - CE190213
  */
-public class RatingDAO extends DBContext {
+public class TheReviewDAO extends DBContext {
 //
 
-    public List<TheReview> getAll(int productId, int page) {
+    public List<TheReview> getAll_toUser(int userID, int page) {
         List<TheReview> list = new ArrayList<>();
 
         try {
-            String query = "SELECT UserID, productID, rating, review\n"
+            String query = "SELECT productId, rating, review\n"
                     + "FROM     theReview\n"
                     + "WHERE  (UserID = ?)";
 
             ResultSet rs = this.executeSelectionQuery(query, null);
 
             while (rs.next()) {
-                int id = rs.getInt(1);
-                String name = rs.getString(2);
-                int discount = rs.getInt(3);
-                int typeOfDiscount = rs.getInt(4);
-                int soLuong = rs.getInt(5);
-                boolean soHanSuDung = rs.getBoolean(6);
-                String dateStart = rs.getString(7);
-                String dateEnd = rs.getString(8);
+                int productId = rs.getInt(1);
+                int rating = rs.getInt(2);
+                String review = rs.getString(3);
 
-                Sale sale = new Sale(id, name, discount, typeOfDiscount, soLuong, soHanSuDung, dateStart, dateEnd);
+                TheReview theReview = new TheReview(userID, productId, rating, review);
 
-                list.add(sale);
+//    Sale sale = new Sale(id, name, discount, typeOfDiscount, soLuong, soHanSuDung, dateStart, dateEnd);
+                list.add(theReview);
             }
+
         } catch (SQLException ex) {
-            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SaleDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+    }
+
+    public List<TheReview> getAll_toProduct(int productId, int page) {
+        List<TheReview> list = new ArrayList<>();
+
+        try {
+            String query = "SELECT UserID, rating, review\n"
+                    + "FROM     theReview\n"
+                    + "WHERE  (productId = ?)";
+
+            ResultSet rs = this.executeSelectionQuery(query, null);
+
+            while (rs.next()) {
+                int userID = rs.getInt(1);
+                int rating = rs.getInt(2);
+                String review = rs.getString(3);
+
+                TheReview theReview = new TheReview(userID, productId, rating, review);
+
+//    Sale sale = new Sale(id, name, discount, typeOfDiscount, soLuong, soHanSuDung, dateStart, dateEnd);
+                list.add(theReview);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
         return list;
@@ -189,4 +216,46 @@ public class RatingDAO extends DBContext {
 //
 //        return 0;
 //    }
+
+    public int countItem_toUser(int userId) {
+        try {
+                String query = "select count(productID) as numrow from theReview where UserID = ?";
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{userId});
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error");
+        }
+
+        return 0;
+    }
+    
+    public int countItem_toProduct(int productId) {
+        try {
+                String query = "select count(UserID) as numrow from theReview where productID = ?";
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{productId});
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error");
+        }
+
+        return 0;
+    }
+    
+    public int countItem() {
+        try {
+                String query = "select count(UserID) as numrow from theReview";
+            ResultSet rs = this.executeSelectionQuery(query, null);
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error");
+        }
+
+        return 0;
+    }
 }
