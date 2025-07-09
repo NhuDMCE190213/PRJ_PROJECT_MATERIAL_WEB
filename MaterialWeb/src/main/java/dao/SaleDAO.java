@@ -4,7 +4,6 @@
  */
 package dao;
 
-import static constant.CommonFunction.*;
 import static constant.Constants.MAX_ELEMENTS_PER_PAGE;
 import db.DBContext;
 import java.sql.PreparedStatement;
