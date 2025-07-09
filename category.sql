@@ -1,3 +1,6 @@
+﻿-- Kiểm tra và xóa bảng 'category' nếu nó tồn tại
+DROP TABLE IF EXISTS category;
+
 CREATE TABLE category (
     id INT PRIMARY KEY IDENTITY,
     name NVARCHAR(255),
