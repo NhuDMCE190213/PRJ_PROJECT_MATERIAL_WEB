@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.TheReview;
 
 /**
  *
@@ -18,36 +19,37 @@ import java.util.logging.Logger;
  */
 public class RatingDAO extends DBContext {
 //
-//    public List<Sale> getAll() {
-//        List<Sale> list = new ArrayList<>();
-//
-//        try {
-//            String query = "SELECT id, name, discount, typeOfDiscount, soLuong, coHanSuDung, dateStart, dateEnd\n"
-//                    + "FROM Sale\n"
-//                    + "order by id";
-//
-//            ResultSet rs = this.executeSelectionQuery(query, null);
-//
-//            while (rs.next()) {
-//                int id = rs.getInt(1);
-//                String name = rs.getString(2);
-//                int discount = rs.getInt(3);
-//                int typeOfDiscount = rs.getInt(4);
-//                int soLuong = rs.getInt(5);
-//                boolean soHanSuDung = rs.getBoolean(6);
-//                String dateStart = rs.getString(7);
-//                String dateEnd = rs.getString(8);
-//
-//                Sale sale = new Sale(id, name, discount, typeOfDiscount, soLuong, soHanSuDung, dateStart, dateEnd);
-//
-//                list.add(sale);
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        return list;
-//    }
+
+    public List<TheReview> getAll(int productId, int page) {
+        List<TheReview> list = new ArrayList<>();
+
+        try {
+            String query = "SELECT UserID, productID, rating, review\n"
+                    + "FROM     theReview\n"
+                    + "WHERE  (UserID = ?)";
+
+            ResultSet rs = this.executeSelectionQuery(query, null);
+
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                String name = rs.getString(2);
+                int discount = rs.getInt(3);
+                int typeOfDiscount = rs.getInt(4);
+                int soLuong = rs.getInt(5);
+                boolean soHanSuDung = rs.getBoolean(6);
+                String dateStart = rs.getString(7);
+                String dateEnd = rs.getString(8);
+
+                Sale sale = new Sale(id, name, discount, typeOfDiscount, soLuong, soHanSuDung, dateStart, dateEnd);
+
+                list.add(sale);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+    }
 //
 //    public Sale getElementByID(int id) {
 //
