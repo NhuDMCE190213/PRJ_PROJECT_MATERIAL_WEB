@@ -106,8 +106,8 @@
                                     </svg>
                                 </a>
                             </li>
-                            <li><button type="button" class="btn btn-outline-light">Sign in</button></li>
-
+<!--                            <li><button type="button" class="btn btn-outline-light">Sign in</button></li>-->
+                                <a class="btn btn-outline-light" href="<%= request.getContextPath() %>/auth?view=login">Login</a>
 
 
                         </ul>

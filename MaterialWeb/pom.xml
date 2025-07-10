@@ -15,6 +15,20 @@
     </properties>
     
     <dependencies>
+        
+        <!-- Thư viện gửi mail (bao gồm cả SMTP, POP3, IMAP) -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>javax.activation</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        
 	<dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>

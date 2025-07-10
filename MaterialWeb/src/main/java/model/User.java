@@ -10,10 +10,49 @@ package model;
  */
 public class User {
     private String username;
-    private String fullName;
     private String email;
     private String password;
+    private String status;
+    private String fullName;
+    private String phonenumbers;
+    private int userid;
 
+    public User(String email, String password, String status, String fullName, String phonenumbers, int userid) {
+        this.email = email;
+        this.password = password;
+        this.status = status;
+        this.fullName = fullName;
+        this.phonenumbers = phonenumbers;
+        this.userid = userid;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getPhonenumbers() {
+        return phonenumbers;
+    }
+
+    public void setPhonenumbers(String phonenumbers) {
+        this.phonenumbers = phonenumbers;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+    
+    
+    
+    
     public User() {
     }
 
