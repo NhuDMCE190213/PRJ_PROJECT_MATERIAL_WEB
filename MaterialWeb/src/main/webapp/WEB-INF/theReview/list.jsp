@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<c:set var="ratingAddition" value="It is"/>
+<c:set var="theReviewAddition" value="It is"/>
 
 <%@include file="/WEB-INF/include/header.jsp" %>
 <main>
