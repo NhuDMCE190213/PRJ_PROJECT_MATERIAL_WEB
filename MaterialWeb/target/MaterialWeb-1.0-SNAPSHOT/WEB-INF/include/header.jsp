@@ -65,11 +65,16 @@
                                 <a class="nav-link" href="<%=request.getContextPath()%>/home">Home</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Products</a>
+                                <a class="nav-link dropdown-toggle" href="${pageContext.request.contextPath}/display" data-bs-toggle="dropdown">Products</a>
                                 <ul class=" custom-navbar dropdown-menu ">
+                                    <li >
+                                        <a class="dropdown-item border-bottom " href="${pageContext.request.contextPath}/display">
+                                           ALL PRODUCTS
+                                        </a>
+                                    </li>
                                     <c:forEach var="c" items="${categories}">
                                         <li >
-                                            <a class="dropdown-item" href="${pageContext.request.contextPath}/product?cid=${c.id}">
+                                            <a class="dropdown-item" href="${pageContext.request.contextPath}/display?cid=${c.id}">
                                                 ${c.name}
                                             </a>
                                         </li>
@@ -106,8 +111,8 @@
                                     </svg>
                                 </a>
                             </li>
-<!--                            <li><button type="button" class="btn btn-outline-light">Sign in</button></li>-->
-                                <a class="btn btn-outline-light" href="<%= request.getContextPath() %>/auth?view=login">Login</a>
+                            <!--                            <li><button type="button" class="btn btn-outline-light">Sign in</button></li>-->
+                            <a class="btn btn-outline-light" href="<%= request.getContextPath()%>/auth?view=login">Login</a>
 
 
                         </ul>

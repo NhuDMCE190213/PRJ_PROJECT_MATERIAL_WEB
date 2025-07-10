@@ -26,6 +26,7 @@ model\Order.class
 model\Sale.class
 model\Category.class
 model\TheReview.class
+controller\forUser\DisplayServlet.class
 controller\resetService$1.class
 db\DBContext.class
 model\TokenForgetPassword.class

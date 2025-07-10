@@ -22,7 +22,7 @@
 							<div class="intro-excerpt">
 								<h1>Shop Name <span class="d-block">SE1902 - G2</span></h1>
 								<p class="mb-4">Vao ba hai di mua 2 chai nuoc mam xong roi. ve an com ngu toi chieu. Vao ba hai di mua 2 chai nuoc mam xong roi. ve an com ngu toi chieu.</p>
-								<p><a href="<%=request.getContextPath()%>/product" class="btn btn-secondary me-2">Shop Now</a><a href="#" class="btn btn-white-outline">Explore</a></p>
+								<p><a href="<%=request.getContextPath()%>/display" class="btn btn-secondary me-2">Shop Now</a><a href="#" class="btn btn-white-outline">Explore</a></p>
 							  <!-- Search Bar -->
           <form class="d-flex mt-3" role="search">
             <input class="form-control me-2" type="search" placeholder="Search for products..." aria-label="Search">
@@ -204,7 +204,7 @@
    <div class="d-flex justify-content-center align-items-center pt-5">
     <div class="center-box border rounded text-center">
 
-        <a class="btn btn-outline-secondary btn-lg" href="<%=request.getContextPath()%>/product">View All>>></a>
+        <a class="btn btn-outline-secondary btn-lg" href="<%=request.getContextPath()%>/display">View All>>></a>
     </div>
   </div>
 

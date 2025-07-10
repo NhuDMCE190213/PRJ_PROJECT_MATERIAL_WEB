@@ -2,7 +2,7 @@ package dao;
 
 import db.DBContext;
 import model.Product;
-import java.sql.*;
+import java.sql.*; 
 import java.util.*;
 
 public class ProductDao extends DBContext {
