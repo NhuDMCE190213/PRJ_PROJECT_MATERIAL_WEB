@@ -4,6 +4,7 @@
  */
 package controller;
 
+import static constant.CommonFunction.getTotalPages;
 import static constant.CommonFunction.stringConvertDateTime;
 import dao.SaleDAO;
 import java.io.IOException;
@@ -64,15 +65,32 @@ public class SaleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        List<Sale> salesList = saleDAO.getAll();
-        request.setAttribute("salesList", salesList);
-
         String view = request.getParameter("view");
+
+        int page = 1;
+        int totalPages = 0;
 
         String namePage = "";
 
         if (view == null || view.equals("") || view.equalsIgnoreCase("list")) {
             namePage = "list";
+
+            String pageParam = request.getParameter("page");
+            if (pageParam != null && Integer.parseInt(pageParam) > 1) {
+                page = Integer.parseInt(pageParam);
+            }
+
+            int countItems = saleDAO.countItem();
+            totalPages = getTotalPages(countItems);
+            request.setAttribute("totalPages", totalPages);
+
+            if (page > totalPages) {
+                page = totalPages;
+            }
+
+            List<Sale> salesList = saleDAO.getAll(page);
+            request.setAttribute("salesList", salesList);
+
         } else if (view.equalsIgnoreCase("create")) {
             namePage = "create";
         } else if (view.equalsIgnoreCase("delete")) {
@@ -153,7 +171,7 @@ public class SaleServlet extends HttpServlet {
                 if (coHanSuDung) {
                     dateStart = request.getParameter("dateStart");
                     dateEnd = request.getParameter("dateEnd");
-                    
+
                     System.out.println(dateStart + "\n" + dateEnd);
 
                     dateStart = stringConvertDateTime(dateStart);

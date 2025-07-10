@@ -53,4 +53,10 @@ public class CommonFunction {
             return str;
         }
     }
+    
+    public static int getTotalPages(int countItems) {
+        return (int) Math.ceil((double) countItems/Constants.MAX_ELEMENTS_PER_PAGE);
+    }
+    
+    
 }
