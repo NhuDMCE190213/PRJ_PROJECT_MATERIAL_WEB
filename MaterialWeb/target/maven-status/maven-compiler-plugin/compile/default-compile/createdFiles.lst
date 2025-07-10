@@ -2,7 +2,8 @@ constant\CommonFunction.class
 dao\ProductDao.class
 model\CartItem.class
 controller\CartServlet.class
-dao\RatingDAO.class
+controller\TheReviewServlet.class
+dao\TheReviewDAO.class
 controller\ProductServlet.class
 model\Cart.class
 constant\Constants.class
@@ -13,9 +14,9 @@ controller\SaleServlet.class
 filter\CategoryFilter.class
 model\Order.class
 model\Sale.class
-controller\RatingServlet.class
 model\Product.class
 model\Category.class
+model\TheReview.class
 db\DBContext.class
 controller\ProfileServlet.class
 model\Account.class
