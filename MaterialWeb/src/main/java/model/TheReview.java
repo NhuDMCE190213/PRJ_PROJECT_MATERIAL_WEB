@@ -10,16 +10,31 @@ package model;
  */
 public class TheReview {
 
+    private int id;
     private int user_id;
     private int product_id;
     private int rating;
     private String review;
 
-    public TheReview(int user_id, int product_id, int rating, String review) {
+    public TheReview(int id, int user_id, int product_id, int rating, String review) {
+        this.id = id;
         this.user_id = user_id;
         this.product_id = product_id;
         this.rating = rating;
         this.review = review;
+    }
+
+    @Override
+    public String toString() {
+        return "TheReview{" + "id=" + id + ", user_id=" + user_id + ", product_id=" + product_id + ", rating=" + rating + ", review=" + review + '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getUser_id() {
@@ -40,7 +55,7 @@ public class TheReview {
 
     public int getRating() {
         this.rating = realRating(this.rating);
-        
+
         return rating;
     }
 

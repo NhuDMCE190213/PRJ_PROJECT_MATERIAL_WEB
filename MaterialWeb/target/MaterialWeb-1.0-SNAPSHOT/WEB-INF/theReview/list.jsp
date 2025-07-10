@@ -13,13 +13,13 @@
 <main>
     <div class="container">
         
-        <h2>Danh sách Sale</h2>
+        <h2>Reviews List</h2>
 
-        <p class="text-end">
+        <%--<p class="text-end">
             <a href="<c:url value="sale?view=create">
                    <c:param name="view" value="create"/>
                </c:url>" class="btn btn-success">Add New</a>
-        </p>
+        </p>--%>
 
         <table class="table table-bordered table-hover text-center">
             <thead>

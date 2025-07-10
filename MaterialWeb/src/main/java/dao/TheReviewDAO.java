@@ -4,6 +4,7 @@
  */
 package dao;
 
+import static constant.Constants.MAX_ELEMENTS_PER_PAGE;
 import db.DBContext;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,26 +19,33 @@ import model.TheReview;
  * @author Dai Minh Nhu - CE190213
  */
 public class TheReviewDAO extends DBContext {
-//
 
-    public List<TheReview> getAll_toUser(int userID, int page) {
+    public static void main(String[] args) {
+        TheReviewDAO dao = new TheReviewDAO();
+
+        System.out.println(dao.getAll(1));
+    }
+
+    public List<TheReview> getAll_toUser(int userId, int page) {
         List<TheReview> list = new ArrayList<>();
 
         try {
             String query = "SELECT productId, rating, review\n"
                     + "FROM     theReview\n"
-                    + "WHERE  (UserID = ?)";
+                    + "WHERE  (userId = ?)\n"
+                    + "ORDER BY id\n"
+                    + "OFFSET ? ROWS \n"
+                    + "FETCH NEXT ? ROWS ONLY;";
 
-            ResultSet rs = this.executeSelectionQuery(query, null);
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{userId, (page - 1) * MAX_ELEMENTS_PER_PAGE, MAX_ELEMENTS_PER_PAGE});
 
             while (rs.next()) {
-                int productId = rs.getInt(1);
-                int rating = rs.getInt(2);
-                String review = rs.getString(3);
+                int id = rs.getInt(1);
+                int productId = rs.getInt(2);
+                int rating = rs.getInt(3);
+                String review = rs.getString(4);
 
-                TheReview theReview = new TheReview(userID, productId, rating, review);
-
-//    Sale sale = new Sale(id, name, discount, typeOfDiscount, soLuong, soHanSuDung, dateStart, dateEnd);
+                TheReview theReview = new TheReview(id, userId, productId, rating, review);
                 list.add(theReview);
             }
 
@@ -53,20 +61,53 @@ public class TheReviewDAO extends DBContext {
         List<TheReview> list = new ArrayList<>();
 
         try {
-            String query = "SELECT UserID, rating, review\n"
+            String query = "SELECT userId, rating, review\n"
                     + "FROM     theReview\n"
-                    + "WHERE  (productId = ?)";
+                    + "WHERE  (productId = ?)\n"
+                    + "ORDER BY id\n"
+                    + "OFFSET ? ROWS \n"
+                    + "FETCH NEXT ? ROWS ONLY;";
 
-            ResultSet rs = this.executeSelectionQuery(query, null);
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{productId, (page - 1) * MAX_ELEMENTS_PER_PAGE, MAX_ELEMENTS_PER_PAGE});
 
             while (rs.next()) {
-                int userID = rs.getInt(1);
-                int rating = rs.getInt(2);
-                String review = rs.getString(3);
+                int id = rs.getInt(1);
+                int userId = rs.getInt(2);
+                int rating = rs.getInt(3);
+                String review = rs.getString(4);
 
-                TheReview theReview = new TheReview(userID, productId, rating, review);
+                TheReview theReview = new TheReview(id, userId, productId, rating, review);
+                list.add(theReview);
+            }
 
-//    Sale sale = new Sale(id, name, discount, typeOfDiscount, soLuong, soHanSuDung, dateStart, dateEnd);
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+    }
+
+    public List<TheReview> getAll(int page) {
+        List<TheReview> list = new ArrayList<>();
+
+        try {
+            String query = "SELECT id, userId, productId, rating, review\n"
+                    + "FROM theReview\n"
+                    + "ORDER BY id\n"
+                    + "OFFSET ? ROWS\n"
+                    + "FETCH NEXT ? ROWS ONLY;";
+
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{(page - 1) * MAX_ELEMENTS_PER_PAGE, MAX_ELEMENTS_PER_PAGE});
+
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int userId = rs.getInt(2);
+                int productId = rs.getInt(3);
+                int rating = rs.getInt(4);
+                String review = rs.getString(5);
+
+                TheReview theReview = new TheReview(id, userId, productId, rating, review);
                 list.add(theReview);
             }
 
@@ -219,7 +260,7 @@ public class TheReviewDAO extends DBContext {
 
     public int countItem_toUser(int userId) {
         try {
-                String query = "select count(productID) as numrow from theReview where UserID = ?";
+            String query = "select count(id) as numrow from theReview where UserID = ?";
             ResultSet rs = this.executeSelectionQuery(query, new Object[]{userId});
             if (rs.next()) {
                 return rs.getInt(1);
@@ -230,10 +271,10 @@ public class TheReviewDAO extends DBContext {
 
         return 0;
     }
-    
+
     public int countItem_toProduct(int productId) {
         try {
-                String query = "select count(UserID) as numrow from theReview where productID = ?";
+            String query = "select count(id) as numrow from theReview where productID = ?";
             ResultSet rs = this.executeSelectionQuery(query, new Object[]{productId});
             if (rs.next()) {
                 return rs.getInt(1);
@@ -244,10 +285,10 @@ public class TheReviewDAO extends DBContext {
 
         return 0;
     }
-    
+
     public int countItem() {
         try {
-                String query = "select count(UserID) as numrow from theReview";
+            String query = "select count(id) as numrow from theReview";
             ResultSet rs = this.executeSelectionQuery(query, null);
             if (rs.next()) {
                 return rs.getInt(1);

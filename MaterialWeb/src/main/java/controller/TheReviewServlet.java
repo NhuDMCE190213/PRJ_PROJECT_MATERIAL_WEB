@@ -93,6 +93,7 @@ public class TheReviewServlet extends HttpServlet {
             } else {
                 countItems = theReviewDAO.countItem();
             }
+            
             totalPages = getTotalPages(countItems);
             request.setAttribute("totalPages", totalPages);
 
@@ -100,8 +101,8 @@ public class TheReviewServlet extends HttpServlet {
                 page = totalPages;
             }
 
-            List<TheReview> salesList = theReviewDAO.getAll(page);
-            request.setAttribute("salesList", salesList);
+            List<TheReview> reviewList = theReviewDAO.getAll(page);
+            request.setAttribute("reviewList", reviewList);
 
         } else if (view.equalsIgnoreCase("create")) {
 //            namePage = "create";
