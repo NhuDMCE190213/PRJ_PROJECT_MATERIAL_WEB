@@ -126,7 +126,21 @@ public class CartServlet extends HttpServlet {
             } catch (Exception e) {
                 e.printStackTrace(response.getWriter());
             }
+        } else if ("decreaseQuantity".equals(action)) {
+            try {
+                int userId = 1; // hoặc từ session
+                int productId = Integer.parseInt(request.getParameter("id"));
+                int decreaseAmount = Integer.parseInt(request.getParameter("decreaseAmount"));
+
+                CartDao dao = new CartDao();
+                dao.decreaseQuantity(userId, productId, decreaseAmount);
+
+                response.sendRedirect(request.getContextPath() + "/carts");
+            } catch (Exception e) {
+                e.printStackTrace(response.getWriter());
+            }
         }
+
     }
 
     /**

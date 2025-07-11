@@ -15,7 +15,7 @@ public class Cart {
 
     private List<CartItem> items = new ArrayList<>();
 
-    public void addItem(Product product, int quantity) {
+    public void addItem(Product product, long quantity) {
         for (CartItem item : items) {
             if (item.getProduct().getId() == product.getId()) {
                 item.setQuantity(item.getQuantity() + quantity);
@@ -38,7 +38,7 @@ public class Cart {
         return items;
     }
 
-    public int getTotal() {
+    public long getTotal() {
         int total = 0;
         for (CartItem item : items) {
             total += item.getTotalPrice();
