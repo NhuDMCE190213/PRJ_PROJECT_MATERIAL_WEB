@@ -25,10 +25,22 @@
                     <td><textarea name="description" id="description" rows="3">${product.description}</textarea></td>
                 </tr>
 
+                <!--                <tr>
+                                    <td><label for="categoryId">ID Danh mục</label></td>
+                                    <td><input type="number" name="categoryId" id="categoryId" value="${product.categoryId}" required></td>
+                                </tr>-->
+
                 <tr>
-                    <td><label for="categoryId">ID Danh mục</label></td>
-                    <td><input type="number" name="categoryId" id="categoryId" value="${product.categoryId}" required></td>
+                    <td><label for="categoryId">Danh mục</label></td>
+                    <td>
+                        <select name="categoryId" id="categoryId" required>
+                            <c:forEach var="cat" items="${categoryList}">
+                                <option value="${cat.id}">${cat.name}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
                 </tr>
+
 
                 <tr>
                     <td><label for="price">Giá</label></td>

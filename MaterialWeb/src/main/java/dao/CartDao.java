@@ -63,13 +63,13 @@ public class CartDao {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                int currentQty = rs.getInt("quantity");
+                long currentQty = rs.getInt("quantity");
                 int itemId = rs.getInt("id");
 
                 // 2. Nếu có thì update số lượng
                 String updateSql = "UPDATE cart_items SET quantity = ? WHERE id = ?";
                 try ( PreparedStatement ups = conn.prepareStatement(updateSql)) {
-                    ups.setInt(1, currentQty + quantity);
+                    ups.setLong(1, currentQty + quantity);
                     ups.setInt(2, itemId);
                     ups.executeUpdate();
                     return;
@@ -82,7 +82,7 @@ public class CartDao {
         try ( PreparedStatement ps = conn.prepareStatement(insertSql)) {
             ps.setInt(1, cartId);
             ps.setInt(2, productId);
-            ps.setInt(3, quantity);
+            ps.setLong(3, quantity);
             ps.executeUpdate();
         }
     }
@@ -105,7 +105,7 @@ public class CartDao {
                 p.setName(rs.getString("name"));
                 p.setPrice(rs.getInt("price"));
 
-                CartItem item = new CartItem(p, rs.getInt("quantity"));
+                CartItem item = new CartItem(p, rs.getLong("quantity"));
                 items.add(item);
             }
         }
@@ -124,4 +124,30 @@ public class CartDao {
         }
     }
 
+    public void decreaseQuantity(int userId, int productId, int amount) throws Exception {
+        int cartId = getOrCreateCartId(userId);
+
+        String selectSql = "SELECT id, quantity FROM cart_items WHERE cart_id = ? AND product_id = ?";
+        try ( PreparedStatement ps = conn.prepareStatement(selectSql)) {
+            ps.setInt(1, cartId);
+            ps.setInt(2, productId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int currentQty = rs.getInt("quantity");
+                int itemId = rs.getInt("id");
+
+                if (amount >= currentQty) {
+                    removeFromCart(userId, productId);
+                } else {
+                    String updateSql = "UPDATE cart_items SET quantity = ? WHERE id = ?";
+                    try ( PreparedStatement ups = conn.prepareStatement(updateSql)) {
+                        ups.setInt(1, currentQty - amount);
+                        ups.setInt(2, itemId);
+                        ups.executeUpdate();
+                    }
+                }
+            }
+        }
+    }
 }

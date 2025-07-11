@@ -72,7 +72,7 @@
                                 </a>
                             </li>
                             <c:forEach begin="1" end="${requestScope.totalPages}" var="i">
-                                <li class="page-item ${(empty parame.page || param.page == i)?"active":""}">
+                                <li class="page-item ${((empty param.page && i == 1) || param.page == i)?"active":""}">
                                     <a class="page-link" href="<c:url value="/theReview">
                                            <c:param name="view" value="list"/>
                                            <c:param name="page" value="${i}"/>

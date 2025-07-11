@@ -11,9 +11,13 @@ package model;
 public class CartItem {
 
     private Product product;
-    private int quantity;
+    private long quantity;
 
-    public CartItem(Product product, int quantity) {
+    public long getQuantity() {
+        return quantity;
+    }
+
+    public CartItem(Product product, long quantity) {
         this.product = product;
         this.quantity = quantity;
     }
@@ -22,16 +26,15 @@ public class CartItem {
         return product;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(long quantity) {
         this.quantity = quantity;
     }
 
-    public int getTotalPrice() {
+    public long getTotalPrice() {
         return product.getPrice() * quantity;
     }
 }
-

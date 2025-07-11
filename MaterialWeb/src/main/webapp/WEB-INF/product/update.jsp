@@ -8,6 +8,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="/WEB-INF/include/header.jsp" %>
 
+
 <main>
     <div class="container">
         <h1 class="mt-5">UPDATE PRODUCT</h1>
@@ -30,9 +31,16 @@
                 </tr>
 
                 <tr>
-                    <th><label for="categoryId">ID Danh mục</label></th>
-                    <td><input type="number" name="categoryId" id="categoryId" value="${product.categoryId}" required class="form-control"/></td>
+                    <th><label for="categoryId">Danh mục</label></th>
+                    <td>
+                        <select name="categoryId" id="categoryId" class="form-control" required>
+                            <c:forEach var="cat" items="${categoryList}">
+                                <option value="${cat.id}" ${cat.id == product.categoryId ? "selected" : ""}>${cat.name}</option>
+                            </c:forEach>
+                        </select>
+                    </td>
                 </tr>
+
 
                 <tr>
                     <th><label for="price">Giá</label></th>
