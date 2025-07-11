@@ -16,6 +16,10 @@
     <body>
         <h1>Hello </h1>
         <% User fname = (User) request.getAttribute("member"); %>
+<<<<<<< HEAD
         <%= fname.getFullName() %>
+=======
+        <%= fname.getFullName()%>
+>>>>>>> c43a8274351fe1dc291c89d7143e28b0d3db60f3
     </body>
 </html>

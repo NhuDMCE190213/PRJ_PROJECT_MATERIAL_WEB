@@ -8,8 +8,9 @@
 <%@page import="model.Cart"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/include/header.jsp"%>
+
 <%
-    Cart cart = (Cart) session.getAttribute("cart");
+    Cart cart = (Cart) request.getAttribute("cart");
 %>
 
 <h2>Giỏ hàng của bạn</h2>
@@ -31,19 +32,16 @@
         <td><%= item.getQuantity()%></td>
         <td><%= item.getProduct().getPrice()%></td>
         <td><%= item.getTotalPrice()%></td>
-        <td>
-            <a href="cart?action=remove&id=<%= item.getProduct().getId()%>">Xóa</a>
-        </td>
-
+        <td><a href="carts?action=remove&id=<%= item.getProduct().getId()%>">Xóa</a></td>
     </tr>
     <% }%>
     <tr>
         <td colspan="3"><b>Tổng cộng:</b></td>
         <td colspan="2"><b><%= cart.getTotal()%></b></td>
     </tr>
-    <a href="test.jsp" class="button">← Quay lại danh sách sản phẩm</a>
-
 </table>
 <% }%>
+
+<a href="${pageContext.request.contextPath}/display?view=list">← Quay lại danh sách sản phẩm</a>
 
 <%@include file="/WEB-INF/include/footer.jsp"%>

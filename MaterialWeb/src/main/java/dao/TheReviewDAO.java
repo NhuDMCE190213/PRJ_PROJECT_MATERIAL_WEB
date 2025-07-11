@@ -30,7 +30,7 @@ public class TheReviewDAO extends DBContext {
         List<TheReview> list = new ArrayList<>();
 
         try {
-            String query = "SELECT productId, rating, review\n"
+            String query = "SELECT id, productId, rating, review\n"
                     + "FROM     theReview\n"
                     + "WHERE  (userId = ?)\n"
                     + "ORDER BY id\n"
@@ -61,7 +61,7 @@ public class TheReviewDAO extends DBContext {
         List<TheReview> list = new ArrayList<>();
 
         try {
-            String query = "SELECT userId, rating, review\n"
+            String query = "SELECT id, userId, rating, review\n"
                     + "FROM     theReview\n"
                     + "WHERE  (productId = ?)\n"
                     + "ORDER BY id\n"

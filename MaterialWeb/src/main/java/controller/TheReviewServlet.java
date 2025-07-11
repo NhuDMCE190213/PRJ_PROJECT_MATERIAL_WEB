@@ -83,25 +83,32 @@ public class TheReviewServlet extends HttpServlet {
                 page = Integer.parseInt(pageParam);
             }
 
+            List<TheReview> reviewList;
             int countItems;
             if (!isEmptyString(productId_str)) {
                 int productId = Integer.parseInt(productId_str);
                 countItems = theReviewDAO.countItem_toProduct(productId);
+
+                reviewList = theReviewDAO.getAll_toProduct(productId, page);
             } else if (!isEmptyString(userId_str)) {
                 int userId = Integer.parseInt(userId_str);
                 countItems = theReviewDAO.countItem_toUser(userId);
+
+                reviewList = theReviewDAO.getAll_toUser(userId, page);
             } else {
                 countItems = theReviewDAO.countItem();
+                reviewList = theReviewDAO.getAll(page);
             }
-            
+
             totalPages = getTotalPages(countItems);
-            request.setAttribute("totalPages", totalPages);
 
             if (page > totalPages) {
                 page = totalPages;
             }
 
-            List<TheReview> reviewList = theReviewDAO.getAll(page);
+            request.setAttribute("totalPages", totalPages);
+
+//            List<TheReview> reviewList = theReviewDAO.getAll(page);
             request.setAttribute("reviewList", reviewList);
 
         } else if (view.equalsIgnoreCase("create")) {
@@ -120,8 +127,6 @@ public class TheReviewServlet extends HttpServlet {
         }
 
         request.getRequestDispatcher("/WEB-INF/theReview/" + namePage + ".jsp").forward(request, response);
-
-//        request.getRequestDispatcher("/WEB-INF/theReview/list.jsp").forward(request, response);
     }
 
     /**
