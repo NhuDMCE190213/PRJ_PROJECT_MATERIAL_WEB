@@ -68,7 +68,7 @@ public class TheReview {
         if (rate > 5) {
             rate = 5;
         }
-        if (1 < rate) {
+        if (rate < 1) {
             rate = 1;
         }
         return rate;
