@@ -9,6 +9,7 @@ dao\CategoryDAO.class
 controller\SaleServlet.class
 controller\requestPassword.class
 model\Product.class
+dao\CartDao.class
 controller\ProfileServlet.class
 controller\AuthController.class
 model\Account.class

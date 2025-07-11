@@ -22,6 +22,7 @@ D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\Cart
 D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\resetService.java
 D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\TheReviewServlet.java
 D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Cart.java
+D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CartDao.java
 D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\SaleDAO.java
 D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\Constants.java
 D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\db\DBContext.java
