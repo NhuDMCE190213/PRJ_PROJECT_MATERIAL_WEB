@@ -91,8 +91,9 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="<%=request.getContextPath()%>/orders">Order</a>
+                                <a class="nav-link" href="<%=request.getContextPath()%>/order/forAdmin/orderList.jsp">Order</a>
                             </li>
+
 
                             <li>
                                 <a href="<%=request.getContextPath()%>/carts">
