@@ -68,7 +68,7 @@
         </table>
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item ${(param.page <= 1)?"disabled":""}">
+                <li class="page-item ${((empty param.page) || param.page <= 1)?"disabled":""}">
                     <a class="page-link" href="<c:url value="/sale">
                            <c:param name="view" value="list"/>
                            <c:param name="page" value="${param.page - 1}"/>
@@ -77,13 +77,13 @@
                     </a>
                 </li>
                 <c:forEach begin="1" end="${requestScope.totalPages}" var="i">
-                    <li class="page-item ${(param.page == i)?"active":""}">
+                    <li class="page-item ${((empty param.page && i == 1) || param.page == i)?"active":""}">
                         <a class="page-link" href="<c:url value="/sale">
                                <c:param name="view" value="list"/>
                                <c:param name="page" value="${i}"/>
                            </c:url>">${i}</a></li>
                     </c:forEach>
-                <li class="page-item ${(requestScope.totalPages <= param.page)?"disabled":""}">
+                <li class="page-item ${((empty param.page) || requestScope.totalPages <= param.page)?"disabled":""}">
                     <a class="page-link" href="<c:url value="/sale">
                            <c:param name="view" value="list"/>
                            <c:param name="page" value="${param.page + 1}"/>
