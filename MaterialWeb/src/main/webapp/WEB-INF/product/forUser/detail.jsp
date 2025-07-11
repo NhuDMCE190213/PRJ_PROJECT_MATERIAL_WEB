@@ -11,7 +11,8 @@
 <main>
     <div class="container">
         <h1 class="mt-3"></h1>
-        <form method="post" action="${pageContext.request.contextPath}/display">
+        <form method="post" action="${pageContext.request.contextPath}/carts">
+            <input type="hidden" name="id" value="${product.id}" />
             <table class="table table-borderless table-warning">
 
                 <tr>
@@ -55,19 +56,19 @@
                     <th><label for="brandName">Thương hiệu</label></th>
                     <td>${product.brandName}</td>
                 </tr>
-              <tr>
-    <th><label for="orderNumbers">Số lượng mua</label></th>
-    <td>
-        <input class="form-control  alert-light" name="orderNumbers"  id="orderNumbers" type="number" required>
-    </td>
-</tr>
+                <tr>
+                    <th><label for="orderNumbers">Số lượng mua</label></th>
+                    <td>
+                        <input class="form-control  alert-light" name="orderNumbers"  id="orderNumbers" type="number" required>
+                    </td>
+                </tr>
 
                 <tr>
                     <td></td>
                     <td>
 
                         <button class="btn btn-dark " type="submit" name="action" value="detail">Order!</button>
-                        <button class="btn btn-dark" type="submit" name="action" value="detail">Add to Cart</button>
+                        <button class="btn btn-dark" type="submit" name="action" value="addToCart">Add to Cart</button>
                         <a class="btn btn-dark " href="${pageContext.request.contextPath}/display?view=list"><<< Back</a>
                     </td>
                 </tr>

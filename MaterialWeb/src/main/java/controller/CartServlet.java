@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dao.CartDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -11,12 +12,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
  * @author Le Duy Khanh - CE190235
  */
-@WebServlet(name = "CartServlet", urlPatterns = {"/cart"})
+@WebServlet(name = "CartServlet", urlPatterns = {"/carts"})
 public class CartServlet extends HttpServlet {
 
     /**
@@ -72,8 +74,34 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
+        String action = request.getParameter("action");
+
+        if ("addToCart".equals(action)) {
+            try {
+//                HttpSession session = request.getSession();
+//
+//                // (Giả sử đã login, userId đã lưu trong session)
+//                Integer userId = (Integer) session.getAttribute("userId");
+//                if (userId == null) {
+//                    response.sendRedirect(request.getContextPath() + "/auth?view=login");
+//                    return;
+//                }
+                int userId = 1;
+                int productId = Integer.parseInt(request.getParameter("id"));
+                int quantity = Integer.parseInt(request.getParameter("orderNumbers"));
+
+                CartDao dao = new CartDao();
+                dao.addToCart(userId, productId, quantity);
+
+                // Sau khi thêm vào giỏ hàng, chuyển hướng về lại trang hiển thị cart
+                response.sendRedirect(request.getContextPath() + "/carts");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                response.getWriter().println("Lỗi khi thêm vào giỏ hàng: " + e.getMessage());
+            }
+        }
+    } 
 
     /**
      * Returns a short description of the servlet.
