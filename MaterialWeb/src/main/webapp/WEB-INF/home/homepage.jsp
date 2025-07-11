@@ -24,10 +24,11 @@
 								<p class="mb-4">Vao ba hai di mua 2 chai nuoc mam xong roi. ve an com ngu toi chieu. Vao ba hai di mua 2 chai nuoc mam xong roi. ve an com ngu toi chieu.</p>
 								<p><a href="<%=request.getContextPath()%>/display" class="btn btn-secondary me-2">Shop Now</a><a href="#" class="btn btn-white-outline">Explore</a></p>
 							  <!-- Search Bar -->
-          <form class="d-flex mt-3" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search for products..." aria-label="Search">
-            <button class="btn btn-dark" type="submit">Search</button>
-          </form>
+    <form class="d-flex mt-3" action="<%=request.getContextPath()%>/display" method="get">
+  <input class="form-control me-2" type="search" name="keyword" placeholder="Search for products..." required>
+  <button class="btn btn-dark" type="submit">Search</button>
+</form>
+
                                                         </div>
 						</div>
                                             
@@ -165,7 +166,7 @@
           <div class="card-body">
             <!-- Icon here -->
             <div class="mb-3">
-              <i class="bi bi-cart4 fs-1 text-dark"></i>
+              <i class="bi bi-ui-radios-grid  fs-1 text-dark"></i>
             </div>
             <h5 class="card-title"><%= c.getName() %></h5>
           </div>
