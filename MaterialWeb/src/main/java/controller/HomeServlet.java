@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dao.CategoryDAO;
+import dao.CategoriesDao;
 import dao.ProductDao;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,7 +75,7 @@ public class HomeServlet extends HttpServlet {
         /*
 HOMEPAGE.JSP
          */
-        CategoryDAO dao = new CategoryDAO();
+        CategoriesDao dao = new CategoriesDao();
 List<Category> list = dao.getAllCategories();
 request.setAttribute("categories", list);
 
