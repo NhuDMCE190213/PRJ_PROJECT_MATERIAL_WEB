@@ -1,0 +1,85 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package dao;
+
+import db.DBContext;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+/**
+ *
+ * @author Le Duy Khanh - CE190235
+ */
+public class CartDao {
+
+    private final Connection conn;
+
+    public CartDao() {
+        DBContext db = new DBContext();
+        this.conn = db.getConnection();
+    }
+
+    public int getOrCreateCartId(int userId) throws Exception {
+        // 1. Kiểm tra giỏ hàng đã tồn tại chưa
+        String checkSql = "SELECT id FROM carts WHERE user_id = ?";
+        try ( PreparedStatement ps = conn.prepareStatement(checkSql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id");
+            }
+        }
+
+        // 2. Nếu chưa có thì tạo mới
+        String insertSql = "INSERT INTO carts (user_id) VALUES (?)";
+        try ( PreparedStatement ps = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setInt(1, userId);
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+
+        throw new Exception("Không thể tạo giỏ hàng mới.");
+    }
+
+    public void addToCart(int userId, int productId, int quantity) throws Exception {
+        int cartId = getOrCreateCartId(userId);
+
+        // 1. Kiểm tra sản phẩm đã tồn tại trong giỏ chưa
+        String checkSql = "SELECT id, quantity FROM cart_items WHERE cart_id = ? AND product_id = ?";
+        try ( PreparedStatement ps = conn.prepareStatement(checkSql)) {
+            ps.setInt(1, cartId);
+            ps.setInt(2, productId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int currentQty = rs.getInt("quantity");
+                int itemId = rs.getInt("id");
+
+                // 2. Nếu có thì update số lượng
+                String updateSql = "UPDATE cart_items SET quantity = ? WHERE id = ?";
+                try ( PreparedStatement ups = conn.prepareStatement(updateSql)) {
+                    ups.setInt(1, currentQty + quantity);
+                    ups.setInt(2, itemId);
+                    ups.executeUpdate();
+                    return;
+                }
+            }
+        }
+
+        // 3. Nếu chưa có thì thêm mới
+        String insertSql = "INSERT INTO cart_items (cart_id, product_id, quantity) VALUES (?, ?, ?)";
+        try ( PreparedStatement ps = conn.prepareStatement(insertSql)) {
+            ps.setInt(1, cartId);
+            ps.setInt(2, productId);
+            ps.setInt(3, quantity);
+            ps.executeUpdate();
+        }
+    }
+}

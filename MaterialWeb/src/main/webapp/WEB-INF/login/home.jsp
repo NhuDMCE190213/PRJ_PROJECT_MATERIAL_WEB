@@ -16,6 +16,6 @@
     <body>
         <h1>Hello </h1>
         <% User fname = (User) request.getAttribute("member"); %>
-        <%= fname.getFullname() %>
+        <%= fname.getFullName()%>
     </body>
 </html>

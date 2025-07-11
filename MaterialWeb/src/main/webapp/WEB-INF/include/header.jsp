@@ -69,7 +69,7 @@
                                 <ul class=" custom-navbar dropdown-menu ">
                                     <li >
                                         <a class="dropdown-item border-bottom " href="${pageContext.request.contextPath}/display">
-                                           ALL PRODUCTS
+                                            ALL PRODUCTS
                                         </a>
                                     </li>
                                     <c:forEach var="c" items="${categories}">
