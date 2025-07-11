@@ -2,11 +2,35 @@ package dao;
 
 import db.DBContext;
 import model.Product;
-import java.sql.*; 
+import java.sql.*;
 import java.util.*;
 
 public class ProductDao extends DBContext {
     // Trả về danh sách sản phẩm theo từng trang (phân trang)
+
+    public List<Product> getAll() {
+        List<Product> list = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM products ORDER BY id";
+            ResultSet rs = this.executeSelectionQuery(sql, null);
+            while (rs.next()) {
+                list.add(new Product(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getInt("category_id"),
+                        rs.getInt("price"),
+                        rs.getInt("stock_quantity"),
+                        rs.getString("unit"),
+                        rs.getString("brand_name")
+                ));
+            }
+        } catch (SQLException e) {
+            System.out.println("bi loi roi phan get all product");
+        }
+        return list;
+    }
 
     public List<Product> getProductsByPage(int page, int pageSize) {
         List<Product> list = new ArrayList<>();

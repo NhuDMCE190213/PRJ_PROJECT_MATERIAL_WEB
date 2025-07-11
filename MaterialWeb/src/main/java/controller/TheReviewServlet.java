@@ -6,6 +6,7 @@ package controller;
 
 import static constant.CommonFunction.getTotalPages;
 import static constant.CommonFunction.isEmptyString;
+import dao.ProductDao;
 import dao.TheReviewDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Product;
 import model.TheReview;
 
 /**
@@ -25,6 +27,7 @@ import model.TheReview;
 public class TheReviewServlet extends HttpServlet {
 
     TheReviewDAO theReviewDAO = new TheReviewDAO();
+    ProductDao productDao = new ProductDao();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,6 +69,9 @@ public class TheReviewServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String view = request.getParameter("view");
+        List<Product> productList = productDao.getAll();
+        
+        request.setAttribute("productList", productList);
 
         int page = 1;
         int totalPages = 0;
