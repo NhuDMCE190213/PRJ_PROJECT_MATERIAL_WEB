@@ -16,7 +16,7 @@ import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-@WebFilter("/*") // áp dụng cho tất cả request
+@WebFilter("/categoriesss") // áp dụng cho tất cả request
 public class CategoryFilter implements Filter {
 
     @Override
