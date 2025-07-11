@@ -16,6 +16,14 @@ public class Category {
 
     // getters and setters
 
+    public Category(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    
+    
+    
     public Category(int id, String name, String iconClass, String textColor) {
         this.id = id;
         this.name = name;

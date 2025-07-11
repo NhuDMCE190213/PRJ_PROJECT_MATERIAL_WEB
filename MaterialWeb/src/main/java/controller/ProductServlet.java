@@ -127,7 +127,7 @@ public class ProductServlet extends HttpServlet {
             Product product = new Product(id, name, description, categoryId, price, stockQuantity, unit, brandName);
             ProductDao dao = new ProductDao();
             dao.update(product);
-
+            
             response.sendRedirect(request.getContextPath() + "/product?view=list");
 
         } else if ("delete".equals(action)) {

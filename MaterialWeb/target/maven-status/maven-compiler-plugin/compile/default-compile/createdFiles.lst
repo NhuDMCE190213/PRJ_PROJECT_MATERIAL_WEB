@@ -17,6 +17,7 @@ constant\CommonFunction.class
 dao\TheReviewDAO.class
 controller\ProductServlet.class
 constant\Constants.class
+controller\CategoryServlet.class
 controller\OrderServlet.class
 dao\SaleDAO.class
 dao\DAOAuth.class
