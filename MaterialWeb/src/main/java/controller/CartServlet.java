@@ -12,7 +12,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Cart;
+import model.CartItem;
 
 /**
  *
@@ -59,8 +61,35 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/cart/view.jsp").forward(request, response);
+        try {
+            int userId = 1; // test user ID (nếu chưa có login)
 
+            String action = request.getParameter("action");
+            if ("remove".equals(action)) {
+
+                int productId = Integer.parseInt(request.getParameter("id"));
+                CartDao dao = new CartDao();
+                dao.removeFromCart(userId, productId);
+
+                // redirect lại để tránh lỗi reload
+                response.sendRedirect(request.getContextPath() + "/carts");
+                return;
+            }
+
+            CartDao dao = new CartDao();
+            List<CartItem> items = dao.getCartItems(userId);
+
+            Cart cart = new Cart();
+            for (CartItem item : items) {
+                cart.addItem(item.getProduct(), item.getQuantity());
+            }
+
+            request.setAttribute("cart", cart); // gán vào request
+            request.getRequestDispatcher("/WEB-INF/cart/view.jsp").forward(request, response);
+
+        } catch (Exception e) {
+            e.printStackTrace(response.getWriter());
+        }
     }
 
     /**
@@ -86,22 +115,19 @@ public class CartServlet extends HttpServlet {
 //                    response.sendRedirect(request.getContextPath() + "/auth?view=login");
 //                    return;
 //                }
-                int userId = 1;
+                int userId = 1; // hardcode userId test
                 int productId = Integer.parseInt(request.getParameter("id"));
                 int quantity = Integer.parseInt(request.getParameter("orderNumbers"));
 
                 CartDao dao = new CartDao();
                 dao.addToCart(userId, productId, quantity);
 
-                // Sau khi thêm vào giỏ hàng, chuyển hướng về lại trang hiển thị cart
                 response.sendRedirect(request.getContextPath() + "/carts");
-
             } catch (Exception e) {
-                e.printStackTrace();
-                response.getWriter().println("Lỗi khi thêm vào giỏ hàng: " + e.getMessage());
+                e.printStackTrace(response.getWriter());
             }
         }
-    } 
+    }
 
     /**
      * Returns a short description of the servlet.

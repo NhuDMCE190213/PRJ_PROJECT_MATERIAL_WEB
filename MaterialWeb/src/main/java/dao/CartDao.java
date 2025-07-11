@@ -9,6 +9,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import model.CartItem;
+import model.Product;
 
 /**
  *
@@ -82,4 +86,42 @@ public class CartDao {
             ps.executeUpdate();
         }
     }
+
+    public List<CartItem> getCartItems(int userId) throws Exception {
+        List<CartItem> items = new ArrayList<>();
+        int cartId = getOrCreateCartId(userId);
+
+        String sql = "SELECT p.id, p.name, p.price, ci.quantity "
+                + "FROM cart_items ci "
+                + "JOIN products p ON ci.product_id = p.id "
+                + "WHERE ci.cart_id = ?";
+
+        try ( PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, cartId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Product p = new Product();
+                p.setId(rs.getInt("id"));
+                p.setName(rs.getString("name"));
+                p.setPrice(rs.getInt("price"));
+
+                CartItem item = new CartItem(p, rs.getInt("quantity"));
+                items.add(item);
+            }
+        }
+
+        return items;
+    }
+
+    public void removeFromCart(int userId, int productId) throws Exception {
+        int cartId = getOrCreateCartId(userId);
+
+        String sql = "DELETE FROM cart_items WHERE cart_id = ? AND product_id = ?";
+        try ( PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, cartId);
+            ps.setInt(2, productId);
+            ps.executeUpdate();
+        }
+    }
+
 }
