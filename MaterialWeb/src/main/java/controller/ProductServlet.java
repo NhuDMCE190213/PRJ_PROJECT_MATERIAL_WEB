@@ -7,6 +7,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
+import dao.CategoryDAO;
+import dao.CategoriesDao; 
+import model.Category;
 
 @WebServlet(name = "ProductServlet", urlPatterns = {"/product"})
 public class ProductServlet extends HttpServlet {
@@ -57,7 +60,12 @@ public class ProductServlet extends HttpServlet {
 
             // Forward đến trang JSP hiển thị sản phẩm
             request.getRequestDispatcher("/WEB-INF/product/list.jsp").forward(request, response);
-        } else if (view.equals("create")) {
+        } //        else if (view.equals("create")) {
+        //            request.getRequestDispatcher("/WEB-INF/product/create.jsp").forward(request, response);
+        else if (view.equals("create")) {
+            CategoriesDao categoryDAO = new CategoriesDao();
+            List<Category> categoryList = categoryDAO.getAllCategories();
+            request.setAttribute("categoryList", categoryList);
             request.getRequestDispatcher("/WEB-INF/product/create.jsp").forward(request, response);
 
         } else if (view.equals("update")) {
@@ -66,7 +74,12 @@ public class ProductServlet extends HttpServlet {
                 int id = Integer.parseInt(idRaw);
                 Product product = dao.getById(id);
                 if (product != null) {
+
+                    CategoriesDao categoryDAO = new CategoriesDao();
+                    List<Category> categoryList = categoryDAO.getAllCategories();
+
                     request.setAttribute("product", product);
+                    request.setAttribute("categoryList", categoryList);
                     request.getRequestDispatcher("/WEB-INF/product/update.jsp").forward(request, response);
                 } else {
                     response.getWriter().println("Không tìm thấy sản phẩm.");
@@ -127,7 +140,7 @@ public class ProductServlet extends HttpServlet {
             Product product = new Product(id, name, description, categoryId, price, stockQuantity, unit, brandName);
             ProductDao dao = new ProductDao();
             dao.update(product);
-            
+
             response.sendRedirect(request.getContextPath() + "/product?view=list");
 
         } else if ("delete".equals(action)) {

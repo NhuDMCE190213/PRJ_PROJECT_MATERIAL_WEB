@@ -9,6 +9,7 @@ dao\CategoryDAO.class
 controller\SaleServlet.class
 controller\requestPassword.class
 model\Product.class
+dao\CartDao.class
 controller\ProfileServlet.class
 controller\AuthController.class
 model\Account.class
@@ -25,6 +26,7 @@ dao\DAOTokenForget.class
 filter\CategoryFilter.class
 model\Order.class
 model\Sale.class
+dao\CategoriesDao.class
 model\Category.class
 model\TheReview.class
 controller\forUser\DisplayServlet.class
