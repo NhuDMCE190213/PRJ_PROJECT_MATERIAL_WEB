@@ -22,9 +22,9 @@ public class CategoriesDao extends DBContext{
         List<Category> list = new ArrayList<>();
         String sql = "SELECT * FROM categories";
 
-        DBContext db = new DBContext();
-
-        try ( Connection conn = db.getConnection();  PreparedStatement ps = conn.prepareStatement(sql);  ResultSet rs = ps.executeQuery()) {
+        try ( Connection conn = getConnection();  
+              PreparedStatement ps = conn.prepareStatement(sql);  
+              ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 int id = rs.getInt("id");
