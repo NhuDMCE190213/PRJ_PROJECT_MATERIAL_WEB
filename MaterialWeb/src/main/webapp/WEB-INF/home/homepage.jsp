@@ -162,20 +162,22 @@
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
       <% for (Category c : categories) { %>
       <div class="col">
-        <div class="card h-100 text-center border-2 border-dark">
-          <div class="card-body">
-            <!-- Icon here -->
-            <div class="mb-3">
-              <i class="bi bi-ui-radios-grid  fs-1 text-dark"></i>
+        <a href="${pageContext.request.contextPath}/display?cid=<%= c.getId() %>" class="text-decoration-none">
+          <div class="card h-100 text-center border-2 border-dark">
+            <div class="card-body">
+              <div class="mb-3">
+                <i class="bi bi-ui-radios-grid fs-1 text-dark"></i>
+              </div>
+              <h5 class="card-title text-dark"><%= c.getName() %></h5>
             </div>
-            <h5 class="card-title"><%= c.getName() %></h5>
           </div>
-        </div>
+        </a>
       </div>
       <% } %>
     </div>
   </div>
 </section>
+
 
 
 
