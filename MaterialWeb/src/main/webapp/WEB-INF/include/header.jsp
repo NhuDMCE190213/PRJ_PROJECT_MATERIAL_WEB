@@ -61,11 +61,9 @@
                     <div class="collapse navbar-collapse" id="navbarsFurni">
                         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                             <!--<li class="nav-item active">-->
-<<<<<<< HEAD
-                            <c:if test="${not empty user and user.admin}">
-=======
-                            <c:if test="${not empty user and user.role eq 'Admin'}">
->>>>>>> ae292f6f16197cf3d0ed3856328eaebb56a89212
+
+                            <c:if test="${not empty user and user.admin}">  
+
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Manager</a>
                                     <ul class=" custom-navbar dropdown-menu">
