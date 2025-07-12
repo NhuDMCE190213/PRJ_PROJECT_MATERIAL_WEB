@@ -131,7 +131,7 @@ public class AuthController extends HttpServlet {
         if (user != null) {
             if (user.getStatus().equalsIgnoreCase("active")) {
                 HttpSession session = request.getSession();
-                session.setAttribute("User", user);
+                session.setAttribute("user", user);
                 request.setAttribute("member", user);
                 request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
 

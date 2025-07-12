@@ -61,7 +61,7 @@
                     <div class="collapse navbar-collapse" id="navbarsFurni">
                         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                             <!--<li class="nav-item active">-->
-                            <c:if test="${not empty User and User.role eq 'Admin'}">
+                            <c:if test="${not empty user and user.admin}">
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Manager</a>
                                     <ul class=" custom-navbar dropdown-menu">
@@ -132,9 +132,9 @@
                             <!--                            <li><button type="button" class="btn btn-outline-light">Sign in</button></li>-->
 
                             <c:choose>
-                                <c:when test="${not empty User}">
+                                <c:when test="${not empty user}">
                                     <li class="nav-item d-flex align-items-center text-white me-2">
-                                        Hello, ${User.fullName}
+                                        Hello, ${user.fullName}
                                     </li>
                                     <form action="<%= request.getContextPath()%>/auth" method="post">
                                         <li class="nav-item">

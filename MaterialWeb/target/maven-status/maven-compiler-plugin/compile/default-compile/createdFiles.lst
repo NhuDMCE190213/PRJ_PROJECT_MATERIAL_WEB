@@ -21,7 +21,6 @@ constant\Constants.class
 controller\CategoryServlet.class
 controller\OrderServlet.class
 dao\SaleDAO.class
-filter\AuthenticationFilter.class
 dao\DAOAuth.class
 dao\DAOTokenForget.class
 filter\CategoryFilter.class
