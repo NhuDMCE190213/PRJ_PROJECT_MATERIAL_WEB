@@ -133,7 +133,14 @@ public class AuthController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 request.setAttribute("member", user);
-                request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
+                // 👉 Add this block
+String redirect = (String) session.getAttribute("redirectAfterLogin");
+if (redirect != null) {
+    session.removeAttribute("redirectAfterLogin");
+    response.sendRedirect(redirect);
+    return;
+}
+request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
 
             }
 

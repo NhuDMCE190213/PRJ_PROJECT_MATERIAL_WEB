@@ -75,6 +75,15 @@ request.setAttribute("categories", categories);
             // Forward đến trang JSP hiển thị sản phẩm
             request.getRequestDispatcher("/WEB-INF/product/forUser/list.jsp").forward(request, response);
         } else if (view.equals("detail")) {
+          // Bắt buộc đăng nhập
+HttpSession session = request.getSession();
+if (session.getAttribute("user") == null) {
+    String url = request.getContextPath() + "/display?view=detail&id=" + request.getParameter("id");
+    session.setAttribute("redirectAfterLogin", url);
+    response.sendRedirect(request.getContextPath() + "/auth?view=login");
+    return;
+}
+
             String idRaw = request.getParameter("id"); 
                        
             try {
