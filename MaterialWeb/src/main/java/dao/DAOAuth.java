@@ -70,7 +70,8 @@ public class DAOAuth extends DBContext {
                 String PhoneNumber = rs.getString("PhoneNumber").trim();
                 String Status = rs.getString("Status").trim();
                 int UserID = rs.getInt("UserID");
-                User user = new User(Email, Password, Status, FullName, PhoneNumber, UserID);
+                String Role = rs.getString("Role");
+                User user = new User(Email, Password, Status, FullName, PhoneNumber, UserID, Role);
                 return user;
             }
         } catch (SQLException ex) {
