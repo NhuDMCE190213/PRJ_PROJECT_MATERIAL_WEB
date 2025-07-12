@@ -30,10 +30,17 @@
                     <td>${product.description}</td>
                 </tr>
 
-                <tr>
-                    <th><label for="categoryId">ID Danh mục</label></th>
-                    <td>${product.categoryId}</td>
-                </tr>
+             <tr>
+    <th><label for="categoryId">Danh mục</label></th>
+    <td>
+        <c:forEach var="c" items="${categories}">
+            <c:if test="${c.id == product.categoryId}">
+                ${c.name}
+            </c:if>
+        </c:forEach>
+    </td>
+</tr>
+
 
                 <tr>
                     <th><label for="price">Giá</label></th>
