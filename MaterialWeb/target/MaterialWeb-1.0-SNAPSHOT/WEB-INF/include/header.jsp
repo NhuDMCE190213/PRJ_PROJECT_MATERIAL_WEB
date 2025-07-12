@@ -91,7 +91,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="<%=request.getContextPath()%>/order/forAdmin/orderList.jsp">Order</a>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/order?view=order">Order</a>
                             </li>
 
 

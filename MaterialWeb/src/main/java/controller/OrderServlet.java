@@ -12,6 +12,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import model.OrderItem;
 
 /**
  *
@@ -55,10 +59,19 @@ public class OrderServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
-    } 
+        String view = request.getParameter("view");
+        String namePage = "";
 
-    /** 
+        if (view == null || view.equals("") || view.equalsIgnoreCase("order")) {
+            namePage = "orderList";
+        } else if (view.equalsIgnoreCase("orderDetail")) {
+            namePage = "orderDetail";
+        }
+
+        request.getRequestDispatcher("/WEB-INF/order/" + namePage + ".jsp").forward(request, response);
+    }
+    
+     /** 
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request
      * @param response servlet response
@@ -68,7 +81,20 @@ public class OrderServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        int productId = Integer.parseInt(request.getParameter("productId"));
+        String productName = request.getParameter("productName");
+        int price = Integer.parseInt(request.getParameter("price"));
+        String unit = request.getParameter("unit");
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+        OrderItem item = new OrderItem(productId, productName, price, unit, quantity);
+
+        HttpSession session = request.getSession();
+        List<OrderItem> orderList = (List<OrderItem>) session.getAttribute("orderList");
+        if (orderList == null) {
+            orderList = new ArrayList<>();
+        }
+        orderList.add(item);     
     }
 
     /** 

@@ -4,6 +4,7 @@ import db.DBContext;
 import model.Product;
 import java.sql.*;
 import java.util.*;
+import model.ProductReport;
 
 public class ProductDao extends DBContext {
     // Trả về danh sách sản phẩm theo từng trang (phân trang)
@@ -193,4 +194,40 @@ public class ProductDao extends DBContext {
         return 0;
     }
 
+    public static List<ProductReport> getTopSellingProducts(int year, int month) {
+        List<ProductReport> list = new ArrayList<>();
+
+        String sql = "SELECT product_id, SUM(quantity) AS totalQty, SUM(quantity * price_at_time) AS revenue "
+                + "FROM order_items oi JOIN orders o ON oi.order_id = o.id "
+                + "WHERE o.status = 'Hoàn thành' AND YEAR(o.order_date) = ?"
+                + (month > 0 ? " AND MONTH(o.order_date) = ?" : "")
+                + " GROUP BY product_id ORDER BY totalQty DESC";
+
+        try {
+            DBContext db = new DBContext();
+            PreparedStatement ps;
+            if (month > 0) {
+                ps = db.getConnection().prepareStatement(sql);
+                ps.setInt(1, year);
+                ps.setInt(2, month);
+            } else {
+                ps = db.getConnection().prepareStatement(sql);
+                ps.setInt(1, year);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ProductReport(
+                        rs.getInt("product_id"),
+                        rs.getInt("totalQty"),
+                        rs.getInt("revenue")
+                ));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }

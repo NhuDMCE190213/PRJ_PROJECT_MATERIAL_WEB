@@ -75,7 +75,6 @@
 
             </table>
         </form>
-    </div>
 </main>
 
 <%@include file="/WEB-INF/include/footer.jsp" %>
