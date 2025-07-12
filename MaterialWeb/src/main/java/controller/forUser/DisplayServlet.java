@@ -35,6 +35,7 @@ public class DisplayServlet extends HttpServlet {
                 page = 1;
             }
             String keyword = request.getParameter("keyword");
+            String cidRaw = request.getParameter("cid");
             List<Product> products;
             int totalProducts;
 
@@ -42,6 +43,16 @@ public class DisplayServlet extends HttpServlet {
                 products = dao.searchByName(keyword, page, pageSize);
                 totalProducts = dao.countByKeyword(keyword);
                 request.setAttribute("keyword", keyword); // để hiển thị lại trong ô tìm kiếm
+                } else if (cidRaw != null && !cidRaw.isEmpty()) {
+    try {
+        int cid = Integer.parseInt(cidRaw);
+        products = dao.getProductsByCategory(cid, page, pageSize);
+        totalProducts = dao.countByCategory(cid);
+        request.setAttribute("cid", cid);
+    } catch (NumberFormatException e) {
+        products = dao.getProductsByPage(page, pageSize);
+        totalProducts = dao.countProducts();
+    }
             } else {
                 products = dao.getProductsByPage(page, pageSize);
                 totalProducts = dao.countProducts();

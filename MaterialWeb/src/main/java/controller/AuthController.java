@@ -13,6 +13,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import model.User;
 
 /**
@@ -108,6 +109,12 @@ public class AuthController extends HttpServlet {
             String cofirmpassword = request.getParameter("confirmpassword");
 
             PostRegister(request, response, email, pass, fullname, phonenumber, cofirmpassword);
+        } else if (type.equalsIgnoreCase("LOGOUT")) {
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.invalidate();
+            }
+            response.sendRedirect(request.getContextPath() + "/home");
         }
 
     }
@@ -119,12 +126,14 @@ public class AuthController extends HttpServlet {
 
         // xu li login 
         DAOAuth dao = new DAOAuth();
-        User mem = dao.login(email, pass);
+        User user = dao.login(email, pass);
 
-        if (mem != null) {
-            if (mem.getStatus().equalsIgnoreCase("active")) {
-                request.setAttribute("member", mem);
-                request.getRequestDispatcher("/WEB-INF/login/home.jsp").forward(request, response);
+        if (user != null) {
+            if (user.getStatus().equalsIgnoreCase("active")) {
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user);
+                request.setAttribute("member", user);
+                request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
 
             }
 

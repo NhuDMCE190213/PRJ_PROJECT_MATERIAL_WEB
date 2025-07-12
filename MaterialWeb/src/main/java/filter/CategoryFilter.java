@@ -10,7 +10,7 @@ package filter;
  */
 
 
-import dao.CategoryDAO;
+import dao.CategoriesDao;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ public class CategoryFilter implements Filter {
 
         // Chỉ set 1 lần nếu chưa có
         if (req.getAttribute("categories") == null) {
-            CategoryDAO dao = new CategoryDAO();
+            CategoriesDao dao = new CategoriesDao();
             request.setAttribute("categories", dao.getAllCategories());
         }
 

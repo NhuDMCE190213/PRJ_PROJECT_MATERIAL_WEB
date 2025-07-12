@@ -16,7 +16,20 @@ public class User {
     private String fullName;
     private String phonenumbers;
     private int userid;
+    private String role; 
 
+    public User( String email, String password, String status, String fullName, String phonenumbers, int userid, String role) {
+        this.email = email;
+        this.password = password;
+        this.status = status;
+        this.fullName = fullName;
+        this.phonenumbers = phonenumbers;
+        this.userid = userid;
+        this.role = role;
+    }
+
+    
+    
     public User(String email, String password, String status, String fullName, String phonenumbers, int userid) {
         this.email = email;
         this.password = password;
@@ -48,6 +61,14 @@ public class User {
 
     public void setUserid(int userid) {
         this.userid = userid;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
     
     
@@ -94,5 +115,9 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+     public boolean isAdmin() {
+        return "Admin".equalsIgnoreCase(role);
     }
 }

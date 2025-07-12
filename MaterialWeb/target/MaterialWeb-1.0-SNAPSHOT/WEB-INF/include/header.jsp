@@ -61,6 +61,22 @@
                     <div class="collapse navbar-collapse" id="navbarsFurni">
                         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                             <!--<li class="nav-item active">-->
+
+                            <c:if test="${not empty user and user.admin}">  
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Manager</a>
+                                    <ul class=" custom-navbar dropdown-menu">
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/user">Manager User</a></li>
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/category">Manager Category</a></li>
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/product">Manager Product</a></li>
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/theReview">Manager Review</a></li>
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/sale">Manager Sale</a></li>
+                                    </ul>
+                                </li>
+                            </c:if>
+
+
                             <li class="nav-item">
                                 <a class="nav-link" href="<%=request.getContextPath()%>/home">Home</a>
                             </li>
@@ -73,14 +89,17 @@
                                         </a>
                                     </li>
                                     <c:forEach var="c" items="${categories}">
-                                        <li >
+                                        <li>
                                             <a class="dropdown-item" href="${pageContext.request.contextPath}/display?cid=${c.id}">
                                                 ${c.name}
                                             </a>
                                         </li>
                                     </c:forEach>
+
                                 </ul>
                             </li>
+
+
 
                             <li class="nav-item">
                                 <a class="nav-link" href="#">About us</a>
@@ -113,7 +132,24 @@
                                 </a>
                             </li>
                             <!--                            <li><button type="button" class="btn btn-outline-light">Sign in</button></li>-->
-                            <a class="btn btn-outline-light" href="<%= request.getContextPath()%>/auth?view=login">Login</a>
+
+                            <c:choose>
+                                <c:when test="${not empty user}">
+                                    <li class="nav-item d-flex align-items-center text-white me-2">
+                                        Hello, ${user.fullName}
+                                    </li>
+                                    <form action="<%= request.getContextPath()%>/auth" method="post">
+                                        <li class="nav-item">
+                                            <button class="btn btn-outline-light btn-sm" type="submit" name="action" value="LOGOUT" class="btn">Logout</button>
+                                        </li>
+                                    </form>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="nav-item">
+                                        <a class="btn btn-outline-light btn-sm" href="<%= request.getContextPath()%>/auth?view=login">Login</a>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
 
 
                         </ul>

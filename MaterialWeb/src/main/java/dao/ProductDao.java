@@ -193,6 +193,49 @@ public class ProductDao extends DBContext {
         }
         return 0;
     }
+// Lấy sản phẩm theo category với phân trang
+
+    public List<Product> getProductsByCategory(int categoryId, int page, int pageSize) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE category_id = ? ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, categoryId);
+            ps.setInt(2, (page - 1) * pageSize);
+            ps.setInt(3, pageSize);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getInt("category_id"),
+                        rs.getInt("price"),
+                        rs.getInt("stock_quantity"),
+                        rs.getString("unit"),
+                        rs.getString("brand_name")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+// Đếm số sản phẩm theo category
+    public int countByCategory(int categoryId) {
+        String sql = "SELECT COUNT(*) FROM products WHERE category_id = ?";
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, categoryId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public static List<ProductReport> getTopSellingProducts(int year, int month) {
         List<ProductReport> list = new ArrayList<>();

@@ -24,10 +24,11 @@
 								<p class="mb-4">Vao ba hai di mua 2 chai nuoc mam xong roi. ve an com ngu toi chieu. Vao ba hai di mua 2 chai nuoc mam xong roi. ve an com ngu toi chieu.</p>
 								<p><a href="<%=request.getContextPath()%>/display" class="btn btn-secondary me-2">Shop Now</a><a href="#" class="btn btn-white-outline">Explore</a></p>
 							  <!-- Search Bar -->
-          <form class="d-flex mt-3" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search for products..." aria-label="Search">
-            <button class="btn btn-dark" type="submit">Search</button>
-          </form>
+    <form class="d-flex mt-3" action="<%=request.getContextPath()%>/display" method="get">
+  <input class="form-control me-2" type="search" name="keyword" placeholder="Search for products..." required>
+  <button class="btn btn-dark" type="submit">Search</button>
+</form>
+
                                                         </div>
 						</div>
                                             
@@ -103,101 +104,7 @@
         </div>
       </div>
 
-      <!-- Add more product cards as needed -->
-           <!-- Product Card 1 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 1">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 1</h5>
-            <p class="card-text text-muted">$19.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 2 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 2">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 2</h5>
-            <p class="card-text text-muted">$24.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 3 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 3">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 3</h5>
-            <p class="card-text text-muted">$14.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 4 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 4">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 4</h5>
-            <p class="card-text text-muted">$29.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
-          </div>
-        </div>
-      </div>
-     <!-- Product Card 1 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 1">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 1</h5>
-            <p class="card-text text-muted">$19.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 2 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 2">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 2</h5>
-            <p class="card-text text-muted">$24.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 3 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 3">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 3</h5>
-            <p class="card-text text-muted">$14.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Product Card 4 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 4">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 4</h5>
-            <p class="card-text text-muted">$29.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
-          </div>
-        </div>
-      </div>
+    
 
     </div>
             <!-- Check More Button aligned right -->
@@ -243,30 +150,35 @@
   
   </div>
 </div>
-<%@ page import="java.util.*, model.Category, dao.CategoryDAO" %>
+<%@ page import="java.util.*, model.Category, dao.CategoriesDao" %>
+
 <%
-    CategoryDAO dao = new CategoryDAO();
+    CategoriesDao dao = new CategoriesDao();
     List<Category> categories = dao.getAllCategories();
 %>
 
-<section class="py-5 ">
+<section class="py-5">
   <div class="container">
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
       <% for (Category c : categories) { %>
       <div class="col">
-        <div class="card h-100 text-center shadow-lg border-0 hover-shadow">
-          <div class="card-body">
-            <div class="mb-3">
-              <i class="bi <%= c.getIconClass() %> fs-1 <%= c.getTextColor() %>"></i>
+        <a href="${pageContext.request.contextPath}/display?cid=<%= c.getId() %>" class="text-decoration-none">
+          <div class="card h-100 text-center border-2 border-dark">
+            <div class="card-body">
+              <div class="mb-3">
+                <i class="bi bi-ui-radios-grid fs-1 text-dark"></i>
+              </div>
+              <h5 class="card-title text-dark"><%= c.getName() %></h5>
             </div>
-            <h5 class="card-title"><%= c.getName() %></h5>
           </div>
-        </div>
+        </a>
       </div>
       <% } %>
     </div>
   </div>
 </section>
+
+
 
 
 

@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import db.DBContext;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,6 +20,32 @@ import java.util.logging.Logger;
  * @author HP
  */
 public class DAOUser extends DBContext {
+    
+    
+    public ArrayList<User>getALlUser(){
+        String sql = "Select * from user_login";
+        
+        ArrayList<User> listuser = new ArrayList<>();
+        
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                User user = new User(
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("Status"),
+                        rs.getString("FullName"),
+                        rs.getString("PhoneNumber"),
+                        rs.getInt("UserID"));
+                listuser.add(user);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listuser;
+    }
+    
 
     //check email ton tai
     public User getUserByEmail(String email) {
