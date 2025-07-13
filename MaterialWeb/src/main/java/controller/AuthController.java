@@ -122,37 +122,33 @@ public class AuthController extends HttpServlet {
     protected void PostLogin(HttpServletRequest request, HttpServletResponse response,
             String email, String pass)
             throws ServletException, IOException {
-        //processRequest(request, response);
 
-        // xu li login 
         AuthDAO dao = new AuthDAO();
         User user = dao.login(email, pass);
 
         if (user != null) {
+            // Kiểm tra xem tài khoản có đang hoạt động không
             if (user.getStatus().equalsIgnoreCase("active")) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 request.setAttribute("member", user);
-<<<<<<< HEAD
-//                request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
-                response.sendRedirect(request.getContextPath() + "/home");
-=======
-                // 👉 Add this block
-String redirect = (String) session.getAttribute("redirectAfterLogin");
-if (redirect != null) {
-    session.removeAttribute("redirectAfterLogin");
-    response.sendRedirect(redirect);
-    return;
-}
-request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
->>>>>>> 6e5c8d5a2fe78d9dd36ee1f85d108a841d3c778d
-
+// Kiểm tra xem có URL nào cần redirect sau đăng nhập không
+                String redirect = (String) session.getAttribute("redirectAfterLogin");
+                // Nếu có, xoá attribute đó và chuyển hướng đến trang trước đó
+                if (redirect != null) {
+                    session.removeAttribute("redirectAfterLogin");
+                    response.sendRedirect(redirect);
+                } else {
+                    // Nếu không, chuyển hướng về trang home mặc định
+                    response.sendRedirect(request.getContextPath() + "/home");
+                }
+                return; // ⚠️ QUAN TRỌNG: không để code chạy xuống nữa!
             }
-
-        } else {
-            request.setAttribute("msg", "Login failed.Incorrect username or password");
-            request.getRequestDispatcher("/WEB-INF/login/login.jsp").forward(request, response);
         }
+
+        // Nếu login thất bại
+        request.setAttribute("msg", "Login failed. Incorrect username or password");
+        request.getRequestDispatcher("/WEB-INF/login/login.jsp").forward(request, response);
     }
 
     private void rememberMe(boolean isRemember, String email, HttpServletResponse response) {

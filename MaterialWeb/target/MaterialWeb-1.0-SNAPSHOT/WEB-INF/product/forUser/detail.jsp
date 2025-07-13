@@ -13,7 +13,7 @@
         <h1 class="mt-3"></h1>
         <form method="post" action="${pageContext.request.contextPath}/carts">
             <input type="hidden" name="id" value="${product.id}" />
-            <table class="table table-borderless table-warning">
+            <table class="table table-striped ">
 
                 <tr>
                     <th><label for="id">ID</label></th>
