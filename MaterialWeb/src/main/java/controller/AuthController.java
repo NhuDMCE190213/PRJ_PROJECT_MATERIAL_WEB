@@ -133,20 +133,9 @@ public class AuthController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 request.setAttribute("member", user);
-<<<<<<< HEAD
-//                request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
-                response.sendRedirect(request.getContextPath() + "/home");
-=======
-                // 👉 Add this block
-String redirect = (String) session.getAttribute("redirectAfterLogin");
-if (redirect != null) {
-    session.removeAttribute("redirectAfterLogin");
-    response.sendRedirect(redirect);
-    return;
-}
-request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
->>>>>>> 6e5c8d5a2fe78d9dd36ee1f85d108a841d3c778d
 
+                
+                response.sendRedirect(request.getContextPath() + "/home");
             }
 
         } else {
