@@ -13,7 +13,7 @@
         <h1 class="mt-3"></h1>
         <form method="post" action="${pageContext.request.contextPath}/carts">
             <input type="hidden" name="id" value="${product.id}" />
-            <table class="table table-borderless table-warning">
+            <table class="table table-striped ">
 
                 <tr>
                     <th><label for="id">ID</label></th>
@@ -30,10 +30,17 @@
                     <td>${product.description}</td>
                 </tr>
 
-                <tr>
-                    <th><label for="categoryId">ID Danh mục</label></th>
-                    <td>${product.categoryId}</td>
-                </tr>
+             <tr>
+    <th><label for="categoryId">Danh mục</label></th>
+    <td>
+        <c:forEach var="c" items="${categories}">
+            <c:if test="${c.id == product.categoryId}">
+                ${c.name}
+            </c:if>
+        </c:forEach>
+    </td>
+</tr>
+
 
                 <tr>
                     <th><label for="price">Giá</label></th>
@@ -75,7 +82,6 @@
 
             </table>
         </form>
-    </div>
 </main>
 
 <%@include file="/WEB-INF/include/footer.jsp" %>

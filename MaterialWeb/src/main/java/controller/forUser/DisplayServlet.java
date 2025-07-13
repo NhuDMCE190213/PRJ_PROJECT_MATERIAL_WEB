@@ -1,6 +1,7 @@
 package controller.forUser;
 
 import controller.*;
+import dao.CategoriesDao;
 import dao.ProductDao;
 import model.Product;
 import jakarta.servlet.ServletException;
@@ -8,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
+import model.Category;
 
 @WebServlet(name = "DisplayServlet", urlPatterns = {"/display"})
 public class DisplayServlet extends HttpServlet {
@@ -66,10 +68,22 @@ public class DisplayServlet extends HttpServlet {
             request.setAttribute("list", products);
             request.setAttribute("page", page);
             request.setAttribute("totalPages", totalPages);
-
+          
+            CategoriesDao cdao = new CategoriesDao();
+List<Category> categories = cdao.getAllCategories();
+request.setAttribute("categories", categories);
             // Forward đến trang JSP hiển thị sản phẩm
             request.getRequestDispatcher("/WEB-INF/product/forUser/list.jsp").forward(request, response);
         } else if (view.equals("detail")) {
+          // Bắt buộc đăng nhập
+HttpSession session = request.getSession();
+if (session.getAttribute("user") == null) {
+    String url = request.getContextPath() + "/display?view=detail&id=" + request.getParameter("id");
+    session.setAttribute("redirectAfterLogin", url);
+    response.sendRedirect(request.getContextPath() + "/auth?view=login");
+    return;
+}
+
             String idRaw = request.getParameter("id"); 
                        
             try {
@@ -79,7 +93,9 @@ public class DisplayServlet extends HttpServlet {
                 
                 if (product != null) {
                     request.setAttribute("product", product);
-                
+                    CategoriesDao cdao = new CategoriesDao();
+List<Category> categories = cdao.getAllCategories();
+request.setAttribute("categories", categories);
                     request.getRequestDispatcher("/WEB-INF/product/forUser/detail.jsp").forward(request, response);
                 } else {
                     response.getWriter().println("Không tìm thấy sản phẩm.");

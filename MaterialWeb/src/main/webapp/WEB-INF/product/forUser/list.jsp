@@ -37,7 +37,15 @@
                                         <h5 class="card-title text-success">${p.name}</h5>
                                         <p class="card-text">${p.description}</p>
                                         <ul class="list-group list-group-flush small">
-                                            <li class="list-group-item">Danh mục: ${p.categoryId}</li>
+                                         <li class="list-group-item">
+  Danh mục:
+  <c:forEach var="c" items="${categories}">
+    <c:if test="${c.id == p.categoryId}">
+      ${c.name}
+    </c:if>
+  </c:forEach>
+</li>
+
                                             <li class="list-group-item">
                                                 Giá:
                                                 <strong>

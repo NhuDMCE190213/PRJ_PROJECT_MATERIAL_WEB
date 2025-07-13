@@ -4,6 +4,7 @@ import db.DBContext;
 import model.Product;
 import java.sql.*;
 import java.util.*;
+import model.ProductReport;
 
 public class ProductDao extends DBContext {
     // Trả về danh sách sản phẩm theo từng trang (phân trang)
@@ -193,46 +194,83 @@ public class ProductDao extends DBContext {
         return 0;
     }
 // Lấy sản phẩm theo category với phân trang
-public List<Product> getProductsByCategory(int categoryId, int page, int pageSize) {
-    List<Product> list = new ArrayList<>();
-    String sql = "SELECT * FROM products WHERE category_id = ? ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
-    try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, categoryId);
-        ps.setInt(2, (page - 1) * pageSize);
-        ps.setInt(3, pageSize);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            list.add(new Product(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("description"),
-                    rs.getInt("category_id"),
-                    rs.getInt("price"),
-                    rs.getInt("stock_quantity"),
-                    rs.getString("unit"),
-                    rs.getString("brand_name")
-            ));
+    public List<Product> getProductsByCategory(int categoryId, int page, int pageSize) {
+        List<Product> list = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE category_id = ? ORDER BY id OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, categoryId);
+            ps.setInt(2, (page - 1) * pageSize);
+            ps.setInt(3, pageSize);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getInt("category_id"),
+                        rs.getInt("price"),
+                        rs.getInt("stock_quantity"),
+                        rs.getString("unit"),
+                        rs.getString("brand_name")
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return list;
     }
-    return list;
-}
 
 // Đếm số sản phẩm theo category
-public int countByCategory(int categoryId) {
-    String sql = "SELECT COUNT(*) FROM products WHERE category_id = ?";
-    try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setInt(1, categoryId);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            return rs.getInt(1);
+    public int countByCategory(int categoryId) {
+        String sql = "SELECT COUNT(*) FROM products WHERE category_id = ?";
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, categoryId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    } catch (Exception e) {
-        e.printStackTrace();
+        return 0;
     }
-    return 0;
-}
 
+    public static List<ProductReport> getTopSellingProducts(int year, int month) {
+        List<ProductReport> list = new ArrayList<>();
+
+        String sql = "SELECT product_id, SUM(quantity) AS totalQty, SUM(quantity * price_at_time) AS revenue "
+                + "FROM order_items oi JOIN orders o ON oi.order_id = o.id "
+                + "WHERE o.status = 'Hoàn thành' AND YEAR(o.order_date) = ?"
+                + (month > 0 ? " AND MONTH(o.order_date) = ?" : "")
+                + " GROUP BY product_id ORDER BY totalQty DESC";
+
+        try {
+            DBContext db = new DBContext();
+            PreparedStatement ps;
+            if (month > 0) {
+                ps = db.getConnection().prepareStatement(sql);
+                ps.setInt(1, year);
+                ps.setInt(2, month);
+            } else {
+                ps = db.getConnection().prepareStatement(sql);
+                ps.setInt(1, year);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new ProductReport(
+                        rs.getInt("product_id"),
+                        rs.getInt("totalQty"),
+                        rs.getInt("revenue")
+                ));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }
