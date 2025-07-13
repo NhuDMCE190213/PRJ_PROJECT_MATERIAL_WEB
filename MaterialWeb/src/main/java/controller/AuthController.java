@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dao.DAOAuth;
+import dao.AuthDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -125,7 +125,7 @@ public class AuthController extends HttpServlet {
         //processRequest(request, response);
 
         // xu li login 
-        DAOAuth dao = new DAOAuth();
+        AuthDAO dao = new AuthDAO();
         User user = dao.login(email, pass);
 
         if (user != null) {
@@ -133,7 +133,8 @@ public class AuthController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 request.setAttribute("member", user);
-                request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
+//                request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
+                response.sendRedirect(request.getContextPath() + "/home");
 
             }
 
@@ -160,7 +161,7 @@ public class AuthController extends HttpServlet {
             throws ServletException, IOException {
         //processRequest(request, response);
 
-        DAOAuth dao = new DAOAuth();
+        AuthDAO dao = new AuthDAO();
         if (fullname == null || fullname.trim().isEmpty()
                 || phonenumber == null || phonenumber.trim().isEmpty()
                 || email == null || email.trim().isEmpty()

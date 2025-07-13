@@ -14,7 +14,7 @@ public class Account {
     private String passWord;
     private int isUser;
     private int isAdmin;
-     private String email;
+    private String email;
 
     public Account() {
     }
