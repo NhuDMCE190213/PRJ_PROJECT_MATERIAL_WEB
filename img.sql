@@ -74,4 +74,4 @@ UPDATE products SET image = 'luoichongcontrung.jpg' WHERE id = 60;
 UPDATE products SET image = 'trangtrisanhvuon.jpg' WHERE id = 61;
 UPDATE products SET image = 'choigo.jpg' WHERE id = 62;
 UPDATE products SET image = 'lancansat.jpg' WHERE id = 63;
-UPDATE products SET image = 'tamopolyrongruot.jpg' WHERE id = 64;
+UPDATE products SET image = 'tampolyrongruot.jpg' WHERE id = 64;
