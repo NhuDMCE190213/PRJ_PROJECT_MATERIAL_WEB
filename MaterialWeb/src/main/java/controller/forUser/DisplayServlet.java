@@ -45,16 +45,16 @@ public class DisplayServlet extends HttpServlet {
                 products = dao.searchByName(keyword, page, pageSize);
                 totalProducts = dao.countByKeyword(keyword);
                 request.setAttribute("keyword", keyword); // để hiển thị lại trong ô tìm kiếm
-                } else if (cidRaw != null && !cidRaw.isEmpty()) {
-    try {
-        int cid = Integer.parseInt(cidRaw);
-        products = dao.getProductsByCategory(cid, page, pageSize);
-        totalProducts = dao.countByCategory(cid);
-        request.setAttribute("cid", cid);
-    } catch (NumberFormatException e) {
-        products = dao.getProductsByPage(page, pageSize);
-        totalProducts = dao.countProducts();
-    }
+            } else if (cidRaw != null && !cidRaw.isEmpty()) {
+                try {
+                    int cid = Integer.parseInt(cidRaw);
+                    products = dao.getProductsByCategory(cid, page, pageSize);
+                    totalProducts = dao.countByCategory(cid);
+                    request.setAttribute("cid", cid);
+                } catch (NumberFormatException e) {
+                    products = dao.getProductsByPage(page, pageSize);
+                    totalProducts = dao.countProducts();
+                }
             } else {
                 products = dao.getProductsByPage(page, pageSize);
                 totalProducts = dao.countProducts();
@@ -68,34 +68,33 @@ public class DisplayServlet extends HttpServlet {
             request.setAttribute("list", products);
             request.setAttribute("page", page);
             request.setAttribute("totalPages", totalPages);
-          
+
             CategoriesDao cdao = new CategoriesDao();
-List<Category> categories = cdao.getAllCategories();
-request.setAttribute("categories", categories);
+            List<Category> categories = cdao.getAllCategories();
+            request.setAttribute("categories", categories);
             // Forward đến trang JSP hiển thị sản phẩm
             request.getRequestDispatcher("/WEB-INF/product/forUser/list.jsp").forward(request, response);
         } else if (view.equals("detail")) {
-          // Bắt buộc đăng nhập
-HttpSession session = request.getSession();
-if (session.getAttribute("user") == null) {
-    String url = request.getContextPath() + "/display?view=detail&id=" + request.getParameter("id");
-    session.setAttribute("redirectAfterLogin", url);
-    response.sendRedirect(request.getContextPath() + "/auth?view=login");
-    return;
-}
+            // Bắt buộc đăng nhập
+            HttpSession session = request.getSession();
+            if (session.getAttribute("user") == null) {
+                String url = request.getContextPath() + "/display?view=detail&id=" + request.getParameter("id");
+                session.setAttribute("redirectAfterLogin", url);
+                response.sendRedirect(request.getContextPath() + "/auth?view=login");
+                return;
+            }
 
-            String idRaw = request.getParameter("id"); 
-                       
+            String idRaw = request.getParameter("id");
+
             try {
                 int id = Integer.parseInt(idRaw);
                 Product product = dao.getById(id);
-      
-                
+
                 if (product != null) {
                     request.setAttribute("product", product);
                     CategoriesDao cdao = new CategoriesDao();
-List<Category> categories = cdao.getAllCategories();
-request.setAttribute("categories", categories);
+                    List<Category> categories = cdao.getAllCategories();
+                    request.setAttribute("categories", categories);
                     request.getRequestDispatcher("/WEB-INF/product/forUser/detail.jsp").forward(request, response);
                 } else {
                     response.getWriter().println("Không tìm thấy sản phẩm.");
@@ -121,15 +120,14 @@ request.setAttribute("categories", categories);
             int stockQuantity = Integer.parseInt(request.getParameter("stockQuantity"));
             String unit = request.getParameter("unit");
             String brandName = request.getParameter("brandName");
+            String image = request.getParameter("image");
 
-            Product product = new Product(0, name, description, categoryId, price, stockQuantity, unit, brandName);
+            Product product = new Product(0, name, description, categoryId, price, stockQuantity, unit, brandName, image);
             ProductDao dao = new ProductDao();
             dao.insert(product); // bạn phải có phương thức insert phù hợp
 
             response.sendRedirect(request.getContextPath() + "/display?view=list");
 
-       
-    
-
-        }}
+        }
+    }
 }

@@ -8,7 +8,7 @@
     <head>
         <title>Sản phẩm</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <%@include file="/WEB-INF/include/header.jsp" %>
+        <%@include file="/WEB-INF/include/header.jsp" %>
     <body class="bg-light">
 
         <div class="container py-5">
@@ -22,7 +22,7 @@
                     <button class="btn btn-outline-primary btn-sm" type="submit">🔍 Tìm</button>
                 </form>
 
-               
+
             </div>
 
 
@@ -37,14 +37,14 @@
                                         <h5 class="card-title text-success">${p.name}</h5>
                                         <p class="card-text">${p.description}</p>
                                         <ul class="list-group list-group-flush small">
-                                         <li class="list-group-item">
-  Danh mục:
-  <c:forEach var="c" items="${categories}">
-    <c:if test="${c.id == p.categoryId}">
-      ${c.name}
-    </c:if>
-  </c:forEach>
-</li>
+                                            <li class="list-group-item">
+                                                Danh mục:
+                                                <c:forEach var="c" items="${categories}">
+                                                    <c:if test="${c.id == p.categoryId}">
+                                                        ${c.name}
+                                                    </c:if>
+                                                </c:forEach>
+                                            </li>
 
                                             <li class="list-group-item">
                                                 Giá:

@@ -24,7 +24,8 @@ public class ProductDao extends DBContext {
                         rs.getInt("price"),
                         rs.getInt("stock_quantity"),
                         rs.getString("unit"),
-                        rs.getString("brand_name")
+                        rs.getString("brand_name"),
+                        rs.getString("image")
                 ));
             }
         } catch (SQLException e) {
@@ -53,7 +54,8 @@ public class ProductDao extends DBContext {
                         rs.getInt("price"),
                         rs.getInt("stock_quantity"),
                         rs.getString("unit"),
-                        rs.getString("brand_name")
+                        rs.getString("brand_name"),
+                        rs.getString("image")
                 ));
             }
         } catch (Exception e) {
@@ -79,7 +81,7 @@ public class ProductDao extends DBContext {
 
     public void insert(Product p) {
         try {
-            String sql = "INSERT INTO products (name, description, category_id, price, stock_quantity, unit, brand_name) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO products (name, description, category_id, price, stock_quantity, unit, brand_name, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setString(1, p.getName());
             ps.setString(2, p.getDescription());
@@ -88,6 +90,7 @@ public class ProductDao extends DBContext {
             ps.setInt(5, p.getStockQuantity());
             ps.setString(6, p.getUnit());
             ps.setString(7, p.getBrandName());
+            ps.setString(8, p.getImage());
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,7 +100,7 @@ public class ProductDao extends DBContext {
     // Cập nhật sản phẩm
     public void update(Product p) {
         try {
-            String sql = "UPDATE products SET name = ?, description = ?, category_id = ?, price = ?, stock_quantity = ?, unit = ?, brand_name = ? WHERE id = ?";
+            String sql = "UPDATE products SET name = ?, description = ?, category_id = ?, price = ?, stock_quantity = ?, unit = ?, brand_name = ?, image = ? WHERE id = ?";
             PreparedStatement ps = getConnection().prepareStatement(sql);
             ps.setString(1, p.getName());
             ps.setString(2, p.getDescription());
@@ -106,7 +109,8 @@ public class ProductDao extends DBContext {
             ps.setInt(5, p.getStockQuantity());
             ps.setString(6, p.getUnit());
             ps.setString(7, p.getBrandName());
-            ps.setInt(8, p.getId());
+            ps.setString(8, p.getImage()); // thêm dòng này
+            ps.setInt(9, p.getId());
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -141,7 +145,8 @@ public class ProductDao extends DBContext {
                         rs.getInt("price"),
                         rs.getInt("stock_quantity"),
                         rs.getString("unit"),
-                        rs.getString("brand_name")
+                        rs.getString("brand_name"),
+                        rs.getString("image")
                 );
             }
         } catch (Exception e) {
@@ -170,7 +175,8 @@ public class ProductDao extends DBContext {
                         rs.getInt("price"),
                         rs.getInt("stock_quantity"),
                         rs.getString("unit"),
-                        rs.getString("brand_name")
+                        rs.getString("brand_name"),
+                        rs.getString("image") // thêm dòng này
                 ));
             }
         } catch (Exception e) {
@@ -213,7 +219,8 @@ public class ProductDao extends DBContext {
                         rs.getInt("price"),
                         rs.getInt("stock_quantity"),
                         rs.getString("unit"),
-                        rs.getString("brand_name")
+                        rs.getString("brand_name"),
+                        rs.getString("image") // thêm dòng này
                 ));
             }
         } catch (Exception e) {

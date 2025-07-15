@@ -12,7 +12,8 @@
 <main>
     <div class="container">
         <h1 class="mt-5">UPDATE PRODUCT</h1>
-        <form method="post" action="${pageContext.request.contextPath}/product">
+        <form method="post" action="${pageContext.request.contextPath}/product" enctype="multipart/form-data">
+
             <table class="table">
 
                 <tr>
@@ -60,6 +61,16 @@
                 <tr>
                     <th><label for="brandName">Thương hiệu</label></th>
                     <td><input type="text" name="brandName" id="brandName" value="${product.brandName}" class="form-control"/></td>
+                </tr>
+                <tr>
+                    <th><label for="images">Ảnh mới (tuỳ chọn)</label></th>
+                    <td>
+                        <input type="file" name="img" accept=".png, .jpg, .jpeg" class="form-control" id="img"/>
+                        <p>Ảnh hiện tại: 
+                            <img src="${pageContext.request.contextPath}/assets/images/${product.image}" alt="Current Image" width="100"/>
+                        </p>
+
+                    </td>
                 </tr>
 
                 <tr>

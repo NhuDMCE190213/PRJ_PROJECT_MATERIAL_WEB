@@ -10,6 +10,11 @@
 
 <main>
     <div class="container">
+        <c:if test="${not empty product.image}">
+            <img src="${pageContext.request.contextPath}/assets/images/${product.image}" 
+                 alt="${product.name}" class="img-fluid mb-3" style="max-height: 300px;" />
+        </c:if>
+
         <h1 class="mt-3"></h1>
         <form method="post" action="${pageContext.request.contextPath}/carts">
             <input type="hidden" name="id" value="${product.id}" />
@@ -30,16 +35,16 @@
                     <td>${product.description}</td>
                 </tr>
 
-             <tr>
-    <th><label for="categoryId">Danh mục</label></th>
-    <td>
-        <c:forEach var="c" items="${categories}">
-            <c:if test="${c.id == product.categoryId}">
-                ${c.name}
-            </c:if>
-        </c:forEach>
-    </td>
-</tr>
+                <tr>
+                    <th><label for="categoryId">Danh mục</label></th>
+                    <td>
+                        <c:forEach var="c" items="${categories}">
+                            <c:if test="${c.id == product.categoryId}">
+                                ${c.name}
+                            </c:if>
+                        </c:forEach>
+                    </td>
+                </tr>
 
 
                 <tr>
