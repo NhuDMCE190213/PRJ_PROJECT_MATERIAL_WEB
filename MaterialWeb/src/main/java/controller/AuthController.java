@@ -84,42 +84,7 @@ public class AuthController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //processRequest(request, response);
-
-        String type = request.getParameter("action");
-        String remember = request.getParameter("rememberme");
-        String email = request.getParameter("email");
-        if (remember != null) {
-            rememberMe(true, email, response);
-        } else {
-            rememberMe(false, email, response);
-        }
-        if (type.equalsIgnoreCase("LOGIN")) {
-            String pass = request.getParameter("password");
-
-            PostLogin(request, response, email, pass);
-
-        } else if (type.equalsIgnoreCase("REGISTER")) {
-            String pass = request.getParameter("password");
-            String fullname = request.getParameter("fullname");
-            String phonenumber = request.getParameter("phone");
-            String cofirmpassword = request.getParameter("confirmpassword");
-
-            PostRegister(request, response, email, pass, fullname, phonenumber, cofirmpassword);
-        } else if (type.equalsIgnoreCase("LOGOUT")) {
-            HttpSession session = request.getSession(false);
-            if (session != null) {
-                session.invalidate();
-            }
-            response.sendRedirect(request.getContextPath() + "/home");
-        }
-
-    }
-
-  protected void PostLogin(HttpServletRequest request, HttpServletResponse response,
+    protected void PostLogin(HttpServletRequest request, HttpServletResponse response,
             String email, String pass)
             throws ServletException, IOException {
 
@@ -130,10 +95,10 @@ public class AuthController extends HttpServlet {
             if (user.getStatus().equalsIgnoreCase("active")) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                request.setAttribute("member", user); 
-                
+                request.setAttribute("member", user);
+
+//                
                 response.sendRedirect(request.getContextPath() + "/home");
-                return;
             }
 
         } else {
@@ -142,9 +107,8 @@ public class AuthController extends HttpServlet {
         }
     }
 
- 
 
-
+  
     private void rememberMe(boolean isRemember, String email, HttpServletResponse response) {
         if (isRemember) {
             Cookie cookie = new Cookie("EMAIL", email);

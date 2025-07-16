@@ -12,7 +12,7 @@
 <main>
     <div class="container">
         <h1 class="mt-5">Add New Product</h1>
-        <form method="post" action="${pageContext.request.contextPath}/product">
+        <form method="post" action="${pageContext.request.contextPath}/product" enctype="multipart/form-data">
             <table class="table">
 
                 <tr>
@@ -60,6 +60,12 @@
                 <tr>
                     <td><label for="brandName">Thương hiệu</label></td>
                     <td><input type="text" name="brandName" id="brandName" value="${product.brandName}"></td>
+                </tr>
+
+                <tr>
+                    <td><label for="cover">Ảnh</label></td>
+                    <td><input type="file" name="img" accept=".png, .jpg, .jpeg" 
+                               class="form-control" id="cover"/></td>
                 </tr>
 
                 <tr>

@@ -18,12 +18,13 @@ public class Product {
     private int stockQuantity;
     private String unit;
     private String brandName;
+    private String image;
 
     // Constructors
     public Product() {
     }
 
-    public Product(int id, String name, String description, int categoryId, int price, int stockQuantity, String unit, String brandName) {
+    public Product(int id, String name, String description, int categoryId, int price, int stockQuantity, String unit, String brandName, String image) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -32,6 +33,7 @@ public class Product {
         this.stockQuantity = stockQuantity;
         this.unit = unit;
         this.brandName = brandName;
+        this.image = image;
     }
 
     // Getters and Setters
@@ -99,4 +101,13 @@ public class Product {
         this.brandName = brandName;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+    
+    
 }
