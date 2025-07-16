@@ -28,6 +28,7 @@ dao\TokenForgetDAO.class
 controller\OrderServlet.class
 dao\SaleDAO.class
 controller\ViewStatisticPageServlet.class
+filter\AuthenticationFilter.class
 filter\CategoryFilter.class
 model\Order.class
 controller\OrderListController.class
