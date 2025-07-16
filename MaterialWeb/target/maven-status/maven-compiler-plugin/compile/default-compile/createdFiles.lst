@@ -16,6 +16,7 @@ dao\UserDAO.class
 controller\UserServlet.class
 dao\CartDao.class
 controller\ProfileServlet.class
+filter\UserFilter.class
 controller\AuthController.class
 model\Account.class
 model\User.class
