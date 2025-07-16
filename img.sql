@@ -7,10 +7,11 @@ IF EXISTS (
 BEGIN
     ALTER TABLE [dbo].[products] DROP COLUMN [image];
 END
+go
 
 -- Thêm lại cột 'image'
 ALTER TABLE [dbo].[products] ADD [image] NVARCHAR(255) NULL;
-
+go
 UPDATE products SET image = 'gachdo.jpg' WHERE id = 1;
 UPDATE products SET image = 'gachblock.jpg' WHERE id = 2;
 UPDATE products SET image = 'ximanghatien.jpg' WHERE id = 3;
