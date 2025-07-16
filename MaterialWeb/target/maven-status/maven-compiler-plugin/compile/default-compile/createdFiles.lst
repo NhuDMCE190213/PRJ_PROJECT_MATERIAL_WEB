@@ -12,6 +12,8 @@ controller\SaleServlet.class
 controller\requestPassword.class
 controller\StatisticServlet.class
 model\Product.class
+dao\UserDAO.class
+controller\UserServlet.class
 dao\CartDao.class
 controller\ProfileServlet.class
 controller\AuthController.class

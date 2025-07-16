@@ -150,7 +150,8 @@ public class AuthDAO extends DBContext {
                         rs.getString("Status"),
                         rs.getString("FullName"),
                         rs.getString("PhoneNumber"),
-                        rs.getInt("UserID"));
+                        rs.getInt("UserID"),
+                        rs.getString("Role"));
                 listuser.add(user);
             }
         } catch (SQLException ex) {
