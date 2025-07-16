@@ -33,6 +33,10 @@
                         <c:forEach var="p" items="${list}">
                             <div class="col-md-4 mb-4">
                                 <div class="card h-100 shadow-sm">
+                                     <!-- Product image -->
+    <c:if test="${not empty p.image}">
+        <img src="${pageContext.request.contextPath}/assets/images/${p.image}" class="card-img-top" alt="${p.name}" style="height: 200px; object-fit: contain;">
+    </c:if>
                                     <div class="card-body">
                                         <h5 class="card-title text-success">${p.name}</h5>
                                         <p class="card-text">${p.description}</p>
