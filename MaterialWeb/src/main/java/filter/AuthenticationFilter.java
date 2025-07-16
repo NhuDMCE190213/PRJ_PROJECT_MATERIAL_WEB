@@ -13,12 +13,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import model.User;
 
 /**
  *
  * @author Nguyen Thanh Nhan - CE190122
  */
-@WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"/category", "/product", "/other-protected-paths"})
+@WebFilter(filterName = "AuthenticationFilter", urlPatterns = {"/category", "/product", "/theReview", "/user", "/sale"})
 public class AuthenticationFilter implements Filter {
     
     @Override
@@ -36,6 +37,12 @@ public class AuthenticationFilter implements Filter {
             return; 
         }
         
+        
+         User user = (User) session.getAttribute("user");
+        if (!user.isAdmin()) {
+            resp.sendRedirect(req.getContextPath() + "/home");
+            return;
+        }
         chain.doFilter(request, response);
     }
 }
