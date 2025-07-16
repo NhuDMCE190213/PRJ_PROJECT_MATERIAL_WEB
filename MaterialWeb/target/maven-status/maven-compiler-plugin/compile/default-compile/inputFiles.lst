@@ -8,6 +8,7 @@ D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Category.java
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CategoriesDao.java
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\HomeServlet.java
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\StatisticServlet.java
+D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\forUser\BuyServlet.java
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\UserDAO.java
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\CategoryServlet.java
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\UserServlet.java
@@ -32,6 +33,7 @@ D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\requestPassword
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\OrderItem.java
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\TheReview.java
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\forUser\DisplayServlet.java
+D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\ConfirmedBuyServlet.java
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\OrderDAO.java
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\TokenForgetDAO.java
 D:\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CartDao.java

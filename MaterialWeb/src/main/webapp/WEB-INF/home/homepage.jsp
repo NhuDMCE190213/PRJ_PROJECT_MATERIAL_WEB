@@ -125,8 +125,8 @@
 <div class="container-fluid bg-warning text-dark py-4">
   <div class="  container ">
     <div class="row align-items-center">
-      <div class="col-md-8">
-        <h2 class="fw-bold mb-2">
+      <div class="col-md-12 text-center">
+        <h2 class="fw-bold ">
        
               Limited Time Offer!
            <img class="default-size" src="<%=request.getContextPath()%>/assets/img/new-star.gif">
@@ -136,9 +136,9 @@
         Get up to 50% off on selected items. Don’t miss out!
         </p>
       </div>
-      <div class="col-md-4 text-md-end mt-3 mt-md-0">
-        <a href="<%=request.getContextPath()%>/sale" class="btn btn-dark btn-lg">Shop Sale</a>
-      </div>
+<!--      <div class="col-md-4 text-md-end mt-3 mt-md-0">
+        <a href="<%=request.getContextPath()%>/sale" class="btn btn-dark btn-lg">>>></a>
+      </div>-->
     </div>
   </div>
 </div>
