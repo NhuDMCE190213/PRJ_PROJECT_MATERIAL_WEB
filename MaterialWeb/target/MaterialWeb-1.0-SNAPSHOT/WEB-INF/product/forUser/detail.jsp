@@ -10,10 +10,15 @@
 
 <main>
     <div class="container">
+        <c:if test="${not empty product.image}">
+            <img src="${pageContext.request.contextPath}/assets/images/${product.image}" 
+                 alt="${product.name}" class="img-fluid mb-3" style="max-height: 300px;" />
+        </c:if>
+
         <h1 class="mt-3"></h1>
-        <form method="post" action="${pageContext.request.contextPath}/carts">
+        <form method="post" action="${pageContext.request.contextPath}/buy">
             <input type="hidden" name="id" value="${product.id}" />
-            <table class="table table-borderless table-warning">
+            <table class="table table-striped ">
 
                 <tr>
                     <th><label for="id">ID</label></th>
@@ -30,16 +35,16 @@
                     <td>${product.description}</td>
                 </tr>
 
-             <tr>
-    <th><label for="categoryId">Danh mục</label></th>
-    <td>
-        <c:forEach var="c" items="${categories}">
-            <c:if test="${c.id == product.categoryId}">
-                ${c.name}
-            </c:if>
-        </c:forEach>
-    </td>
-</tr>
+                <tr>
+                    <th><label for="categoryId">Danh mục</label></th>
+                    <td>
+                        <c:forEach var="c" items="${categories}">
+                            <c:if test="${c.id == product.categoryId}">
+                                ${c.name}
+                            </c:if>
+                        </c:forEach>
+                    </td>
+                </tr>
 
 
                 <tr>
@@ -74,8 +79,8 @@
                     <td></td>
                     <td>
 
-                        <button class="btn btn-dark " type="submit" name="action" value="detail">Order!</button>
-                        <button class="btn btn-dark" type="submit" name="action" value="addToCart">Add to Cart</button>
+                        <button class="btn btn-dark " type="submit" name="action" value="detail">Buy Now!</button>
+                  
                         <a class="btn btn-dark " href="${pageContext.request.contextPath}/display?view=list"><<< Back</a>
                     </td>
                 </tr>

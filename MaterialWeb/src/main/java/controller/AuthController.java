@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dao.DAOAuth;
+import dao.AuthDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -122,10 +122,8 @@ public class AuthController extends HttpServlet {
     protected void PostLogin(HttpServletRequest request, HttpServletResponse response,
             String email, String pass)
             throws ServletException, IOException {
-        //processRequest(request, response);
 
-        // xu li login 
-        DAOAuth dao = new DAOAuth();
+        AuthDAO dao = new AuthDAO();
         User user = dao.login(email, pass);
 
         if (user != null) {
@@ -133,15 +131,9 @@ public class AuthController extends HttpServlet {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
                 request.setAttribute("member", user);
-                // 👉 Add this block
-String redirect = (String) session.getAttribute("redirectAfterLogin");
-if (redirect != null) {
-    session.removeAttribute("redirectAfterLogin");
-    response.sendRedirect(redirect);
-    return;
-}
-request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
 
+//                
+                response.sendRedirect(request.getContextPath() + "/home");
             }
 
         } else {
@@ -167,7 +159,7 @@ request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, resp
             throws ServletException, IOException {
         //processRequest(request, response);
 
-        DAOAuth dao = new DAOAuth();
+        AuthDAO dao = new AuthDAO();
         if (fullname == null || fullname.trim().isEmpty()
                 || phonenumber == null || phonenumber.trim().isEmpty()
                 || email == null || email.trim().isEmpty()

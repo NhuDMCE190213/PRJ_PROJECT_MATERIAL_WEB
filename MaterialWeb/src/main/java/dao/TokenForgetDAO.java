@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
  *
  * @author HP
  */
-public class DAOTokenForget extends DBContext{
+public class TokenForgetDAO extends DBContext{
     
      public String getFormatDate(LocalDateTime myDateObj) {
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  

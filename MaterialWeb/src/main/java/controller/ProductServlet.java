@@ -7,9 +7,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
-import dao.CategoryDAO;
-import dao.CategoriesDao; 
+import dao.CategoriesDao;
 import model.Category;
+import jakarta.servlet.annotation.MultipartConfig;
+import java.io.File;
+import java.nio.file.Paths;
+
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
 
 @WebServlet(name = "ProductServlet", urlPatterns = {"/product"})
 public class ProductServlet extends HttpServlet {
@@ -48,8 +56,8 @@ public class ProductServlet extends HttpServlet {
                 products = dao.getProductsByPage(page, pageSize);
                 totalProducts = dao.countProducts();
             }
-//            List<Product> products = dao.getProductsByPage(page, pageSize);            
-//            int totalProducts = dao.countProducts();
+            //            List<Product> products = dao.getProductsByPage(page, pageSize);            
+            //            int totalProducts = dao.countProducts();
 
             int totalPages = (int) Math.ceil((double) totalProducts / pageSize);
 
@@ -121,7 +129,22 @@ public class ProductServlet extends HttpServlet {
             String unit = request.getParameter("unit");
             String brandName = request.getParameter("brandName");
 
-            Product product = new Product(0, name, description, categoryId, price, stockQuantity, unit, brandName);
+            Part filePart = request.getPart("img");
+            String fileName = "";
+            if (filePart != null && filePart.getSize() > 0) {
+                fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+
+                // Lưu ảnh vào thư mục /assets/img trong project
+                String uploadPath = getServletContext().getRealPath("/") + "assets/img";
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
+
+                filePart.write(uploadPath + File.separator + fileName);
+            }
+
+            Product product = new Product(0, name, description, categoryId, price, stockQuantity, unit, brandName, fileName);
             ProductDao dao = new ProductDao();
             dao.insert(product); // bạn phải có phương thức insert phù hợp
 
@@ -137,8 +160,27 @@ public class ProductServlet extends HttpServlet {
             String unit = request.getParameter("unit");
             String brandName = request.getParameter("brandName");
 
-            Product product = new Product(id, name, description, categoryId, price, stockQuantity, unit, brandName);
             ProductDao dao = new ProductDao();
+            Product existingProduct = dao.getById(id);
+            String oldImage = existingProduct != null ? existingProduct.getImage() : null;
+            
+            Part filePart = request.getPart("img");
+            String fileName = "";
+            if (filePart != null && filePart.getSize() > 0) {
+                fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+                String uploadPath = getServletContext().getRealPath("/") + "assets/images";
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdirs();
+                }
+                filePart.write(uploadPath + File.separator + fileName);
+            }
+
+            // Nếu người dùng không chọn ảnh mới, giữ ảnh cũ
+            String imagePath = (fileName.isEmpty()) ? oldImage : fileName;
+
+            Product product = new Product(id, name, description, categoryId, price, stockQuantity, unit, brandName, imagePath);
+//            ProductDao dao = new ProductDao();
             dao.update(product);
 
             response.sendRedirect(request.getContextPath() + "/product?view=list");

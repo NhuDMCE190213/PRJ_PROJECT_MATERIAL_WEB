@@ -4,8 +4,7 @@
  */
 package controller;
 
-import dao.DAOTokenForget;
-import dao.DAOUser;
+import dao.TokenForgetDAO;
 import model.TokenForgetPassword;
 import model.User;
 import java.io.IOException;
@@ -17,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.Session;
+import dao.AuthDAO;
 
 /**
  *
@@ -25,8 +25,8 @@ import jakarta.websocket.Session;
 @WebServlet(name = "resetPassword", urlPatterns = {"/resetPassword"})
 public class resetPassword extends HttpServlet {
 
-    DAOTokenForget DAOToken = new DAOTokenForget();
-    DAOUser DAOUser = new DAOUser();
+    TokenForgetDAO daotoken = new TokenForgetDAO();
+    AuthDAO dao = new AuthDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,10 +66,10 @@ public class resetPassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String token = request.getParameter("token");
+        String token = request.getParameter("token").trim();
         HttpSession session = request.getSession();
         if (token != null) {
-            TokenForgetPassword tokenForgetPassword = DAOToken.getTokenPassword(token);
+            TokenForgetPassword tokenForgetPassword = daotoken.getTokenPassword(token);
             resetService service = new resetService();
             if (tokenForgetPassword == null) {
                 request.setAttribute("mess", "token invalid");
@@ -86,7 +86,7 @@ public class resetPassword extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/login/requestPassword.jsp").forward(request, response);
                 return;
             }
-            User user = DAOUser.getUserById(tokenForgetPassword.getUserId());
+            User user = dao.getUserById(tokenForgetPassword.getUserId());
             request.setAttribute("email", user.getEmail());
             session.setAttribute("token", tokenForgetPassword.getToken());
             request.getRequestDispatcher("/WEB-INF/login/resetPassword.jsp").forward(request, response);
@@ -118,7 +118,7 @@ public class resetPassword extends HttpServlet {
         }
         HttpSession session = request.getSession();
         String tokenStr = (String) session.getAttribute("token");
-        TokenForgetPassword tokenForgetPassword = DAOToken.getTokenPassword(tokenStr);
+        TokenForgetPassword tokenForgetPassword = daotoken.getTokenPassword(tokenStr);
         //check token is valid, of time, of used
         resetService service = new resetService();
         if (tokenForgetPassword == null) {
@@ -141,16 +141,16 @@ public class resetPassword extends HttpServlet {
         tokenForgetPassword.setToken(tokenStr);
         tokenForgetPassword.setIsUsed(true);
 
-        DAOUser.updatePassword(email, password);
-        DAOToken.updateStatus(tokenForgetPassword);
+        dao.updatePassword(email, password);
+        daotoken.updateStatus(tokenForgetPassword);
 
         //save user in session and redirect to home
-        DAOUser dao = new DAOUser();
+        AuthDAO dao = new AuthDAO();
         User user = dao.getUserByEmail(email); // hoặc bằng session.getAttribute("user")
         
         request.setAttribute("member", user);
         
-        request.getRequestDispatcher("/WEB-INF/login/home.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/login/login.jsp").forward(request, response);
     }
 
     /**
