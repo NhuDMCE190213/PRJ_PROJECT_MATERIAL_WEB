@@ -21,39 +21,51 @@
     <div class="album py-5 bg-light">
         <div class="container">
 
-            <c:if test="${canComment == true}">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    <div class="col-12">
-                        <div class="card shadow-sm">
-                            <div class="card-body d-flex align-items-center mb-3">                              
-                                <img src="<c:url value="/assets/img/avatar-default-icon.png"/>" class="rounded me-3 img-fluid" width="10%" alt="User" />
-                                <div>
-                                    
-                                    <h6 class="mb-0">Product: ${product.name}</h6>
-                                    <small class="text-muted">
-                                        User: ${requestScope.userrr.fullName} - 
-                                        <input type="hidden" name="rating" id="rating" value="0"/>
+            <c:if test="${canComment == true && not empty user}">
+                <form method="post" action="<c:url value="/theReview">
+                          <c:param name="pId" value="${product.id}"/>
+                          <c:param name="uId" value="${user.userid}"/>
+                          <c:param name="comeback" value="${(not empty param.pId)?'back':''}"/>
+                      </c:url>">
+                    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        <div class="col-12">
+                            <div class="card shadow-sm">
+                                <div class="card-body d-flex align-items-center mb-3">                              
+                                    <img src="<c:url value="/assets/img/avatar-default-icon.png"/>" class="rounded me-3 img-fluid" width="10%" alt="User" />
+                                    <div>
+                                        <p class="mb-0">
+                                                <strong>Product:</strong>
+                                                <a href="<c:url value="/display">
+                                                       <c:param name="view" value="detail"/>
+                                                       <c:param name="id" value="${product.id}"/>
+                                                   </c:url>" class="mb-0">
+                                                    ${product.name}
+                                                </a>
+                                            </p>
+                                        <small class="text-muted">
+                                            User: ${user.fullName} - 
+                                            <input type="hidden" name="rating" id="rating" value="0"/>
 
-                                        <c:forEach var="index" begin="1" end="5">
-                                            <i class="bi bi-star star" data-index="${index}" onclick="iRateXStar(${index})"></i>
-                                        </c:forEach>
-                                    </small>
+                                            <c:forEach var="index" begin="1" end="5">
+                                                <i class="bi bi-star star" data-index="${index}" onclick="iRateXStar(${index})"></i>
+                                            </c:forEach>
+                                        </small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">
-                                    <textarea id="comment" name="comment"  class="form-control" placeholder="Nhập bình luận của bạn..."></textarea>
-                                </p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="btn-group">
-                                        <!--                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>-->
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Rate</button>
+                                <div class="card-body">
+                                    <p class="card-text">
+                                        <textarea id="message" name="message"  class="form-control" placeholder="Nhập bình luận của bạn..."></textarea>
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="btn-group">
+                                            <button type="summit" name="action" value="Create" class="btn btn-sm btn-outline-secondary">Rate</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>   
+                    </div>   
+                </form>
             </c:if>
 
             <h3>
@@ -72,23 +84,38 @@
                                     <div class="card-body d-flex align-items-center mb-3">
                                         <img src="<c:url value="/assets/img/avatar-default-icon.png"/>" class="rounded me-3 img-fluid" width="10%" alt="User" />
                                         <div>
-                                            <h6 class="mb-0">Product: ${theReview.product.name}</h6>
+                                            <p class="mb-0">
+                                                <strong>Product:</strong>
+                                                <a href="<c:url value="/display">
+                                                       <c:param name="view" value="detail"/>
+                                                       <c:param name="id" value="${theReview.product.id}"/>
+                                                   </c:url>" class="mb-0">
+                                                    ${theReview.product.name}
+                                                </a>
+                                            </p>
                                             <small class="text-muted">
                                                 User: ${theReview.user.fullName} - 
                                                 <c:forEach var="star" begin="1" end="${theReview.rating}">
                                                     ⭐
                                                 </c:forEach>
                                             </small>
+
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">${theReview.review}</p>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <!--                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>-->
-                                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                <button type="button" class="btn btn-sm btn-outline-secondary">Remove</button>
-                                            </div>
+                                            <c:if test="${user.userid == theReview.user.userid}">
+                                                <form method="post" action="<c:url value="/theReview">
+                                                          <c:param name="pId" value="${theReview.product.id}"/>
+                                                          <c:param name="uId" value="${theReview.user.userid}"/>
+                                                          <c:param name="comeback" value="${(not empty param.pId)?'back':''}"/>
+                                                      </c:url>">
+                                                    <div class="btn-group">
+                                                        <button type="submit" name="action" value="remove" class="btn btn-sm btn-outline-secondary">Remove</button>
+                                                    </div>
+                                                </form>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>

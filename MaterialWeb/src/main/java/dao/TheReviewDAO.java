@@ -23,7 +23,8 @@ public class TheReviewDAO extends DBContext {
     public static void main(String[] args) {
         TheReviewDAO dao = new TheReviewDAO();
 
-        System.out.println(dao.getAll(1));
+        dao.create(1, 10, 2, "No money");
+//        System.out.println(dao.getAll(1));
     }
 
     public List<TheReview> getAll_toUser(int userId, int page) {
@@ -140,6 +141,35 @@ public class TheReviewDAO extends DBContext {
         return false;
     }
 
+    public int create(int userId, int productId, int rating, String message) {
+        try {
+            String query = "INSERT INTO [dbo].[theReview]\n"
+                    + "           ([id]\n"
+                    + "           ,[userId]\n"
+                    + "           ,[productID]\n"
+                    + "           ,[rating]\n"
+                    + "           ,[review])\n"
+                    + "     VALUES (?, ?, ?, ?, ?)";
+            return this.executeQuery(query, new Object[]{getNextIDTop() + 1, userId, productId, rating, message});
+        } catch (SQLException ex) {
+            System.out.println("Error creating");
+        }
+
+        return 0;
+    }
+
+    public int remove(int userId, int productId) {
+        try {
+            String query = "DELETE FROM [dbo].[theReview]\n"
+                    + "WHERE userId = ? and productID = ?";
+            return this.executeQuery(query, new Object[]{userId, productId});
+        } catch (SQLException ex) {
+            System.out.println("Error creating");
+        }
+
+        return 0;
+    }
+
 //
 //    public Sale getElementByID(int id) {
 //
@@ -152,7 +182,7 @@ public class TheReviewDAO extends DBContext {
 //
 //            while (rs.next()) {
 //                String name = rs.getString(1);
-//                int discount = rs.getInt(2);
+//                int  discount = rs.getInt(2);
 //                int typeOfDiscount = rs.getInt(3);
 //                int soLuong = rs.getInt(4);
 //                boolean soHanSuDung = rs.getBoolean(5);
@@ -230,24 +260,26 @@ public class TheReviewDAO extends DBContext {
 //        }
 //    }
 //
-//    public int getNextIDTop() {
-//        try {
-//            String query = "SELECT TOP 1 id FROM sale ORDER BY id DESC";
-//            ResultSet rs = this.executeSelectionQuery(query, null);
-//
-//            int id = -1;
-//            while (rs.next()) {
-//                id = rs.getInt(1);
-//            }
-//
-//            return id;
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        return -1;
-//    }
+    public int getNextIDTop() {
+        try {
+            String query = "SELECT TOP (1) id\n"
+                    + "FROM     theReview\n"
+                    + "ORDER BY id DESC";
+            ResultSet rs = this.executeSelectionQuery(query, null);
+
+            int id = -1;
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+
+            return id;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return -1;
+    }
 //
 //    public int getNextIDInside() {
 //        try {
@@ -279,6 +311,7 @@ public class TheReviewDAO extends DBContext {
 //
 //        return 0;
 //    }
+
     public int countItem_toUser(int userId) {
         try {
             String query = "select count(id) as numrow from theReview where UserID = ?";
