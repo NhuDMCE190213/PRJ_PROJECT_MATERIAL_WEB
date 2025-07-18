@@ -111,43 +111,63 @@ public class OrderDAO {
 
     public List<OrderItem> getOrderItemsByUserId(int userId) {
         List<OrderItem> list = new ArrayList<>();
-        String sql = "SELECT p.name, p.unit, oi.price_at_time, oi.quantity "
+        String sql
+                = "SELECT o.id AS order_id, p.name, p.unit, oi.price_at_time, oi.quantity, o.status "
                 + "FROM orders o "
-                + "JOIN order_items oi ON o.id = oi.order_id "
-                + "JOIN products p ON oi.product_id = p.id "
+                + " JOIN order_items oi ON o.id = oi.order_id "
+                + " JOIN products p ON oi.product_id = p.id "
                 + "WHERE o.user_id = ?";
-
         try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
-
             ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
-
             while (rs.next()) {
                 OrderItem item = new OrderItem(
-                        -1,
+                        rs.getInt("order_id"), // <-- orderId
                         rs.getString("name"),
                         rs.getInt("price_at_time"),
                         rs.getString("unit"),
-                        rs.getInt("quantity")
+                        rs.getInt("quantity"),
+                        rs.getString("status")
                 );
                 list.add(item);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
 
-    public void updateOrderStatus(int orderId, String newStatus) {
+    public void updateStatus(int orderId, String status) {
         String sql = "UPDATE orders SET status = ? WHERE id = ?";
         try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, newStatus);
+            ps.setString(1, status);
             ps.setInt(2, orderId);
             ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Order> getOrdersByUserId(int userId) {
+        List<Order> list = new ArrayList<>();
+        String sql = "SELECT * FROM orders WHERE user_id = ?";
+        try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Order o = new Order(
+                        rs.getInt("id"),
+                        rs.getInt("user_id"),
+                        rs.getDate("order_date"),
+                        rs.getInt("total_amount"),
+                        rs.getString("status")
+                );
+                list.add(o);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return list;
     }
 
 }
