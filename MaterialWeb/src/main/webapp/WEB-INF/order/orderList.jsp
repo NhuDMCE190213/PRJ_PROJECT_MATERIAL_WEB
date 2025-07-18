@@ -15,6 +15,8 @@
                 return "bg-success";
             case "Đã hủy":
                 return "bg-danger";
+            case "Đã trả hàng":
+                return "bg-warning";
             default:
                 return "bg-secondary";
         }
@@ -30,6 +32,8 @@
                 return 100;
             case "Đã hủy":
                 return 0;
+            case "Đã trả hàng":
+                return 100;
             default:
                 return 0;
         }
@@ -86,15 +90,24 @@
                         <div class="text-center mt-1"><%= item.getStatus()%></div>
                     </td>
                     <td class="align-middle">
-                        <% if ("Đang xử lý".equals(item.getStatus()) || 
-         "Đang vận chuyển".equals(item.getStatus())) { %>
+                        <% if ("Đang xử lý".equals(item.getStatus())
+                                    || "Đang vận chuyển".equals(item.getStatus())) {%>
                         <form action="order" method="post" onsubmit="return confirm('Bạn có chắc muốn hủy đơn này?');">
                             <input type="hidden" name="action" value="cancel"/>
                             <input type="hidden" name="orderId" value="<%=item.getOrderId()%>"/>
                             <button type="submit" class="btn btn-sm btn-danger mt-1">Hủy đơn</button>
                         </form>
                         <% } %>
+                        <% if ("Hoàn thành".equals(item.getStatus())) {%>
+                        <form action="order" method="post" onsubmit="return confirm('Xác nhận trả hàng?');">
+                            <input type="hidden" name="action" value="return"/>
+                            <input type="hidden" name="orderId" value="<%=item.getOrderId()%>"/>
+                            <button type="submit" class="btn btn-sm btn-warning mt-1">Trả hàng</button>
+                        </form>
+                        <% } %>
+
                     </td>
+
 
 
                 </tr>

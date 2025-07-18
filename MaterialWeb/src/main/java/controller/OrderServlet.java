@@ -94,6 +94,32 @@ public class OrderServlet extends HttpServlet {
                 // Log hoặc xử lý lỗi
             }
         }
+        if ("return".equals(action)) {
+            String sOrderId = request.getParameter("orderId");
+            if (sOrderId != null) {
+                try {
+                    int orderId = Integer.parseInt(sOrderId);
+                    HttpSession session = request.getSession();
+                    User currentUser = (User) session.getAttribute("user");
+
+                    if (currentUser != null) {
+                        OrderDAO dao = new OrderDAO();
+                        // Kiểm tra trạng thái hiện tại của đơn hàng (đảm bảo là Hoàn thành)
+                        List<OrderItem> userOrders = dao.getOrderItemsByUserId(currentUser.getUserid());
+                        for (OrderItem item : userOrders) {
+                            if (item.getOrderId() == orderId && "Hoàn thành".equals(item.getStatus())) {
+                                dao.updateStatus(orderId, "Đã trả hàng");
+                                break;
+                            }
+                        }
+                    }
+                } catch (NumberFormatException e) {
+                    // Log lỗi nếu cần
+                }
+            }
+            response.sendRedirect("order");
+            return;
+        }
 
         response.sendRedirect("order");
     }
