@@ -21,7 +21,7 @@ import model.Product;
  *
  * @author Huynh Thai Duy Phuong - CE190603
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
+@WebServlet(name = "HomeServlet", urlPatterns = {"/home",""})
 public class HomeServlet extends HttpServlet {
 
     /**
