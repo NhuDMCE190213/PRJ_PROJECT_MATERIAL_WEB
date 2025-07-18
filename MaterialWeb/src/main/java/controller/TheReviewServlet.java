@@ -8,6 +8,7 @@ import static constant.CommonFunction.getTotalPages;
 import static constant.CommonFunction.isEmptyString;
 import dao.ProductDao;
 import dao.TheReviewDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,6 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.Product;
 import model.TheReview;
+import model.User;
 
 /**
  *
@@ -28,6 +30,7 @@ public class TheReviewServlet extends HttpServlet {
 
     TheReviewDAO theReviewDAO = new TheReviewDAO();
     ProductDao productDao = new ProductDao();
+    UserDAO userDAO = new UserDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -69,9 +72,10 @@ public class TheReviewServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String view = request.getParameter("view");
-        List<Product> productList = productDao.getAll();
-        
-        request.setAttribute("productList", productList);
+//        List<Product> productList = productDao.getAll();
+//        List<User> userList = 
+//        
+//        request.setAttribute("productList", productList);
 
         int page = 1;
         int totalPages = 0;
@@ -91,17 +95,37 @@ public class TheReviewServlet extends HttpServlet {
 
             List<TheReview> reviewList;
             int countItems;
-            if (!isEmptyString(productId_str)) {
+
+            if (!isEmptyString(productId_str) && !isEmptyString(userId_str)) {  // khi nguoi dung mua xem san pham
+                int userId = Integer.parseInt(userId_str);
                 int productId = Integer.parseInt(productId_str);
                 countItems = theReviewDAO.countItem_toProduct(productId);
 
+                User user = userDAO.getById(userId);
+                request.setAttribute("userrr", user);
+                Product product = productDao.getById(productId);
+                request.setAttribute("product", product);
+                
+                request.setAttribute("canComment", theReviewDAO.haveComment(userId, productId));
+
                 reviewList = theReviewDAO.getAll_toProduct(productId, page);
-            } else if (!isEmptyString(userId_str)) {
+            } else if (!isEmptyString(productId_str)) {                         // khi quan li xem san pham
+                int productId = Integer.parseInt(productId_str);
+                countItems = theReviewDAO.countItem_toProduct(productId);
+                
+                Product product = productDao.getById(productId);
+                request.setAttribute("product", product);
+                
+                reviewList = theReviewDAO.getAll_toProduct(productId, page);
+            } else if (!isEmptyString(userId_str)) {                            // khi nguoi dung xem tat ca comment cua minh
                 int userId = Integer.parseInt(userId_str);
                 countItems = theReviewDAO.countItem_toUser(userId);
 
+                User user = userDAO.getById(userId);
+                request.setAttribute("userrr", user);
+
                 reviewList = theReviewDAO.getAll_toUser(userId, page);
-            } else {
+            } else {                                                            // khi quan li xem tat ca comment
                 countItems = theReviewDAO.countItem();
                 reviewList = theReviewDAO.getAll(page);
             }
@@ -131,7 +155,7 @@ public class TheReviewServlet extends HttpServlet {
 //
 //            namePage = "edit";
         }
-
+//        System.out.println("/WEB-INF/theReview/" + namePage + ".jsp");
         request.getRequestDispatcher("/WEB-INF/theReview/" + namePage + ".jsp").forward(request, response);
     }
 
