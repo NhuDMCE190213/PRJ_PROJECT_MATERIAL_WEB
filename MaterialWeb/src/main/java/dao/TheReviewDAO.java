@@ -118,6 +118,28 @@ public class TheReviewDAO extends DBContext {
 
         return list;
     }
+
+    public boolean haveComment(int userId, int product_id) {
+
+        try {
+            String query = "SELECT id\n"
+                    + "FROM     theReview\n"
+                    + "WHERE  (userId = ?) AND (productID = ?)";
+
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{userId, product_id});
+
+            while (rs.next()) {
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
+    }
+
 //
 //    public Sale getElementByID(int id) {
 //
@@ -257,7 +279,6 @@ public class TheReviewDAO extends DBContext {
 //
 //        return 0;
 //    }
-
     public int countItem_toUser(int userId) {
         try {
             String query = "select count(id) as numrow from theReview where UserID = ?";

@@ -9,11 +9,14 @@ package model;
  * @author Tieu Gia Huy - CE191594
  */
 public class OrderItem {
+    
+    private int orderId; 
     private int productId;
     private String productName;
     private int price;
     private String unit;
     private int quantity;
+    private String status;
 
     public OrderItem(int productId, String productName, int price, String unit, int quantity) {
         this.productId = productId;
@@ -23,7 +26,24 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
+    public OrderItem(int orderId, String productName, int price, String unit, int quantity, String status) {
+        this.orderId = orderId;
+        this.productName = productName;
+        this.price = price;
+        this.unit = unit;
+        this.quantity = quantity;
+        this.status = status;
+    }
+    
     // Getters & Setters...
+    
+    public int getOrderId() {
+        return orderId;
+    }
+   
+    public void setOrderId(int orderId) {    
+        this.orderId = orderId;
+    }
 
     public int getProductId() {
         return productId;
@@ -63,5 +83,13 @@ public class OrderItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

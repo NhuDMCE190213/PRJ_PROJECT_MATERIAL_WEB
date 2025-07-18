@@ -21,6 +21,41 @@
     <div class="album py-5 bg-light">
         <div class="container">
 
+            <c:if test="${canComment == true}">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-body d-flex align-items-center mb-3">                              
+                                <img src="<c:url value="/assets/img/avatar-default-icon.png"/>" class="rounded me-3 img-fluid" width="10%" alt="User" />
+                                <div>
+                                    
+                                    <h6 class="mb-0">Product: ${product.name}</h6>
+                                    <small class="text-muted">
+                                        User: ${requestScope.userrr.fullName} - 
+                                        <input type="hidden" name="rating" id="rating" value="0"/>
+
+                                        <c:forEach var="index" begin="1" end="5">
+                                            <i class="bi bi-star star" data-index="${index}" onclick="iRateXStar(${index})"></i>
+                                        </c:forEach>
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">
+                                    <textarea id="comment" name="comment"  class="form-control" placeholder="Nhập bình luận của bạn..."></textarea>
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <!--                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>-->
+                                        <button type="button" class="btn btn-sm btn-outline-secondary">Rate</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+            </c:if>
+
             <h3>
                 Comment
             </h3>
@@ -35,11 +70,11 @@
                             <div class="col-12">
                                 <div class="card shadow-sm">
                                     <div class="card-body d-flex align-items-center mb-3">
-                                        <img src="https://media.vov.vn/sites/default/files/styles/large/public/2025-03/1401779-4335.jpg" class="rounded me-3 img-fluid" width="10%" alt="User" />
+                                        <img src="<c:url value="/assets/img/avatar-default-icon.png"/>" class="rounded me-3 img-fluid" width="10%" alt="User" />
                                         <div>
                                             <h6 class="mb-0">Product: ${theReview.product.name}</h6>
                                             <small class="text-muted">
-                                                User: ${theReview.user_id} - 
+                                                User: ${theReview.user.fullName} - 
                                                 <c:forEach var="star" begin="1" end="${theReview.rating}">
                                                     ⭐
                                                 </c:forEach>

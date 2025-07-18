@@ -89,10 +89,11 @@ public class UserDAO extends DBContext {
     }
 
     public User getById(int id) {
-        String sql = "SELECT * FROM user_login WHERE userID = ?";
-        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+        try {
+            String query = "SELECT UserID, FullName, PhoneNumber, email, password, Status, Role\n"
+                    + "FROM     user_login\n"
+                    + "WHERE  (UserID = ?)";
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{id});
             if (rs.next()) {
                 return new User(
                         rs.getString("email"),
@@ -105,7 +106,7 @@ public class UserDAO extends DBContext {
                 );
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Khong the lay user trong db");
         }
         return null;
     }
@@ -161,5 +162,4 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
     }
-
 }

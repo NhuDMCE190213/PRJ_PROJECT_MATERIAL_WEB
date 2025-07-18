@@ -34,7 +34,7 @@
             </tbody>
         </table>
 
-        <div class="d-flex gap-2 mb-3 ms-auto justify-content-center">
+        <div class="d-flex gap-2 mb-3 ms-auto justify-content-centergit">
             <button class="btn btn-success" type="submit"><i class="fas fa-check"></i></button>
             <a href="${pageContext.request.contextPath}/carts" class="btn btn-danger"><i class="fa fa-x"></i></a>
         </div>
