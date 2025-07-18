@@ -87,7 +87,7 @@ public class TheReviewServlet extends HttpServlet {
         String userId_str = request.getParameter("uId");
 
         if (view == null || view.equals("") || view.equalsIgnoreCase("list")) {
-            namePage = "list";
+            namePage = "listReview";
 
             String pageParam = request.getParameter("page");
             if (pageParam != null && Integer.parseInt(pageParam) > 1) {
@@ -104,8 +104,8 @@ public class TheReviewServlet extends HttpServlet {
 
                 User user = userDAO.getById(userId);
                 request.setAttribute("user", user);
-                Product product = productDao.getById(productId);
-                request.setAttribute("product", product);
+                Product productComment = productDao.getById(productId);
+                request.setAttribute("productComment", productComment);
 
                 reviewList = theReviewDAO.getAll_toProduct(productId, page);
             } else if (!isEmptyString(productId_str)) {                         // khi quan li xem san pham
@@ -113,8 +113,8 @@ public class TheReviewServlet extends HttpServlet {
                 int productId = Integer.parseInt(productId_str);
                 countItems = theReviewDAO.countItem_toProduct(productId);
 
-                Product product = productDao.getById(productId);
-                request.setAttribute("product", product);
+                Product productComment = productDao.getById(productId);
+                request.setAttribute("productComment", productComment);
 
                 HttpSession session = request.getSession(false);
 
@@ -148,21 +148,8 @@ public class TheReviewServlet extends HttpServlet {
 //            List<TheReview> reviewList = theReviewDAO.getAll(page);
             request.setAttribute("reviewList", reviewList);
 
-        } else if (view.equalsIgnoreCase("create")) {
-//            namePage = "create";
-        } else if (view.equalsIgnoreCase("delete")) {
-//            int id = Integer.parseInt(request.getParameter("id"));
-//            request.setAttribute("currentSale", saleDAO.getElementByID(id));
-//
-//            namePage = "remove";
-        } else if (view.equalsIgnoreCase("edit")) {
-//
-//            int id = Integer.parseInt(request.getParameter("id"));
-//            request.setAttribute("currentSale", saleDAO.getElementByID(id));
-//
-//            namePage = "edit";
         }
-//        System.out.println("/WEB-INF/theReview/" + namePage + ".jsp");
+        
         request.getRequestDispatcher("/WEB-INF/theReview/" + namePage + ".jsp").forward(request, response);
     }
 
@@ -203,11 +190,11 @@ public class TheReviewServlet extends HttpServlet {
         }
         
         String str_back = "";
-        if (!isEmptyString((String) request.getParameter("comeback"))){
-            str_back = "?pId=" + request.getParameter("pId");
-            
-            System.out.println(request.getParameter("comeback"));
-        }
+//        if (!isEmptyString((String) request.getParameter("comeback"))){
+//            str_back = "?pId=" + request.getParameter("pId");
+//            
+//            System.out.println(request.getParameter("comeback"));
+//        }
 
         response.sendRedirect(request.getContextPath() + "/theReview" + str_back);
     }

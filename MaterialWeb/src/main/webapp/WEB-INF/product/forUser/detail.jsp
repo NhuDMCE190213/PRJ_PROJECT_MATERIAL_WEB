@@ -6,6 +6,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set var="theReviewAddition" value="It is"/>
+
 <%@include file="/WEB-INF/include/header.jsp" %>
 
 <main>
@@ -89,5 +92,7 @@
             </table>
         </form>
 </main>
+                    
+<%@include file="/WEB-INF/theReview/listProductDetail.jsp" %>             
 
 <%@include file="/WEB-INF/include/footer.jsp" %>

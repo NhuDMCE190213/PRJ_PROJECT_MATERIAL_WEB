@@ -27,6 +27,63 @@ public class TheReviewDAO extends DBContext {
 //        System.out.println(dao.getAll(1));
     }
 
+    public TheReview getby2ID(int userId, int productId) {
+
+        try {
+            String query = "SELECT id, productId, rating, review\n"
+                    + "FROM     theReview\n"
+                    + "WHERE  (userId = ? and productId = ?)\n";
+
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{userId, productId});
+
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int product_Id = rs.getInt(2);
+                int rating = rs.getInt(3);
+                String review = rs.getString(4);
+
+                return new TheReview(id, userId, product_Id, rating, review);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+
+    public List<TheReview> getAll_toProduct_exceptionUser(int productId, int page, int user_id) {
+        List<TheReview> list = new ArrayList<>();
+
+        try {
+            String query = "SELECT id, userId, rating, review\n"
+                    + "FROM theReview\n"
+                    + "WHERE (productId = ? AND userId != ?)\n"
+                    + "ORDER BY id\n"
+                    + "OFFSET ? ROWS\n"
+                    + "FETCH NEXT ? ROWS ONLY;";
+
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{productId, user_id, (page - 1) * MAX_ELEMENTS_PER_PAGE, MAX_ELEMENTS_PER_PAGE});
+
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int userId = rs.getInt(2);
+                int rating = rs.getInt(3);
+                String review = rs.getString(4);
+
+                TheReview theReview = new TheReview(id, userId, productId, rating, review);
+                list.add(theReview);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
+    }
+
     public List<TheReview> getAll_toUser(int userId, int page) {
         List<TheReview> list = new ArrayList<>();
 
