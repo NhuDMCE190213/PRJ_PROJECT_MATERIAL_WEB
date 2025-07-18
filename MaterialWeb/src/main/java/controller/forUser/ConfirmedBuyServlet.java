@@ -3,8 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package dao;
+package controller.forUser;
 
+import dao.OrderDAO;
+import dao.ProductDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -68,29 +70,49 @@ public class ConfirmedBuyServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-      @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+  @Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
 
-        int productId = Integer.parseInt(request.getParameter("productId"));
-        int quantity = Integer.parseInt(request.getParameter("quantity"));
+    HttpSession session = request.getSession();
+    User currentUser = (User) session.getAttribute("user");
 
-        HttpSession session = request.getSession();
-        User currentUser = (User) session.getAttribute("user"); // bạn phải có session login
+    String[] productIds = request.getParameterValues("productIds");
+    String[] quantities = request.getParameterValues("quantities");
 
-        Product product = new ProductDao().getById(productId);
-        int total = product.getPrice() * quantity;
-
-        // 1. Insert order
-        OrderDAO dao = new OrderDAO();
-        int orderId = dao.insertOrder(currentUser.getUserid(), total); // return new order ID
-
-        // 2. Insert order item
-        dao.insertOrderItem(orderId, productId, quantity, product.getPrice());
-
-        // 3. Redirect
-        response.sendRedirect("order");
+    if (productIds == null || quantities == null || productIds.length != quantities.length) {
+        response.sendRedirect(request.getContextPath() + "/carts");
+        return;
     }
+
+    ProductDao productDao = new ProductDao();
+    OrderDAO dao = new OrderDAO();
+    int total = 0;
+
+    // First: Calculate total
+    for (int i = 0; i < productIds.length; i++) {
+        int pid = Integer.parseInt(productIds[i]);
+        int qty = Integer.parseInt(quantities[i]);
+
+        Product p = productDao.getById(pid);
+        total += p.getPrice() * qty;
+    }
+
+    // Insert order
+    int orderId = dao.insertOrder(currentUser.getUserid(), total);
+
+    // Insert order items
+    for (int i = 0; i < productIds.length; i++) {
+        int pid = Integer.parseInt(productIds[i]);
+        int qty = Integer.parseInt(quantities[i]);
+
+        Product p = productDao.getById(pid);
+        dao.insertOrderItem(orderId, pid, qty, p.getPrice());
+    }
+
+    response.sendRedirect("order");
+}
+
 
     /** 
      * Returns a short description of the servlet.
