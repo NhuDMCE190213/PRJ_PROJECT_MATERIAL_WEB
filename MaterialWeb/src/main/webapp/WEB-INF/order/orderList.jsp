@@ -20,6 +20,7 @@
                     <th scope="col">Đơn giá</th>
                     <th scope="col">Số lượng</th>
                     <th scope="col">Thành tiền</th>
+                    <th scope="col">Trạng thái</th> <!-- Thêm cột trạng thái -->
                 </tr>
             </thead>
             <tbody>
@@ -35,6 +36,8 @@
 <%
         }
 %>
+
+
             </tbody>
         </table>
     </div>

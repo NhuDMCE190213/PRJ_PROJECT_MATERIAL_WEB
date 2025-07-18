@@ -110,11 +110,18 @@ public class UserDAO extends DBContext {
 //        return null;
 //    }
     public User getById(int id) {
+<<<<<<< HEAD
         try {
             String query = "SELECT UserID, FullName, PhoneNumber, email, password, Status, Role\n"
                     + "FROM     user_login\n"
                     + "WHERE  (UserID = ?)";
             ResultSet rs = this.executeSelectionQuery(query, new Object[]{id});
+=======
+        String sql = "SELECT * FROM user_login WHERE userID = ?";
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+>>>>>>> a6b4f60a0d808568d856fe6773cb60e5272b6e24
             if (rs.next()) {
                 return new User(
                         rs.getString("email"),
@@ -168,4 +175,23 @@ public class UserDAO extends DBContext {
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
+=======
+
+    public void updateUser(User user) {
+        String sql = "UPDATE user_login SET FullName = ?, email = ?, password = ? WHERE UserID = ?";
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, user.getFullName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword()); // nếu có mã hóa MD5 thì truyền mã hóa
+            ps.setInt(4, user.getUserid());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+>>>>>>> a6b4f60a0d808568d856fe6773cb60e5272b6e24
 }
