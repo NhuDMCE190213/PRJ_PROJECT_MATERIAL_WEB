@@ -21,6 +21,10 @@
                         <h4 class="mb-0">Edit Profile</h4>
                     </div>
                     <div class="card-body">
+                        <c:if test="${not empty error}">
+                            <div class="alert alert-danger">${error}</div>
+                        </c:if>
+
                         <form action="profile?view=editProfile" method="post">
                             <div class="mb-3">
                                 <label for="fullName" class="form-label">Name</label>
@@ -35,6 +39,11 @@
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" id="password" name="password" class="form-control" value="${user.password}" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
                             </div>
 
                             <div class="d-flex justify-content-between">

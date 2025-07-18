@@ -4,7 +4,6 @@
  */
 package controller;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,8 +12,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Account;
 import model.User;
+import constant.HashUtil;
+import dao.UserDAO;
 
 /**
  *
@@ -100,11 +100,36 @@ public class ProfileServlet extends HttpServlet {
             user.setFullName(request.getParameter("fullName"));
             user.setEmail(request.getParameter("email"));
             user.setPassword(request.getParameter("password"));
+
+            String fullName = request.getParameter("fullName");
+            String email = request.getParameter("email");
+            String rawPassword = request.getParameter("password");
+            String confirmPassword = request.getParameter("confirmPassword");
+            
+            
+            if (!rawPassword.equals(confirmPassword)) {
+                request.setAttribute("error", "Passwords do not match!");
+                request.setAttribute("user", user); // giữ lại dữ liệu đã nhập
+                request.getRequestDispatcher("profile?view=editProfile").forward(request, response);
+                return;
+            }
+            
+            String hashedPassword = HashUtil.toMD5(rawPassword);
+
+            user.setFullName(fullName);
+            user.setEmail(email);
+            user.setPassword(hashedPassword);
+
+            UserDAO dao = new UserDAO();
+            dao.updateUser(user); // bước này bạn cần tạo trong DAO
+
             session.setAttribute("user", user);
         }
 
+        request.getSession().setAttribute("message", "Profile updated successfully!");
         response.sendRedirect("profile");
-      }
+
+    }
 
     /**
      * Returns a short description of the servlet.

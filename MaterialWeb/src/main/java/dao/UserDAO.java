@@ -4,8 +4,6 @@
  */
 package dao;
 
-
-
 import db.DBContext;
 import model.User;
 import java.sql.*;
@@ -17,7 +15,7 @@ public class UserDAO extends DBContext {
     public List<User> getUsersByPage(int page, int pageSize) {
         List<User> list = new ArrayList<>();
         String sql = "SELECT * FROM user_login ORDER BY userID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, (page - 1) * pageSize);
             ps.setInt(2, pageSize);
             ResultSet rs = ps.executeQuery();
@@ -40,7 +38,7 @@ public class UserDAO extends DBContext {
 
     public int countUsers() {
         String sql = "SELECT COUNT(*) FROM user_login";
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
@@ -54,7 +52,7 @@ public class UserDAO extends DBContext {
     public List<User> searchByKeyword(String keyword, int page, int pageSize) {
         List<User> list = new ArrayList<>();
         String sql = "SELECT * FROM user_login WHERE fullName LIKE ? ORDER BY userID OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, "%" + keyword + "%");
             ps.setInt(2, (page - 1) * pageSize);
             ps.setInt(3, pageSize);
@@ -78,7 +76,7 @@ public class UserDAO extends DBContext {
 
     public int countByKeyword(String keyword) {
         String sql = "SELECT COUNT(*) FROM user_login WHERE fullName LIKE ?";
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, "%" + keyword + "%");
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -92,7 +90,7 @@ public class UserDAO extends DBContext {
 
     public User getById(int id) {
         String sql = "SELECT * FROM user_login WHERE userID = ?";
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -114,7 +112,7 @@ public class UserDAO extends DBContext {
 
     public void insert(User u) {
         String sql = "INSERT INTO user_login (email, password, status, fullName, phoneNumber, role) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, u.getEmail());
             ps.setString(2, u.getPassword());
             ps.setString(3, u.getStatus());
@@ -128,26 +126,40 @@ public class UserDAO extends DBContext {
     }
 
     public void updateRoleStatusOnly(int userId, String role, String status) {
-    String sql = "UPDATE user_login SET role = ?, status = ? WHERE userID = ?";
-    try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
-        ps.setString(1, role);
-        ps.setString(2, status);
-        ps.setInt(3, userId);
-        ps.executeUpdate();
-    } catch (Exception e) {
-        e.printStackTrace();
+        String sql = "UPDATE user_login SET role = ?, status = ? WHERE userID = ?";
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, role);
+            ps.setString(2, status);
+            ps.setInt(3, userId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
-
 
     public void delete(int id) {
         String sql = "DELETE FROM user_login WHERE userID = ?";
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-}
 
+    public void updateUser(User user) {
+        String sql = "UPDATE user_login SET FullName = ?, email = ?, password = ? WHERE UserID = ?";
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, user.getFullName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getPassword()); // nếu có mã hóa MD5 thì truyền mã hóa
+            ps.setInt(4, user.getUserid());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
