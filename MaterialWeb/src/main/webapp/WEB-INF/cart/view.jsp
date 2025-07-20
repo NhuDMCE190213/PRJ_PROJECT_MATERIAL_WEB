@@ -1,9 +1,3 @@
-<%-- 
-    Document   : view
-    Created on : Jun 22, 2025, 12:50:38 PM
-    Author     : Le Duy Khanh - CE190235
---%>
-
 <%@page import="model.CartItem"%>
 <%@page import="model.Cart"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -78,42 +72,66 @@
 
 <h2>🛒 Giỏ hàng của bạn</h2>
 
+<c:if test="${not empty error}">
+    <div style="color: red; text-align: center;">${error}</div>
+</c:if>
+
 <% if (cart == null || cart.getItems().isEmpty()) { %>
 <p style="text-align:center; color: #888;">Không có sản phẩm nào trong giỏ hàng.</p>
 <% } else { %>
-<table>
-    <tr>
-        <th>Sản phẩm</th>
-        <th>Số lượng</th>
-        <th>Đơn giá (VNĐ)</th>
-        <th>Thành tiền (VNĐ)</th>
-        <th>Xóa</th>
-    </tr>
-    <% for (CartItem item : cart.getItems()) {%>
-    <tr>
-        <td><%= item.getProduct().getName()%></td>
-        <td><%= item.getQuantity() %></td>
-        <td><%= String.format("%,d", item.getProduct().getPrice())%></td>
-        <td><%= String.format("%,d", item.getTotalPrice())%></td>
-        <td>
-            <form action="carts" method="post" style="display:inline;">
-                <input type="hidden" name="action" value="decreaseQuantity">
-                <input type="hidden" name="id" value="<%= item.getProduct().getId()%>">
-                <input type="number" name="decreaseAmount" min="1" max="<%= item.getQuantity()%>" value="1" style="width:50px;">
-                <input type="submit" value="Xóa bớt">
-            </form>
-            <br>
-            <a class="btn-remove" href="carts?action=remove&id=<%= item.getProduct().getId()%>">Xóa tất cả</a>
-        </td>
 
-    </tr>
+<form method="post" action="${pageContext.request.contextPath}/buy">
+    <table>
+        <tr>
+            <th><input type="checkbox" id="selectAll" onclick="toggleAll(this)"></th>
+            <th>Sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Đơn giá (VNĐ)</th>
+            <th>Thành tiền (VNĐ)</th>
+            <th>Xóa</th>
+        </tr>
+        <% for (CartItem item : cart.getItems()) {%>
+        <tr>
+            <td>
+                <input type="checkbox" name="selectedProductIds" value="<%= item.getProduct().getId()%>">
+                <input type="hidden" name="quantity_<%= item.getProduct().getId()%>" value="<%= item.getQuantity()%>">
+            </td>
+            <td><%= item.getProduct().getName()%></td>
+            <td><%= item.getQuantity()%></td>
+            <td><%= String.format("%,d", item.getProduct().getPrice())%></td>
+            <td><%= String.format("%,d", item.getTotalPrice())%></td>
+            <td>
+                <form action="carts" method="post" style="display:inline;">
+                    <input type="hidden" name="action" value="decreaseQuantity">
+                    <input type="hidden" name="id" value="<%= item.getProduct().getId()%>">
+                    <input type="number" name="decreaseAmount" min="1" max="<%= item.getQuantity()%>" value="1" style="width:50px;">
+                    <input type="submit" value="Xóa bớt">
+                </form>
+                <br>
+                <a class="btn-remove" href="carts?action=remove&id=<%= item.getProduct().getId()%>">Xóa tất cả</a>
+            </td>
+        </tr>
+        <% }%>
 
-    <% }%>
-    <tr class="total-row">
-        <td colspan="3">Tổng cộng:</td>
-        <td colspan="2"><%= String.format("%,d", cart.getTotal())%> VNĐ</td>
-    </tr>
-</table>
+        <tr class="total-row">
+            <td colspan="4">Tổng cộng:</td>
+            <td colspan="2"><%= String.format("%,d", cart.getTotal())%> VNĐ</td>
+        </tr>
+    </table>
+    <div style="text-align: center; margin-top: 20px;">
+        <button class="btn btn-success" type="submit">Payment Now!</button>
+    </div>
+</form>
+
+
+
+<script>
+    function toggleAll(source) {
+        const checkboxes = document.querySelectorAll('input[name="selectedProductIds"]');
+        checkboxes.forEach(cb => cb.checked = source.checked);
+    }
+</script>
+
 <% }%>
 
 <a class="back-link" href="${pageContext.request.contextPath}/display?view=list">← Quay lại danh sách sản phẩm</a>

@@ -12,6 +12,10 @@
 <main>
     <div class="container">
         <h1 class="mt-5">UPDATE PRODUCT</h1>
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger">${error}</div>
+        </c:if>
+
         <form method="post" action="${pageContext.request.contextPath}/product" enctype="multipart/form-data">
 
             <table class="table">
@@ -45,12 +49,12 @@
 
                 <tr>
                     <th><label for="price">Giá</label></th>
-                    <td><input type="number" name="price" id="price" value="${product.price}" required class="form-control"/></td>
+                    <td><input type="number" name="price" id="price" value="${product.price}" required class="form-control" min="0"/></td>
                 </tr>
 
                 <tr>
                     <th><label for="stockQuantity">Số lượng</label></th>
-                    <td><input type="number" name="stockQuantity" id="stockQuantity" value="${product.stockQuantity}" required class="form-control"/></td>
+                    <td><input type="number" name="stockQuantity" id="stockQuantity" value="${product.stockQuantity}" required class="form-control" min="0"/></td>
                 </tr>
 
                 <tr>
@@ -76,7 +80,9 @@
                 <tr>
                     <td></td>
                     <td>
-                        <button class="btn btn-outline-dark" type="submit" name="action" value="update">Save</button>
+                        <button class="btn btn-outline-dark" type="submit" name="action" value="update"
+                                onclick="return confirm('Bạn có chắc muốn lưu thay đổi không?')">Save</button>
+
                         <a class="btn btn-outline-dark" href="${pageContext.request.contextPath}/product?view=list">Cancel</a>
                     </td>
                 </tr>
