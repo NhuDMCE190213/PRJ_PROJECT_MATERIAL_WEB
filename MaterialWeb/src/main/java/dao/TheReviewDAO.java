@@ -23,7 +23,65 @@ public class TheReviewDAO extends DBContext {
     public static void main(String[] args) {
         TheReviewDAO dao = new TheReviewDAO();
 
-        System.out.println(dao.getAll(1));
+        dao.create(1, 10, 2, "No money");
+//        System.out.println(dao.getAll(1));
+    }
+
+    public TheReview getby2ID(int userId, int productId) {
+
+        try {
+            String query = "SELECT id, productId, rating, review\n"
+                    + "FROM     theReview\n"
+                    + "WHERE  (userId = ? and productId = ?)\n";
+
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{userId, productId});
+
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int product_Id = rs.getInt(2);
+                int rating = rs.getInt(3);
+                String review = rs.getString(4);
+
+                return new TheReview(id, userId, product_Id, rating, review);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return null;
+    }
+
+    public List<TheReview> getAll_toProduct_exceptionUser(int productId, int page, int user_id) {
+        List<TheReview> list = new ArrayList<>();
+
+        try {
+            String query = "SELECT id, userId, rating, review\n"
+                    + "FROM theReview\n"
+                    + "WHERE (productId = ? AND userId != ?)\n"
+                    + "ORDER BY id\n"
+                    + "OFFSET ? ROWS\n"
+                    + "FETCH NEXT ? ROWS ONLY;";
+
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{productId, user_id, (page - 1) * MAX_ELEMENTS_PER_PAGE, MAX_ELEMENTS_PER_PAGE});
+
+            while (rs.next()) {
+                int id = rs.getInt(1);
+                int userId = rs.getInt(2);
+                int rating = rs.getInt(3);
+                String review = rs.getString(4);
+
+                TheReview theReview = new TheReview(id, userId, productId, rating, review);
+                list.add(theReview);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return list;
     }
 
     public List<TheReview> getAll_toUser(int userId, int page) {
@@ -118,6 +176,57 @@ public class TheReviewDAO extends DBContext {
 
         return list;
     }
+
+    public boolean haveComment(int userId, int product_id) {
+
+        try {
+            String query = "SELECT id\n"
+                    + "FROM     theReview\n"
+                    + "WHERE  (userId = ?) AND (productID = ?)";
+
+            ResultSet rs = this.executeSelectionQuery(query, new Object[]{userId, product_id});
+
+            while (rs.next()) {
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return false;
+    }
+
+    public int create(int userId, int productId, int rating, String message) {
+        try {
+            String query = "INSERT INTO [dbo].[theReview]\n"
+                    + "           ([id]\n"
+                    + "           ,[userId]\n"
+                    + "           ,[productID]\n"
+                    + "           ,[rating]\n"
+                    + "           ,[review])\n"
+                    + "     VALUES (?, ?, ?, ?, ?)";
+            return this.executeQuery(query, new Object[]{getNextIDTop() + 1, userId, productId, rating, message});
+        } catch (SQLException ex) {
+            System.out.println("Error creating");
+        }
+
+        return 0;
+    }
+
+    public int remove(int userId, int productId) {
+        try {
+            String query = "DELETE FROM [dbo].[theReview]\n"
+                    + "WHERE userId = ? and productID = ?";
+            return this.executeQuery(query, new Object[]{userId, productId});
+        } catch (SQLException ex) {
+            System.out.println("Error creating");
+        }
+
+        return 0;
+    }
+
 //
 //    public Sale getElementByID(int id) {
 //
@@ -130,7 +239,7 @@ public class TheReviewDAO extends DBContext {
 //
 //            while (rs.next()) {
 //                String name = rs.getString(1);
-//                int discount = rs.getInt(2);
+//                int  discount = rs.getInt(2);
 //                int typeOfDiscount = rs.getInt(3);
 //                int soLuong = rs.getInt(4);
 //                boolean soHanSuDung = rs.getBoolean(5);
@@ -208,24 +317,26 @@ public class TheReviewDAO extends DBContext {
 //        }
 //    }
 //
-//    public int getNextIDTop() {
-//        try {
-//            String query = "SELECT TOP 1 id FROM sale ORDER BY id DESC";
-//            ResultSet rs = this.executeSelectionQuery(query, null);
-//
-//            int id = -1;
-//            while (rs.next()) {
-//                id = rs.getInt(1);
-//            }
-//
-//            return id;
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//
-//        return -1;
-//    }
+    public int getNextIDTop() {
+        try {
+            String query = "SELECT TOP (1) id\n"
+                    + "FROM     theReview\n"
+                    + "ORDER BY id DESC";
+            ResultSet rs = this.executeSelectionQuery(query, null);
+
+            int id = -1;
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+
+            return id;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(SaleDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return -1;
+    }
 //
 //    public int getNextIDInside() {
 //        try {

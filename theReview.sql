@@ -14,6 +14,8 @@ CREATE TABLE theReview (
     rating INT NOT NULL CHECK (rating >= 0 AND rating <= 5),
     review NVARCHAR(MAX),
 
+	CONSTRAINT unique_user_product UNIQUE (userId, productID),
+
     -- Khóa chính kết hợp
     PRIMARY KEY (id),
 

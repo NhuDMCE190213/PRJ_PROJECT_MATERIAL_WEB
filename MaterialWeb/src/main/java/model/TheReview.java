@@ -5,6 +5,7 @@
 package model;
 
 import dao.ProductDao;
+import dao.UserDAO;
 
 /**
  *
@@ -13,16 +14,17 @@ import dao.ProductDao;
 public class TheReview {
 
     private int id;
-    private int user_id;
+    private User user;
     private Product product;
     private int rating;
     private String review;
 
     public TheReview(int id, int user_id, int product_id, int rating, String review) {
         ProductDao productDao = new ProductDao();
-        
+        UserDAO userDAO = new UserDAO();
+
         this.id = id;
-        this.user_id = user_id;
+        this.user = userDAO.getById(user_id);
         this.product = productDao.getById(product_id);
         this.rating = rating;
         this.review = review;
@@ -32,7 +34,6 @@ public class TheReview {
 //    public String toString() {
 //        return "TheReview{" + "id=" + id + ", user_id=" + user_id + ", product_id=" + product_id + ", rating=" + rating + ", review=" + review + '}';
 //    }
-
     public int getId() {
         return id;
     }
@@ -41,12 +42,12 @@ public class TheReview {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Product getProduct() {

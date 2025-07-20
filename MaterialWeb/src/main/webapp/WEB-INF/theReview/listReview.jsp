@@ -10,19 +10,14 @@
 <c:set var="theReviewAddition" value="It is"/>
 
 <%@include file="/WEB-INF/include/header.jsp" %>
-<main>
-    <%--
-        <input type="hidden" name="rating" id="rating" value="0"/>
-
-        <c:forEach var="index" begin="1" end="5">
-            <i class="bi bi-star star" data-index="${index}" onclick="iRateXStar(${index})"></i>
-        </c:forEach> --%>
-
+<section id="comment_section">
     <div class="album py-5 bg-light">
         <div class="container">
 
+
+
             <h3>
-                Comment
+                List of Comment
             </h3>
 
             <c:choose>
@@ -35,25 +30,37 @@
                             <div class="col-12">
                                 <div class="card shadow-sm">
                                     <div class="card-body d-flex align-items-center mb-3">
-                                        <img src="https://media.vov.vn/sites/default/files/styles/large/public/2025-03/1401779-4335.jpg" class="rounded me-3 img-fluid" width="10%" alt="User" />
+                                        <img src="<c:url value="/assets/img/avatar-default-icon.png"/>" class="rounded me-3 img-fluid" width="10%" alt="User" />
                                         <div>
-                                            <h6 class="mb-0">Product: ${theReview.product.name}</h6>
+                                            <p class="mb-0">
+                                                <strong>Product:</strong>
+                                                <a href="<c:url value="/display">
+                                                       <c:param name="view" value="detail"/>
+                                                       <c:param name="id" value="${theReview.product.id}"/>
+                                                   </c:url>" class="mb-0">
+                                                    ${theReview.product.name}
+                                                </a>
+                                            </p>
                                             <small class="text-muted">
-                                                User: ${theReview.user_id} - 
+                                                User: ${theReview.user.fullName} - 
                                                 <c:forEach var="star" begin="1" end="${theReview.rating}">
                                                     ⭐
                                                 </c:forEach>
                                             </small>
+
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">${theReview.review}</p>
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <!--                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>-->
-                                                <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                                <button type="button" class="btn btn-sm btn-outline-secondary">Remove</button>
-                                            </div>
+                                            <form method="post" action="<c:url value="/theReview">
+                                                      <c:param name="pId" value="${theReview.product.id}"/>
+                                                      <c:param name="uId" value="${theReview.user.userid}"/>
+                                                  </c:url>">
+                                                <div class="btn-group">
+                                                    <button type="submit" name="action" value="remove" class="btn btn-sm btn-outline-secondary">Remove</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -94,6 +101,5 @@
 
         </div>
     </div>
-</div>
-</main>
+</section>
 <%@include file="/WEB-INF/include/footer.jsp" %>

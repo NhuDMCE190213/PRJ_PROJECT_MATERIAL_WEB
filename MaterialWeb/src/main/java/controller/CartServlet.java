@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
@@ -12,9 +12,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Cart;
 import model.CartItem;
+import model.User;
 
 /**
  *
@@ -61,8 +63,16 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
-            int userId = 1; // test user ID (nếu chưa có login)
+            HttpSession session = request.getSession(false);
+            User user = (User) session.getAttribute("user");
+            if (user == null) {
+                response.sendRedirect(request.getContextPath() + "/auth?view=login");
+                return;
+            }
+
+            int userId = user.getUserid(); // test user ID (nếu chưa có login)
 
             String action = request.getParameter("action");
             if ("remove".equals(action)) {
@@ -107,15 +117,15 @@ public class CartServlet extends HttpServlet {
 
         if ("addToCart".equals(action)) {
             try {
-//                HttpSession session = request.getSession();
-//
-//                // (Giả sử đã login, userId đã lưu trong session)
-//                Integer userId = (Integer) session.getAttribute("userId");
-//                if (userId == null) {
-//                    response.sendRedirect(request.getContextPath() + "/auth?view=login");
-//                    return;
-//                }
-                int userId = 1; // hardcode userId test
+                HttpSession session = request.getSession(false);
+
+                User user = (User) session.getAttribute("user");
+                if (user == null) {
+                    response.sendRedirect(request.getContextPath() + "/auth?view=login");
+                    return;
+                }
+                int userId = user.getUserid();
+
                 int productId = Integer.parseInt(request.getParameter("id"));
                 int quantity = Integer.parseInt(request.getParameter("orderNumbers"));
 
@@ -128,7 +138,14 @@ public class CartServlet extends HttpServlet {
             }
         } else if ("decreaseQuantity".equals(action)) {
             try {
-                int userId = 1; // hoặc từ session
+                HttpSession session = request.getSession(false);
+                User user = (User) session.getAttribute("user");
+                if (user == null) {
+                    response.sendRedirect(request.getContextPath() + "/auth?view=login");
+                    return;
+                }
+                int userId = user.getUserid();
+
                 int productId = Integer.parseInt(request.getParameter("id"));
                 int decreaseAmount = Integer.parseInt(request.getParameter("decreaseAmount"));
 

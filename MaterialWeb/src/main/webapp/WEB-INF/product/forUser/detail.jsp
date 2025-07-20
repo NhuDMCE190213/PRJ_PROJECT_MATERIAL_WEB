@@ -6,6 +6,9 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set var="theReviewAddition" value="It is"/>
+
 <%@include file="/WEB-INF/include/header.jsp" %>
 
 <main>
@@ -18,6 +21,7 @@
         <h1 class="mt-3"></h1>
         <form method="post" action="${pageContext.request.contextPath}/carts">
             <input type="hidden" name="id" value="${product.id}" />
+              <input type="hidden" name="action" value="addToCart" />
             <table class="table table-striped ">
 
                 <tr>
@@ -79,8 +83,8 @@
                     <td></td>
                     <td>
 
-                        <button class="btn btn-dark " type="submit" name="action" value="detail">Order!</button>
-                        <button class="btn btn-dark" type="submit" name="action" value="addToCart">Add to Cart</button>
+                        <button class="btn btn-warning " type="submit" name="action" value="detail">Add to Cart</button>
+                  
                         <a class="btn btn-dark " href="${pageContext.request.contextPath}/display?view=list"><<< Back</a>
                     </td>
                 </tr>
@@ -88,5 +92,7 @@
             </table>
         </form>
 </main>
+                    
+<%@include file="/WEB-INF/theReview/listProductDetail.jsp" %>             
 
 <%@include file="/WEB-INF/include/footer.jsp" %>

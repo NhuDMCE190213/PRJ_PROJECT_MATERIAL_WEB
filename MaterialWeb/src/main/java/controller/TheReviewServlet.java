@@ -8,6 +8,7 @@ import static constant.CommonFunction.getTotalPages;
 import static constant.CommonFunction.isEmptyString;
 import dao.ProductDao;
 import dao.TheReviewDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,9 +16,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.Product;
 import model.TheReview;
+import model.User;
 
 /**
  *
@@ -28,6 +31,7 @@ public class TheReviewServlet extends HttpServlet {
 
     TheReviewDAO theReviewDAO = new TheReviewDAO();
     ProductDao productDao = new ProductDao();
+    UserDAO userDAO = new UserDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -69,9 +73,10 @@ public class TheReviewServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String view = request.getParameter("view");
-        List<Product> productList = productDao.getAll();
-        
-        request.setAttribute("productList", productList);
+//        List<Product> productList = productDao.getAll();
+//        List<User> userList = 
+//        
+//        request.setAttribute("productList", productList);
 
         int page = 1;
         int totalPages = 0;
@@ -82,7 +87,7 @@ public class TheReviewServlet extends HttpServlet {
         String userId_str = request.getParameter("uId");
 
         if (view == null || view.equals("") || view.equalsIgnoreCase("list")) {
-            namePage = "list";
+            namePage = "listReview";
 
             String pageParam = request.getParameter("page");
             if (pageParam != null && Integer.parseInt(pageParam) > 1) {
@@ -91,17 +96,43 @@ public class TheReviewServlet extends HttpServlet {
 
             List<TheReview> reviewList;
             int countItems;
-            if (!isEmptyString(productId_str)) {
+
+            if (!isEmptyString(productId_str) && !isEmptyString(userId_str)) {  // khi nguoi dung mua xem san pham
+                int userId = Integer.parseInt(userId_str);
                 int productId = Integer.parseInt(productId_str);
                 countItems = theReviewDAO.countItem_toProduct(productId);
 
+                User user = userDAO.getById(userId);
+                request.setAttribute("user", user);
+                Product productComment = productDao.getById(productId);
+                request.setAttribute("productComment", productComment);
+
                 reviewList = theReviewDAO.getAll_toProduct(productId, page);
-            } else if (!isEmptyString(userId_str)) {
+            } else if (!isEmptyString(productId_str)) {                         // khi quan li xem san pham
+
+                int productId = Integer.parseInt(productId_str);
+                countItems = theReviewDAO.countItem_toProduct(productId);
+
+                Product productComment = productDao.getById(productId);
+                request.setAttribute("productComment", productComment);
+
+                HttpSession session = request.getSession(false);
+
+                if (!(session == null || session.getAttribute("user") == null)) {
+                    User user = (User) session.getAttribute("user");
+                    request.setAttribute("canComment", !theReviewDAO.haveComment(user.getUserid(), productId));
+                }
+
+                reviewList = theReviewDAO.getAll_toProduct(productId, page);
+            } else if (!isEmptyString(userId_str)) {                            // khi nguoi dung xem tat ca comment cua minh
                 int userId = Integer.parseInt(userId_str);
                 countItems = theReviewDAO.countItem_toUser(userId);
 
+                User user = userDAO.getById(userId);
+                request.setAttribute("user", user);
+
                 reviewList = theReviewDAO.getAll_toUser(userId, page);
-            } else {
+            } else {                                                            // khi quan li xem tat ca comment
                 countItems = theReviewDAO.countItem();
                 reviewList = theReviewDAO.getAll(page);
             }
@@ -117,21 +148,8 @@ public class TheReviewServlet extends HttpServlet {
 //            List<TheReview> reviewList = theReviewDAO.getAll(page);
             request.setAttribute("reviewList", reviewList);
 
-        } else if (view.equalsIgnoreCase("create")) {
-//            namePage = "create";
-        } else if (view.equalsIgnoreCase("delete")) {
-//            int id = Integer.parseInt(request.getParameter("id"));
-//            request.setAttribute("currentSale", saleDAO.getElementByID(id));
-//
-//            namePage = "remove";
-        } else if (view.equalsIgnoreCase("edit")) {
-//
-//            int id = Integer.parseInt(request.getParameter("id"));
-//            request.setAttribute("currentSale", saleDAO.getElementByID(id));
-//
-//            namePage = "edit";
         }
-
+        
         request.getRequestDispatcher("/WEB-INF/theReview/" + namePage + ".jsp").forward(request, response);
     }
 
@@ -146,7 +164,39 @@ public class TheReviewServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        if (action != null && !action.isEmpty()) {
+
+            if (action.equalsIgnoreCase("create")) {
+                int userId = Integer.parseInt(request.getParameter("uId"));
+                int productId = Integer.parseInt(request.getParameter("pId"));
+                int rating = Integer.parseInt(request.getParameter("rating"));
+                String message = request.getParameter("message");
+                if (theReviewDAO.create(userId, productId, rating, message) >= 1) {
+                    System.out.println("Create successfull");
+                } else {
+                    System.out.println("Create failure!");
+                }
+
+            } else if (action.equalsIgnoreCase("remove")) {
+                int userId = Integer.parseInt(request.getParameter("uId"));
+                int productId = Integer.parseInt(request.getParameter("pId"));
+                if (theReviewDAO.remove(userId, productId) >= 1) {
+                    System.out.println("Remove successfull");
+                } else {
+                    System.out.println("Remove failure!");
+                }
+            }
+        }
+        
+        String str_back = "";
+//        if (!isEmptyString((String) request.getParameter("comeback"))){
+//            str_back = "?pId=" + request.getParameter("pId");
+//            
+//            System.out.println(request.getParameter("comeback"));
+//        }
+
+        response.sendRedirect(request.getContextPath() + "/theReview" + str_back);
     }
 
     /**
