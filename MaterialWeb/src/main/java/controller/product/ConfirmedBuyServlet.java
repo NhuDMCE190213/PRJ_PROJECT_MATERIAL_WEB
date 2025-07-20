@@ -18,6 +18,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Product;
 import model.User;
+// Khai báo thêm
+import dao.SaleDAO;
+import java.util.List;
+import model.Sale;
 
 /**
  *
@@ -77,7 +81,11 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
     HttpSession session = request.getSession();
     User currentUser = (User) session.getAttribute("user");
+   // ✅ LẤY GIỎ HÀNG TỪ SESSION
+    List<model.CartItem> cart = (List<model.CartItem>) session.getAttribute("cart");
 
+  
+   
     String[] productIds = request.getParameterValues("productIds");
     String[] quantities = request.getParameterValues("quantities");
 
@@ -126,6 +134,32 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
 }
 
+// ✅ Trừ số lượng khuyến mãi nếu có và không phải non-limit
+String saleIdParam = request.getParameter("selectedSaleId");
+if (saleIdParam != null && !saleIdParam.isEmpty()) {
+    try {
+        int saleId = Integer.parseInt(saleIdParam);
+        SaleDAO saleDao = new SaleDAO();
+        Sale selectedSale = saleDao.getElementByID(saleId);
+
+        // Chỉ giảm nếu không phải non-limit
+       if (selectedSale != null && selectedSale.getAmount() != Integer.MAX_VALUE) {
+            int newAmount = selectedSale.getAmount() - 1;
+            saleDao.update(
+                selectedSale.getId(),
+                selectedSale.getName(),
+                selectedSale.getDiscount(),
+                selectedSale.getTypeOfDiscount(),
+                newAmount,
+                selectedSale.isCoHanSuDung(),
+                selectedSale.getDateStart(),
+                selectedSale.getDateEnd()
+            );
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+}
 
     response.sendRedirect("order");
 }
