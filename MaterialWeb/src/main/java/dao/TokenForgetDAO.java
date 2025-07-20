@@ -81,4 +81,15 @@ public class TokenForgetDAO extends DBContext{
         }
     }
     
+    public int remove(int userId) {
+        try {
+            String query = "DELETE FROM [dbo].[tokenForgetPassword] WHERE [userId] = ?";
+            return this.executeQuery(query, new Object[]{userId});
+        } catch (SQLException ex) {
+            System.out.println("Error removing");
+        }
+
+        return 0;
+    }
+    
 }

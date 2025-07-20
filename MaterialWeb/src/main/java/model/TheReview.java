@@ -18,6 +18,7 @@ public class TheReview {
     private Product product;
     private int rating;
     private String review;
+    
 
     public TheReview(int id, int user_id, int product_id, int rating, String review) {
         ProductDao productDao = new ProductDao();

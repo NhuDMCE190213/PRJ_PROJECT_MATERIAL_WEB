@@ -83,16 +83,6 @@
                                 </ul>
                             </li>
 
-
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About us</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Contact us</a>
-                            </li>
-
                             <li class="nav-item">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/order?view=order">Order</a>
                             </li>

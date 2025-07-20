@@ -214,6 +214,18 @@ public class TheReviewDAO extends DBContext {
 
         return 0;
     }
+    
+    public int remove(int userId) {
+        try {
+            String query = "DELETE FROM [dbo].[theReview]\n"
+                    + "WHERE userId = ?";
+            return this.executeQuery(query, new Object[]{userId});
+        } catch (SQLException ex) {
+            System.out.println("Error creating");
+        }
+
+        return 0;
+    }
 
     public int remove(int userId, int productId) {
         try {

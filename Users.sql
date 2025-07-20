@@ -19,8 +19,7 @@ CREATE TABLE dbo.user_login (
     email VARCHAR(255) NOT NULL,
     password VARCHAR(100),
     Status VARCHAR(20),
-    Role VARCHAR(50),
-	avatar VARCHAR(255) NULL
+    Role VARCHAR(50)
 );
 GO
 
@@ -34,6 +33,10 @@ CREATE TABLE dbo.tokenForgetPassword (
     FOREIGN KEY (userId) REFERENCES dbo.user_login(UserID)
 );
 GO
+
+ALTER TABLE user_login
+ADD avatar VARCHAR(255) NULL;
+
 
 INSERT INTO dbo.user_login (FullName, PhoneNumber, email, password, Status, Role)
 VALUES 

@@ -4,6 +4,8 @@
  */
 package controller.User;
 
+import dao.TheReviewDAO;
+import dao.TokenForgetDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -169,12 +171,20 @@ public class UserServlet extends HttpServlet {
             String role = request.getParameter("role");
             String status = request.getParameter("status");
 
-            dao.updateRoleStatusOnly(id, role, status); 
+            dao.updateRoleStatusOnly(id, role, status);
             response.sendRedirect("user?view=list");
-        
+
         } else if ("delete".equals(action)) {
             try {
                 int id = Integer.parseInt(request.getParameter("id"));
+                
+                TheReviewDAO theReviewDAO = new TheReviewDAO();
+                TokenForgetDAO tokenForgetDAO = new TokenForgetDAO();
+
+                theReviewDAO.remove(id);
+                tokenForgetDAO.remove(id);
+
+                
                 dao.delete(id);
                 response.sendRedirect(request.getContextPath() + "/user?view=list");
             } catch (NumberFormatException e) {

@@ -54,7 +54,7 @@
                                     <td>${c.id}</td>
                                     <td>${c.name}</td>
                                     <td>
-                                        <a href="${pageContext.request.contextPath}/category?view=update&id=${c.id}" class="btn btn-primary btn-sm">✏️ EDIt</a>
+                                        <a href="${pageContext.request.contextPath}/category?view=update&id=${c.id}" class="btn btn-primary btn-sm">✏️ EDIT</a>
                                         <a href="${pageContext.request.contextPath}/category?view=delete&id=${c.id}" class="btn btn-danger btn-sm"
                                            onclick="return confirm('Bạn có chắc muốn xoá danh mục này?');">🗑️ DELETE</a>
                                     </td>

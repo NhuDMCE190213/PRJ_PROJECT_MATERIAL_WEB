@@ -120,6 +120,8 @@ public class ProfileServlet extends HttpServlet {
             String confirmPassword = request.getParameter("confirmPassword");
             String phone = request.getParameter("phone");
 
+            System.out.println(rawPassword);
+
             if (!rawPassword.equals(confirmPassword)) {
                 request.setAttribute("error", "Passwords do not match!");
                 request.setAttribute("user", user); // giữ lại dữ liệu đã nhập
@@ -128,11 +130,11 @@ public class ProfileServlet extends HttpServlet {
             }
 
             String hashedPassword = HashUtil.toMD5(rawPassword);
+            user.setPassword(hashedPassword);
 
             user.setFullName(fullName);
             user.setEmail(email);
             user.setPhonenumbers(phone);
-            user.setPassword(hashedPassword);
 
             UserDAO dao = new UserDAO();
             dao.updateUser(user);
