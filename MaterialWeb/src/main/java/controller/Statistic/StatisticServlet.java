@@ -14,6 +14,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.LocalDate;
 import java.util.List;
 import model.OrderReport;
 import model.ProductReport;
@@ -63,28 +64,71 @@ public class StatisticServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String type = request.getParameter("type");
-        String period = request.getParameter("period");
-        int year = Integer.parseInt(request.getParameter("year"));
-        String monthStr = request.getParameter("month");
+        String type = request.getParameter("type");    // "order" hoặc "product"
+        String period = request.getParameter("period");  // "day", "month", "quarter"
 
-        if (type.equals("order")) {
-            List<OrderReport> reports;
-            if (period.equals("month")) {
-                reports = OrderDAO.getReportByMonth(year);
-            } else {
-                reports = OrderDAO.getReportByQuarter(year);
-            }
-            request.setAttribute("orderReports", reports);
-        } else {
-            int month = (monthStr == null || monthStr.isEmpty()) ? 0 : Integer.parseInt(monthStr);
-            List<ProductReport> reports = ProductDao.getTopSellingProducts(year, month);
-            request.setAttribute("productReports", reports);
+        // Lần đầu chưa chọn gì thì show form
+        if (type == null || period == null) {
+            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/report/statistic.jsp");
+            rd.forward(request, response);
+            return;
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/report/report-result.jsp");
-        rd.forward(request, response);
+        try {
+            if ("order".equals(type)) {
+                List<OrderReport> reports;
+                switch (period) {
+                    case "day": {
+                        LocalDate date = LocalDate.parse(request.getParameter("date"));
+                        reports = OrderDAO.getReportByDay(date);
+                        break;
+                    }
+                    case "month": {
+                        int year = Integer.parseInt(request.getParameter("year"));
+                        int month = Integer.parseInt(request.getParameter("month"));
+                        reports = OrderDAO.getReportByMonth(year, month);
+                        break;
+                    }
+                    default: /* quarter */ {
+                        int year = Integer.parseInt(request.getParameter("year"));
+                        int quarter = Integer.parseInt(request.getParameter("quarter"));
+                        reports = OrderDAO.getReportByQuarter(year, quarter);
+                        break;
+                    }
+                }
+                request.setAttribute("orderReports", reports);
 
+            } else { // product
+                List<ProductReport> reports;
+                switch (period) {
+                    case "day": {
+                        LocalDate date = LocalDate.parse(request.getParameter("date"));
+                        reports = ProductDao.getTopSellingProductsByDay(date);
+                        break;
+                    }
+                    case "month": {
+                        int year = Integer.parseInt(request.getParameter("year"));
+                        int month = Integer.parseInt(request.getParameter("month"));
+                        reports = ProductDao.getTopSellingProductsByMonth(year, month);
+                        break;
+                    }
+                    default: /* quarter */ {
+                        int year = Integer.parseInt(request.getParameter("year"));
+                        int quarter = Integer.parseInt(request.getParameter("quarter"));
+                        reports = ProductDao.getTopSellingProductsByQuarter(year, quarter);
+                        break;
+                    }
+                }
+                request.setAttribute("productReports", reports);
+            }
+        } catch (Exception e) {
+            throw new ServletException("Lỗi khi lấy dữ liệu thống kê", e);
+        }
+
+        // Giữ lại period để JSP hiện nhãn đúng
+        request.setAttribute("period", period);
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/report/report-result.jsp");
+        rd.forward(request, response);
     }
 
     /**

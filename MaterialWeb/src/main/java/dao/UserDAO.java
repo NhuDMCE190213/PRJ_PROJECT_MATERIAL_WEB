@@ -149,17 +149,28 @@ public class UserDAO extends DBContext {
     }
 
     public void updateUser(User user) {
-        String sql = "UPDATE user_login SET FullName = ?, email = ?, password = ? WHERE UserID = ?";
+        String sql = "UPDATE user_login SET FullName = ?, email = ?, password = ?, phoneNumber = ? WHERE UserID = ?";
         try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setString(1, user.getFullName());
             ps.setString(2, user.getEmail());
             ps.setString(3, user.getPassword()); // nếu có mã hóa MD5 thì truyền mã hóa
-            ps.setInt(4, user.getUserid());
+            ps.setString(4, user.getPhonenumbers());
+            ps.setInt(5, user.getUserid());
 
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
+    public void updateAvatar(int userId, String avatarFilename) throws SQLException {
+        String sql = "UPDATE users SET avatar = ? WHERE userid = ?";
+        try ( PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            ps.setString(1, avatarFilename);
+            ps.setInt(2, userId);
+            ps.executeUpdate();
+        }
+    }
+
 }

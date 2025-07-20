@@ -37,6 +37,12 @@
                             </div>
 
                             <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" id="phone" name="phone" class="form-control" value="${user.phonenumbers}" pattern="\d+" 
+                                       title="Chỉ được nhập số" required>
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" id="password" name="password" class="form-control" value="${user.password}" required>
                             </div>

@@ -6,9 +6,11 @@ package dao;
 
 import db.DBContext;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import model.Order;
@@ -43,43 +45,6 @@ public class OrderDAO {
         return list;
     }
 
-    public static List<OrderReport> getReportByMonth(int year) {
-        List<OrderReport> list = new ArrayList<>();
-        String sql = "SELECT MONTH(order_date) AS month, COUNT(*) AS orders, SUM(total_amount) AS revenue "
-                + "FROM orders WHERE YEAR(order_date) = ? AND status = 'Hoàn thành' "
-                + "GROUP BY MONTH(order_date)";
-
-        try {
-            DBContext db = new DBContext();
-            ResultSet rs = db.executeSelectionQuery(sql, new Object[]{year});
-            while (rs.next()) {
-                list.add(new OrderReport(rs.getInt("month"), rs.getInt("orders"), rs.getInt("revenue")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return list;
-    }
-
-    public static List<OrderReport> getReportByQuarter(int year) {
-        List<OrderReport> list = new ArrayList<>();
-        String sql = "SELECT DATEPART(QUARTER, order_date) AS quarter, COUNT(*) AS orders, SUM(total_amount) AS revenue "
-                + "FROM orders WHERE YEAR(order_date) = ? AND status = 'Hoàn thành' "
-                + "GROUP BY DATEPART(QUARTER, order_date)";
-
-        try {
-            DBContext db = new DBContext();
-            ResultSet rs = db.executeSelectionQuery(sql, new Object[]{year});
-            while (rs.next()) {
-                list.add(new OrderReport(rs.getInt("quarter"), rs.getInt("orders"), rs.getInt("revenue")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return list;
-    }
 
     public int insertOrder(int userId, int total) {
         String sql = "INSERT INTO orders (user_id, total_amount) OUTPUT INSERTED.id VALUES (?, ?)";
@@ -170,4 +135,68 @@ public class OrderDAO {
         return list;
     }
 
+    public static List<OrderReport> getReportByDay(LocalDate date) throws SQLException {
+        List<OrderReport> list = new ArrayList<>();
+        String sql
+                = "SELECT DAY(order_date) AS period, COUNT(*) AS orders, SUM(total_amount) AS revenue "
+                + "FROM orders WHERE status='Hoàn thành' AND CAST(order_date AS DATE)=? "
+                + "GROUP BY DAY(order_date) ORDER BY period";
+        try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setDate(1, Date.valueOf(date));
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new OrderReport(
+                            String.valueOf(rs.getInt("period")),
+                            rs.getInt("orders"),
+                            rs.getInt("revenue")
+                    ));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<OrderReport> getReportByMonth(int year, int month) throws SQLException {
+        List<OrderReport> list = new ArrayList<>();
+        String sql
+                = "SELECT MONTH(order_date) AS period, COUNT(*) AS orders, SUM(total_amount) AS revenue "
+                + "FROM orders WHERE status='Hoàn thành' AND YEAR(order_date)=? AND MONTH(order_date)=? "
+                + "GROUP BY MONTH(order_date) ORDER BY period";
+        try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, year);
+            ps.setInt(2, month);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new OrderReport(
+                            String.valueOf(rs.getInt("period")),
+                            rs.getInt("orders"),
+                            rs.getInt("revenue")
+                    ));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<OrderReport> getReportByQuarter(int year, int quarter) throws SQLException {
+        List<OrderReport> list = new ArrayList<>();
+        String sql
+                = "SELECT DATEPART(QUARTER, order_date) AS period, COUNT(*) AS orders, SUM(total_amount) AS revenue "
+                + "FROM orders WHERE status='Hoàn thành' AND YEAR(order_date)=? AND DATEPART(QUARTER, order_date)=? "
+                + "GROUP BY DATEPART(QUARTER, order_date) ORDER BY period";
+        try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, year);
+            ps.setInt(2, quarter);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new OrderReport(
+                            String.valueOf(rs.getInt("period")),
+                            rs.getInt("orders"),
+                            rs.getInt("revenue")
+                    ));
+                }
+            }
+        }
+        return list;
+    }
 }

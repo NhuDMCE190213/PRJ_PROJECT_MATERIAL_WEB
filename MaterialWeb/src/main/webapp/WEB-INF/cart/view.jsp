@@ -73,6 +73,10 @@
 
 <h2>🛒 Giỏ hàng của bạn</h2>
 
+<c:if test="${not empty error}">
+    <div style="color: red; text-align: center;">${error}</div>
+</c:if>
+
 <% if (cart == null || cart.getItems().isEmpty()) { %>
 <p style="text-align:center; color: #888;">Không có sản phẩm nào trong giỏ hàng.</p>
 <% } else { %>
@@ -87,16 +91,16 @@
             <th>Thành tiền (VNĐ)</th>
             <th>Xóa</th>
         </tr>
-        <% for (CartItem item : cart.getItems()) { %>
+        <% for (CartItem item : cart.getItems()) {%>
         <tr>
             <td>
-                <input type="checkbox" name="selectedProductIds" value="<%= item.getProduct().getId() %>">
-                <input type="hidden" name="quantity_<%= item.getProduct().getId() %>" value="<%= item.getQuantity() %>">
+                <input type="checkbox" name="selectedProductIds" value="<%= item.getProduct().getId()%>">
+                <input type="hidden" name="quantity_<%= item.getProduct().getId()%>" value="<%= item.getQuantity()%>">
             </td>
-            <td><%= item.getProduct().getName() %></td>
-            <td><%= item.getQuantity() %></td>
-            <td><%= String.format("%,d", item.getProduct().getPrice()) %></td>
-            <td><%= String.format("%,d", item.getTotalPrice()) %></td>
+            <td><%= item.getProduct().getName()%></td>
+            <td><%= item.getQuantity()%></td>
+            <td><%= String.format("%,d", item.getProduct().getPrice())%></td>
+            <td><%= String.format("%,d", item.getTotalPrice())%></td>
             <td>
                 <form action="carts" method="post" style="display:inline;">
                     <input type="hidden" name="action" value="decreaseQuantity">
@@ -108,14 +112,26 @@
                 <a class="btn-remove" href="carts?action=remove&id=<%= item.getProduct().getId()%>">Xóa tất cả</a>
             </td>
         </tr>
-        <% } %>
+        <% }%>
 
         <tr class="total-row">
+<<<<<<< HEAD
             <td colspan="4">Tổng cộng giỏ hàng:</td>
             <td colspan="2"><%= String.format("%,d", cart.getTotal()) %> VNĐ</td>
         </tr>
     </table>
           
+=======
+            <td colspan="4">Tổng cộng:</td>
+            <td colspan="2"><%= String.format("%,d", cart.getTotal())%> VNĐ</td>
+        </tr>
+    </table>
+    <div style="text-align: center; margin-top: 20px;">
+        <button class="btn btn-success" type="submit">Payment Now!</button>
+    </div>
+</form>
+
+>>>>>>> 8f426c72acfdc373c5235b1e91a794eadb19a115
 
 <%
     List<Sale> availableSales = (List<Sale>) request.getAttribute("availableSales");
@@ -162,7 +178,7 @@
     }
 </script>
 
-<% } %>
+<% }%>
 
 <a class="back-link" href="${pageContext.request.contextPath}/display?view=list">← Quay lại danh sách sản phẩm</a>
 
