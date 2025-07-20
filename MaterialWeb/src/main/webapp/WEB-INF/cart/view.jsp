@@ -104,12 +104,12 @@
                 <td><%= String.format("%,d", item.getTotalPrice())%></td>
                 <td>
                     <form action="carts" method="post" style="display:inline;">
-                        <input type="hidden" name="action" value="decreaseQuantity">
+<!--                        <input type="hidden" name="action" value="decreaseQuantity">
                         <input type="hidden" name="id" value="<%= item.getProduct().getId()%>">
                         <input type="number" name="decreaseAmount" min="1" max="<%= item.getQuantity()%>" value="1" style="width:50px;">
-                        <input type="submit" value="Xóa bớt">
+                        <input type="submit" value="Xóa bớt">-->
                     </form>
-                    <br>
+                    <!--<br>-->
                     <a class="btn-remove" href="carts?action=remove&id=<%= item.getProduct().getId()%>">Xóa tất cả</a>
                 </td>
             </tr>

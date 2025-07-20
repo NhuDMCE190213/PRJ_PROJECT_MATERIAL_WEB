@@ -64,7 +64,7 @@
                             <!--<li class="nav-item active">-->
 
 
-                            <c:if test="${not empty user and user.admin}">  
+                            <%--<c:if test="${not empty user and user.admin}">  
 
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Manager</a>
@@ -78,7 +78,7 @@
                                         <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/report">Manager Report</a></li>
                                     </ul>
                                 </li>
-                            </c:if>
+                            </c:if>--%>
 
 
 
@@ -103,18 +103,6 @@
 
                                 </ul>
                             </li>
-
-<<<<<<< HEAD
-=======
-
-
-
-<li class="nav-item">
-  <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact us</a>
-</li>
-
-
->>>>>>> e42cfd5023b4a617947e85a6416e7cb4f36aff44
                             <li class="nav-item">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/order?view=order">Order</a>
                             </li>
@@ -140,16 +128,18 @@
                                             </svg>
                                         </a>
                                         <ul class=" custom-navbar dropdown-menu" aria-labelledby="userDropdown">
+                                            <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/profile">My Profile</a></li>
                                             <c:if test="${user.admin}">      
-                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/user">Manager User</a></li>
-                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/category">Manager Category</a></li>
-                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/product">Manager Product</a></li>
-                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/theReview">Manager Review</a></li>
-                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/sale">Manager Sale</a></li>
+                                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/user">Manager User</a></li>
+                                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/category">Manager Category</a></li>
+                                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/product">Manager Product</a></li>
+                                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/theReview">Manager Review</a></li>
+                                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/sale">Manager Sale</a></li>
+                                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/report">Manager Reports</a></li>
                                                 <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/orders">Manager Orders</a></li>
                                                 <li><hr class="dropdown-divider"></li>
                                                 </c:if>
-                                            <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/profile">My Profile</a></li>
+                                            
                                             <li>
                                                 <form action="<%= request.getContextPath()%>/auth" method="post" style="display: inline;">
                                                     <button type="submit" name="action" value="LOGOUT" class="dropdown-item text-light">Logout</button>
@@ -215,7 +205,7 @@
       </div>
       <div class="modal-body">
         <p><strong>Email:</strong> peragi@gmail.com</p>
-        <p><strong>Phone:</strong> 0942339134</p>
+        <p><strong>Phone:</strong> 0942XXX134</p>
       </div>
     </div>
   </div>
