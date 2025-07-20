@@ -20,8 +20,8 @@
 					<div class="row justify-content-between">
 						<div class="col-lg-5">
 							<div class="intro-excerpt">
-								<h1>Shop Name <span class="d-block">SE1902 - G2</span></h1>
-								<p class="mb-4">Vao ba hai di mua 2 chai nuoc mam xong roi. ve an com ngu toi chieu. Vao ba hai di mua 2 chai nuoc mam xong roi. ve an com ngu toi chieu.</p>
+								<h1>Peragi<span class="d-block">SE1902 - G2</span></h1>
+								<p class="mb-4">Your trusted source for high-quality building materials. We provide everything you need for durable construction and stunning finishes.</p>
 								<p><a href="<%=request.getContextPath()%>/display" class="btn btn-secondary me-2">Shop Now</a><a href="#" class="btn btn-white-outline">Explore</a></p>
 							  <!-- Search Bar -->
     <form class="d-flex mt-3" action="<%=request.getContextPath()%>/display" method="get">
@@ -34,115 +34,161 @@
                                             
 						<div class="col-lg-7">
 							<div class="hero-img-wrap">
-								<img src="https://whataroom.com/cdn/shop/files/alex-sofa_1.webp?v=1748286510&width=800" class="img-fluid">
+								<img src="<%= request.getContextPath() %>/assets/img/banner.png" class="img-fluid">
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		<!-- End Hero Section -->
-<!-- BEST SELLING SECTION -->
+<!-- Highlight Carousel - Full Width -->
 <section class="py-5 bg-light">
-  <div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="mb-0">Best Selling Products</h2>
-      <select class="form-select w-auto" aria-label="Sort products">
-        <option selected>All categories</option>
-        <option value="1">Type A</option>
-        <option value="2">Type B</option>
-        <option value="3">Type C</option>
-        <option value="4">Type D</option>
-      </select>
-    </div>
+  <div class="container-fluid text-center">
+   <h1 class="mb-5 fw-bold display-5">Discover Our Highlights</h1>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
-      <!-- Product Card 1 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 1">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 1</h5>
-            <p class="card-text text-muted">$19.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
+    <div id="highlightCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+
+        <!-- Slide 1 -->
+        <div class="carousel-item active">
+          <div class="d-flex justify-content-center">
+            <div class="card shadow w-100 mx-3" style="max-width: 1000px;">
+              <img src="<%=request.getContextPath()%>/assets/img/quote.png" class="card-img-top" alt="Highlight 1" style="object-fit: cover; height: 400px;">
+              <div class="card-body text-center">
+                       </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Product Card 2 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 2">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 2</h5>
-            <p class="card-text text-muted">$24.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
+        <!-- Slide 2 -->
+        <div class="carousel-item">
+          <div class="d-flex justify-content-center">
+            <div class="card shadow w-100 mx-3" style="max-width: 1000px;">
+              <img src="<%=request.getContextPath()%>/assets/img/quote2.png" class="card-img-top" alt="Highlight 2" style="object-fit: cover; height: 400px;">
+              <div class="card-body text-center">
+
+              
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Product Card 3 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 3">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 3</h5>
-            <p class="card-text text-muted">$14.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
+        <!-- Slide 3 -->
+        <div class="carousel-item">
+          <div class="d-flex justify-content-center">
+            <div class="card shadow w-100 mx-3" style="max-width: 1000px;">
+              <img src="<%=request.getContextPath()%>/assets/img/quote3.png" class="card-img-top" alt="Highlight 3" style="object-fit: cover; height: 400px;">
+              <div class="card-body text-center">
+            
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
 
-      <!-- Product Card 4 -->
-      <div class="col">
-        <div class="card h-100">
-          <img src="<%=request.getContextPath()%>/assets/img/PSX_20240110_131203.png" class="card-img-top" alt="Product 4">
-          <div class="card-body">
-            <h5 class="card-title">Product Name 4</h5>
-            <p class="card-text text-muted">$29.99</p>
-            <a href="#" class="btn btn-sm btn-primary">View Details</a>
-          </div>
-        </div>
-      </div>
-
-    
-
-    </div>
-            <!-- Check More Button aligned right -->
-   <div class="d-flex justify-content-center align-items-center pt-5">
-    <div class="center-box border rounded text-center">
-
-        <a class="btn btn-outline-secondary btn-lg" href="<%=request.getContextPath()%>/display">View All>>></a>
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#highlightCarousel" data-bs-slide="prev">
+  <i class="fas fa-chevron-left fs-2 text-white bg-dark rounded-circle p-3 shadow"></i>
+</button>
+   <button class="carousel-control-next" type="button" data-bs-target="#highlightCarousel" data-bs-slide="next">
+  <i class="fas fa-chevron-right fs-2 text-white bg-dark rounded-circle p-3 shadow"></i>
+</button>
     </div>
   </div>
-
-
-  </div>
-          
 </section>
-      
-<!--------- End top selling---->
-<!--sale banne--->
-<div class="container-fluid bg-warning text-dark py-4">
-  <div class="  container ">
-    <div class="row align-items-center">
-      <div class="col-md-12 text-center">
-        <h2 class="fw-bold ">
-       
-              Limited Time Offer!
-           <img class="default-size" src="<%=request.getContextPath()%>/assets/img/new-star.gif">
+
+
+
+
+
+<!-- About Us Section -->
+<section class="py-5 bg-white border-top">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-5">Meet Our Team</h2>
+    <div class="row g-4 justify-content-center">
+
+      <!-- Dai Minh Nhu -->
+      <div class="col-md-4 col-lg-2">
+        <div class="card h-100 text-center shadow-sm border-success">
+          <img src="<%=request.getContextPath()%>/assets/img/nhu.jpg" class="card-img-top rounded-circle mx-auto mt-4" style="width:100px; height:100px; object-fit:cover;" alt="Dai Minh Nhu">
+          <div class="card-body">
+            <h6 class="card-title fw-bold mb-1">Dai Minh Nhu</h6>
+            <p class="text-muted small">"Durability for every project."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nguyen Thanh Nhan -->
+      <div class="col-md-4 col-lg-2">
+        <div class="card h-100 text-center shadow-sm border-success">
+          <img src="<%=request.getContextPath()%>/assets/img/nhan.jpg" class="card-img-top rounded-circle mx-auto mt-4" style="width:100px; height:100px; object-fit:cover;" alt="Nguyen Thanh Nhan">
+          <div class="card-body">
+            <h6 class="card-title fw-bold mb-1">Nguyen Thanh Nhan</h6>
+            <p class="text-muted small">"Quality builds trust."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Le Duy Khanh -->
+      <div class="col-md-4 col-lg-2">
+        <div class="card h-100 text-center shadow-sm border-success">
+          <img src="<%=request.getContextPath()%>/assets/img/khanh.jpg" class="card-img-top rounded-circle mx-auto mt-4" style="width:100px; height:100px; object-fit:cover;" alt="Le Duy Khanh">
+          <div class="card-body">
+            <h6 class="card-title fw-bold mb-1">Le Duy Khanh</h6>
+            <p class="text-muted small">"Structure starts with selection."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tieu Gia Huy -->
+      <div class="col-md-4 col-lg-2">
+        <div class="card h-100 text-center shadow-sm border-success">
+          <img src="<%=request.getContextPath()%>/assets/img/huy.jpg" class="card-img-top rounded-circle mx-auto mt-4" style="width:100px; height:100px; object-fit:cover;" alt="Tieu Gia Huy">
+          <div class="card-body">
+            <h6 class="card-title fw-bold mb-1">Tieu Gia Huy</h6>
+            <p class="text-muted small">"Optimizing the customer journey."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Huynh Thai Duy Phuong -->
+      <div class="col-md-4 col-lg-2">
+        <div class="card h-100 text-center shadow-sm border-success">
+          <img src="<%=request.getContextPath()%>/assets/img/phuong.jpg" class="card-img-top rounded-circle mx-auto mt-4" style="width:100px; height:100px; object-fit:cover;" alt="Huynh Thai Duy Phuong">
+          <div class="card-body">
+            <h6 class="card-title fw-bold mb-1">Huynh Thai Duy Phuong</h6>
+            <p class="text-muted small">"Code the future of e-commerce."</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- Sale Banner -->
+<div class="container-fluid py-4 text-white" style="background: linear-gradient(90deg, #ff8a00, #e52e71);">
+  <div class="container">
+    <div class="row align-items-center justify-content-center text-center">
+      <div class="col-md-10">
+        <h2 class="fw-bold mb-2">
+          <img src="<%=request.getContextPath()%>/assets/img/new-star.gif" alt="Star" class="me-2" style="width:32px; height:32px;">
+          Limited Time Offer!
         </h2>
-        
-        <p class="mb-0">
-        Get up to 50% off on selected items. Don’t miss out!
+        <p class="lead mb-0">
+          Enjoy up to <strong>50% off</strong> on selected items. Act fast before it's gone!
         </p>
       </div>
-<!--      <div class="col-md-4 text-md-end mt-3 mt-md-0">
-        <a href="<%=request.getContextPath()%>/sale" class="btn btn-dark btn-lg">>>></a>
-      </div>-->
     </div>
   </div>
 </div>
-<!---end sale banner-->
+<!-- End Sale Banner -->
+
+
+
+
 <!--------Categories--------->
 <div class="container-fluid  text-dark py-0">
   <div class="container text-center">
@@ -174,6 +220,11 @@
         </a>
       </div>
       <% } %>
+    </div>
+     <div class="text-center">
+      <a href="<%=request.getContextPath()%>/display" class="btn btn-dark btn-lg">
+        View All ➪
+      </a>
     </div>
   </div>
 </section>

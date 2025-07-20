@@ -11,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="keywords" content="bootstrap, bootstrap4" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" href="<%=request.getContextPath()%>/assets/img/favcon.ico" type="image/x-icon">
         <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
         <title>Web Vat lieu xay dung uy tin nhat Viet nam</title>
@@ -61,6 +62,26 @@
                     <div class="collapse navbar-collapse" id="navbarsFurni">
                         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                             <!--<li class="nav-item active">-->
+
+
+                            <c:if test="${not empty user and user.admin}">  
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Manager</a>
+                                    <ul class=" custom-navbar dropdown-menu">
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/user">Manager User</a></li>
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/category">Manager Category</a></li>
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/product">Manager Product</a></li>
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/theReview">Manager Review</a></li>
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/sale">Manager Sale</a></li>
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/orders">Manager Orders</a></li>
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/report">Manager Report</a></li>
+                                    </ul>
+                                </li>
+                            </c:if>
+
+
+
                             <li class="nav-item">
                                 <a class="nav-link" href="<%=request.getContextPath()%>/home">Home</a>
                             </li>
@@ -85,13 +106,11 @@
 
 
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">About us</a>
-                            </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Contact us</a>
-                            </li>
+<li class="nav-item">
+  <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact us</a>
+</li>
+
 
                             <li class="nav-item">
                                 <a class="nav-link" href="${pageContext.request.contextPath}/order?view=order">Order</a>
@@ -118,17 +137,16 @@
                                             </svg>
                                         </a>
                                         <ul class=" custom-navbar dropdown-menu" aria-labelledby="userDropdown">
-                                            <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/profile">My Profile</a></li>
-                                                <c:if test="${user.admin}">      
-                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/user">Manager User</a></li>
-                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/category">Manager Category</a></li>
-                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/product">Manager Product</a></li>
-                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/theReview">Manager Review</a></li>
-                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/sale">Manager Sale</a></li>
-                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/orders">Manager Orders</a></li>
+                                            <c:if test="${user.admin}">      
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/user">Manager User</a></li>
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/category">Manager Category</a></li>
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/product">Manager Product</a></li>
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/theReview">Manager Review</a></li>
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/sale">Manager Sale</a></li>
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/orders">Manager Orders</a></li>
                                                 <li><hr class="dropdown-divider"></li>
                                                 </c:if>
-
+                                            <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/profile">My Profile</a></li>
                                             <li>
                                                 <form action="<%= request.getContextPath()%>/auth" method="post" style="display: inline;">
                                                     <button type="submit" name="action" value="LOGOUT" class="dropdown-item text-light">Logout</button>
@@ -178,18 +196,26 @@
                                 </c:otherwise>
                             </c:choose>
 
-                            <script>
-                                const link = document.createElement('link');
-                                link.rel = 'icon';
-                                link.type = 'image/png';
-                                link.href = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJPgY_CJgsBPkkc_fI-mL_9cGVCIB3Ufzekg&s' + new Date().getTime();
-                                document.head.appendChild(link);
-                            </script>
+
                         </ul>
 
                     </div>
                 </div>
 
             </nav>
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-white text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title" id="contactModalLabel">Contact Us</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Email:</strong> peragi@gmail.com</p>
+        <p><strong>Phone:</strong> 0942339134</p>
+      </div>
+    </div>
+  </div>
+</div>
 
         </header>
