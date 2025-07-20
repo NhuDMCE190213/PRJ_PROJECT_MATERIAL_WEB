@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.AuthController;
 
-import dao.CategoriesDao;
-import dao.ProductDao;
+import dao.TokenForgetDAO;
+import model.TokenForgetPassword;
+import model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,16 +14,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.Category;
-import model.Product;
+import java.time.LocalDateTime;
+import dao.AuthDAO;
+import java.net.URLEncoder;
 
 /**
  *
- * @author Huynh Thai Duy Phuong - CE190603
+ * @author HP
  */
-@WebServlet(name = "HomeServlet", urlPatterns = {"/home",""})
-public class HomeServlet extends HttpServlet {
+@WebServlet(name = "requestPassword", urlPatterns = {"/requestPassword"})
+public class requestPassword extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +42,10 @@ public class HomeServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");
+            out.println("<title>Servlet requestPassword</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet requestPassword at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,30 +63,7 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//         ProductDao dao = new ProductDao();
-//        String view = request.getParameter("view");
-//
-//        if (view == null || view.isBlank() ) {
-//            List<Product> products = dao.getAll();
-
-        //gui kem qua view de hien thi
-        //key, value
-//            request.setAttribute("list", products);
-
-        /*
-HOMEPAGE.JSP
-         */
-        CategoriesDao dao = new CategoriesDao();
-List<Category> list = dao.getAllCategories();
-request.setAttribute("categories", list);
-
-        request.getRequestDispatcher("/WEB-INF/home/homepage.jsp").forward(request, response);
-
-//        } else if (view.equals("create")) {
-//            // forward qua view (jsp) create.jsp
-//            request.getRequestDispatcher("/WEB-INF/product/create.jsp").forward(request, response);
-//
-//        }
+        request.getRequestDispatcher("/WEB-INF/login/requestPassword.jsp").forward(request, response);
     }
 
     /**
@@ -99,7 +77,41 @@ request.setAttribute("categories", list);
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        AuthDAO dao = new AuthDAO();
+        String email = request.getParameter("email");
+        //email co ton tai trong db
+        User user = dao.getUserByEmail(email);
+        if (user == null) {
+            request.setAttribute("mess", "email khong ton tai");
+            request.getRequestDispatcher("/WEB-INF/login/requestPassword.jsp").forward(request, response);
+            return;
+        }
+        resetService service = new resetService();
+        String token = service.generateToken();
+
+        String domain = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String encodedToken = URLEncoder.encode(token, "UTF-8");
+        String linkReset = domain + request.getContextPath() + "/resetPassword?token=" + encodedToken;
+
+        TokenForgetPassword newTokenForget = new TokenForgetPassword(
+                user.getUserid(), false, token, service.expireDateTime());
+
+        //send link to this email
+        TokenForgetDAO daoToken = new TokenForgetDAO();
+        boolean isInsert = daoToken.insertTokenForget(newTokenForget);
+        if (!isInsert) {
+            request.setAttribute("mess", "have error in server");
+            request.getRequestDispatcher("/WEB-INF/login/requestPassword.jsp").forward(request, response);
+            return;
+        }
+        boolean isSend = service.sendEmail(email, linkReset, user.getFullName());
+        if (!isSend) {
+            request.setAttribute("mess", "can not send request");
+            request.getRequestDispatcher("/WEB-INF/login/requestPassword.jsp").forward(request, response);
+            return;
+        }
+        request.setAttribute("mess", "send request success");
+        request.getRequestDispatcher("/WEB-INF/login/requestPassword.jsp").forward(request, response);
     }
 
     /**

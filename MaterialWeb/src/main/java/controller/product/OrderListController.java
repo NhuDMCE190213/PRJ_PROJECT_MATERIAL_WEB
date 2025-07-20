@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.product;
 
+import dao.OrderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,16 +13,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.Order;
 import model.User;
-import constant.HashUtil;
-import dao.UserDAO;
 
 /**
  *
  * @author Tieu Gia Huy - CE191594
  */
-@WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
-public class ProfileServlet extends HttpServlet {
+@WebServlet(name = "OrderListController", urlPatterns = {"/orders"})
+public class OrderListController extends HttpServlet {
+
+    private final OrderDAO orderDAO = new OrderDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,15 +37,16 @@ public class ProfileServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SaleServlet</title>");
+            out.println("<title>Servlet OrderListController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SaleServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrderListController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,26 +64,24 @@ public class ProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-
-        if (user == null) {
-            // Dữ liệu mẫu
-            user = new User("huy123", "Huy Tiêu", "huy@example.com", "123456");
-            session.setAttribute("user", user);
+        // 1) Nếu có action=updateStatus thì chạy cập nhật
+        String action = request.getParameter("action");
+        if ("updateStatus".equals(action)) {
+            String idStr = request.getParameter("id");
+            if (idStr != null) {
+                int orderId = Integer.parseInt(idStr);
+                orderDAO.updateStatus(orderId, "Hoàn thành");
+            }
+            // sau update redirect về lại list để tránh submit lại
+            response.sendRedirect(request.getContextPath() + "/orders");
+            return;
         }
 
-        String view = request.getParameter("view");
-
-        String namePage = "";
-
-        if (view == null || view.equals("") || view.equalsIgnoreCase("profile")) {
-            namePage = "profile";
-        } else if (view.equalsIgnoreCase("editProfile")) {
-            namePage = "editProfile";
-        }
-
-        request.getRequestDispatcher("/WEB-INF/profile/" + namePage + ".jsp").forward(request, response);
+        // 2) Load danh sách đơn hàng và forward tới JSP
+        List<Order> orders = orderDAO.getAllOrders();
+        request.setAttribute("orders", orders);
+        request.getRequestDispatcher("/WEB-INF/orders/list.jsp")
+                .forward(request, response);
     }
 
     /**
@@ -93,42 +95,15 @@ public class ProfileServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+        String action = request.getParameter("action");
+        if ("updateStatus".equals(action)) {
+            int orderId = Integer.parseInt(request.getParameter("id"));
+            String status = request.getParameter("status");
+            new OrderDAO().updateStatus(orderId, status);
+            response.sendRedirect("orders"); // hoặc "order?view=orders"
+            return;
 
-        if (user != null) {
-            user.setFullName(request.getParameter("fullName"));
-            user.setEmail(request.getParameter("email"));
-            user.setPassword(request.getParameter("password"));
-
-            String fullName = request.getParameter("fullName");
-            String email = request.getParameter("email");
-            String rawPassword = request.getParameter("password");
-            String confirmPassword = request.getParameter("confirmPassword");
-            
-            
-            if (!rawPassword.equals(confirmPassword)) {
-                request.setAttribute("error", "Passwords do not match!");
-                request.setAttribute("user", user); // giữ lại dữ liệu đã nhập
-                request.getRequestDispatcher("profile?view=editProfile").forward(request, response);
-                return;
-            }
-            
-            String hashedPassword = HashUtil.toMD5(rawPassword);
-
-            user.setFullName(fullName);
-            user.setEmail(email);
-            user.setPassword(hashedPassword);
-
-            UserDAO dao = new UserDAO();
-            dao.updateUser(user); // bước này bạn cần tạo trong DAO
-
-            session.setAttribute("user", user);
         }
-
-        request.getSession().setAttribute("message", "Profile updated successfully!");
-        response.sendRedirect("profile");
-
     }
 
     /**

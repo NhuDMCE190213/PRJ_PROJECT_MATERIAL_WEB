@@ -2,11 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.User;
 
-import dao.OrderDAO;
-import dao.ProductDao;
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,16 +11,17 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.OrderReport;
-import model.ProductReport;
+import jakarta.servlet.http.HttpSession;
+import model.User;
+import constant.HashUtil;
+import dao.UserDAO;
 
 /**
  *
  * @author Tieu Gia Huy - CE191594
  */
-@WebServlet(name = "StatisticServlet", urlPatterns = {"/StatisticServlet"})
-public class StatisticServlet extends HttpServlet {
+@WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
+public class ProfileServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,16 +34,15 @@ public class StatisticServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StatisticServlet</title>");
+            out.println("<title>Servlet SaleServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StatisticServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SaleServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,28 +60,26 @@ public class StatisticServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String type = request.getParameter("type");
-        String period = request.getParameter("period");
-        int year = Integer.parseInt(request.getParameter("year"));
-        String monthStr = request.getParameter("month");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
 
-        if (type.equals("order")) {
-            List<OrderReport> reports;
-            if (period.equals("month")) {
-                reports = OrderDAO.getReportByMonth(year);
-            } else {
-                reports = OrderDAO.getReportByQuarter(year);
-            }
-            request.setAttribute("orderReports", reports);
-        } else {
-            int month = (monthStr == null || monthStr.isEmpty()) ? 0 : Integer.parseInt(monthStr);
-            List<ProductReport> reports = ProductDao.getTopSellingProducts(year, month);
-            request.setAttribute("productReports", reports);
+        if (user == null) {
+            // Dữ liệu mẫu
+            user = new User("huy123", "Huy Tiêu", "huy@example.com", "123456");
+            session.setAttribute("user", user);
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/report/report-result.jsp");
-        rd.forward(request, response);
+        String view = request.getParameter("view");
 
+        String namePage = "";
+
+        if (view == null || view.equals("") || view.equalsIgnoreCase("profile")) {
+            namePage = "profile";
+        } else if (view.equalsIgnoreCase("editProfile")) {
+            namePage = "editProfile";
+        }
+
+        request.getRequestDispatcher("/WEB-INF/profile/" + namePage + ".jsp").forward(request, response);
     }
 
     /**
@@ -98,7 +93,42 @@ public class StatisticServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        if (user != null) {
+            user.setFullName(request.getParameter("fullName"));
+            user.setEmail(request.getParameter("email"));
+            user.setPassword(request.getParameter("password"));
+
+            String fullName = request.getParameter("fullName");
+            String email = request.getParameter("email");
+            String rawPassword = request.getParameter("password");
+            String confirmPassword = request.getParameter("confirmPassword");
+            
+            
+            if (!rawPassword.equals(confirmPassword)) {
+                request.setAttribute("error", "Passwords do not match!");
+                request.setAttribute("user", user); // giữ lại dữ liệu đã nhập
+                request.getRequestDispatcher("profile?view=editProfile").forward(request, response);
+                return;
+            }
+            
+            String hashedPassword = HashUtil.toMD5(rawPassword);
+
+            user.setFullName(fullName);
+            user.setEmail(email);
+            user.setPassword(hashedPassword);
+
+            UserDAO dao = new UserDAO();
+            dao.updateUser(user); // bước này bạn cần tạo trong DAO
+
+            session.setAttribute("user", user);
+        }
+
+        request.getSession().setAttribute("message", "Profile updated successfully!");
+        response.sendRedirect("profile");
+
     }
 
     /**
