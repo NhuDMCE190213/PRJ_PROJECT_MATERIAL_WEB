@@ -19,7 +19,8 @@ CREATE TABLE dbo.user_login (
     email VARCHAR(255) NOT NULL,
     password VARCHAR(100),
     Status VARCHAR(20),
-    Role VARCHAR(50)
+    Role VARCHAR(50),
+	avatar VARCHAR(255) NULL
 );
 GO
 

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.User;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,11 +15,20 @@ import jakarta.servlet.http.HttpSession;
 import model.User;
 import constant.HashUtil;
 import dao.UserDAO;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Paths;
 
 /**
  *
  * @author Tieu Gia Huy - CE191594
  */
+@MultipartConfig(
+    fileSizeThreshold = 1024*1024,  // 1MB
+    maxFileSize = 5*1024*1024,      // 5MB
+    maxRequestSize = 10*1024*1024   // 10MB
+)
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
 public class ProfileServlet extends HttpServlet {
 
@@ -63,11 +72,11 @@ public class ProfileServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
-        if (user == null) {
-            // Dữ liệu mẫu
-            user = new User("huy123", "Huy Tiêu", "huy@example.com", "123456");
-            session.setAttribute("user", user);
-        }
+//        if (user == null) {
+//            // Dữ liệu mẫu
+//            user = new User("huy123", "Huy Tiêu", "huy@example.com", "123456");
+//            session.setAttribute("user", user);
+//        }
 
         String view = request.getParameter("view");
 
@@ -95,6 +104,11 @@ public class ProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
+        
+        if (user == null) {
+            response.sendRedirect(request.getContextPath() + "/auth?view=login");
+            return;
+        }
 
         if (user != null) {
             user.setFullName(request.getParameter("fullName"));
@@ -105,6 +119,7 @@ public class ProfileServlet extends HttpServlet {
             String email = request.getParameter("email");
             String rawPassword = request.getParameter("password");
             String confirmPassword = request.getParameter("confirmPassword");
+            String phone = request.getParameter("phone");
             
             
             if (!rawPassword.equals(confirmPassword)) {
@@ -118,7 +133,28 @@ public class ProfileServlet extends HttpServlet {
 
             user.setFullName(fullName);
             user.setEmail(email);
+            user.setPhonenumbers(phone);
             user.setPassword(hashedPassword);
+            
+            Part avatarPart = request.getPart("avatarFile");
+        if (avatarPart != null && avatarPart.getSize() > 0) {
+            // lấy filename
+            String submitted = Paths.get(avatarPart.getSubmittedFileName()).getFileName().toString();
+            // tạo unique tên file
+            String ext = submitted.substring(submitted.lastIndexOf('.'));
+            String fileName = "u" + user.getUserid() + "_" + System.currentTimeMillis() + ext;
+
+            // đường dẫn tuyệt đối đến webapp/uploads
+            String uploadsDir = getServletContext().getRealPath("/uploads");
+            File uploads = new File(uploadsDir);
+            if (!uploads.exists()) uploads.mkdirs();
+
+            // ghi file
+            avatarPart.write(new File(uploads, fileName).getAbsolutePath());
+
+            // cập nhật URL vào user
+            user.setAvatar(fileName);
+        }
 
             UserDAO dao = new UserDAO();
             dao.updateUser(user); // bước này bạn cần tạo trong DAO
@@ -128,7 +164,6 @@ public class ProfileServlet extends HttpServlet {
 
         request.getSession().setAttribute("message", "Profile updated successfully!");
         response.sendRedirect("profile");
-
     }
 
     /**

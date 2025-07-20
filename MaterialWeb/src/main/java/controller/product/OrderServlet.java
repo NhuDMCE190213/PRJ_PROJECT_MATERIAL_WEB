@@ -1,4 +1,4 @@
-package controller;
+package controller.product;
 
 import dao.OrderDAO;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class OrderServlet extends HttpServlet {
                 List<OrderItem> orderList = dao.getOrderItemsByUserId(currentUser.getUserid());
                 request.setAttribute("orderList", orderList);
             } else {
-                response.sendRedirect("login");
+                response.sendRedirect(request.getContextPath() + "/auth?view=login");
                 return;
             }
         } else if (view.equalsIgnoreCase("orderDetail")) {

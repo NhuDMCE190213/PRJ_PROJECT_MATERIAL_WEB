@@ -24,10 +24,10 @@
 
                             <!-- Nếu có user -->
                             <c:if test="${not empty user}">
-    <!--                            <p><strong>User:</strong> ${user.username}</p>-->
+<!--                                <p><strong>User:</strong> ${user.fullName}</p>-->
                                 <p><strong>Name:</strong> ${user.fullName}</p>
                                 <p><strong>Email:</strong> ${user.email}</p>
-    <!--                            <p><strong>Password:</strong> ${user.password}</p>-->
+                                <p><strong>Phone:</strong> ${user.phonenumbers}</p>
 
                                 <a href="profile?view=editProfile" class="btn btn-outline-primary mt-3">Edit Profile</a>
     <!--                            <a href="OrderList" class="btn btn-outline-primary mt-3">List Order</a>-->

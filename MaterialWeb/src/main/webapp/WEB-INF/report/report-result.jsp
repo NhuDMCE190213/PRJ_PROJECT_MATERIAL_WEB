@@ -4,33 +4,72 @@
     Author     : Tieu Gia Huy - CE191594
 --%>
 
-<%@ page import="java.util.*, model.*" %>
-<%@include file="/WEB-INF/include/header.jsp" %>
-<%
-    List<OrderReport> orders = (List<OrderReport>) request.getAttribute("orderReports");
-    List<ProductReport> products = (List<ProductReport>) request.getAttribute("productReports");
-%>
-<html>
-    <body>
-        <% if (orders != null) { %>
-        <h2>K?t qu? th?ng k� ??n h�ng</h2>
-        <table border="1">
-            <tr><th>Th�ng/Qu�</th><th>S? ??n</th><th>Doanh thu</th></tr>
-                    <% for (OrderReport o : orders) {%>
-            <tr><td><%= o.period%></td><td><%= o.orders%></td><td><%= o.revenue%></td></tr>
-            <% } %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ include file="/WEB-INF/include/header.jsp" %>
+
+<div class="container mt-4">
+    <c:set var="period" value="${period}" />
+
+    <!-- Báo cáo Đơn hàng -->
+    <c:if test="${not empty orderReports}">
+        <h3>Kết quả thống kê đơn hàng</h3>
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>
+                        <c:choose>
+                            <c:when test="${period == 'day'}">Ngày</c:when>
+                            <c:when test="${period == 'month'}">Tháng</c:when>
+                            <c:otherwise>Quý</c:otherwise>
+                        </c:choose>
+                    </th>
+                    <th>Số đơn</th>
+                    <th>Doanh thu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="o" items="${orderReports}">
+                    <tr>
+                        <td>${o.period}</td>
+                        <td>${o.orders}</td>
+                        <td><fmt:formatNumber value="${o.revenue}" type="currency" currencySymbol="VND"/></td>
+                    </tr>
+                </c:forEach>
+            </tbody>
         </table>
-        <% } else if (products != null) { %>
-        <h2>Top s?n ph?m b�n ch?y</h2>
-        <table border="1">
-            <tr><th>ID S?n ph?m</th><th>S? l??ng</th><th>Doanh thu</th></tr>
-                    <% for (ProductReport p : products) {%>
-            <tr><td><%= p.productId%></td><td><%= p.quantity%></td><td><%= p.revenue%></td></tr>
-            <% } %>
+    </c:if>
+
+    <!-- Báo cáo Sản phẩm -->
+    <c:if test="${not empty productReports}">
+        <h3>Top sản phẩm bán chạy</h3>
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product ID</th>
+                    <th>Số lượng</th>
+                    <th>Doanh thu</th>
+                </tr>
+            </thead>
+            <tbody>
+                <c:forEach var="p" items="${productReports}">
+                    <tr>
+                        <td>${p.productId}</td>
+                        <td>${p.quantity}</td>
+                        <td>
+                            <fmt:formatNumber value="${p.revenue}" type="currency" currencySymbol="VND"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
         </table>
-        <% } else { %>
-        <p>Kh�ng c� d? li?u</p>
-        <% }%>
-    </body>
-</html>
-<%@include file="/WEB-INF/include/footer.jsp" %>
+    </c:if>
+
+</div>
+
+<%@ include file="/WEB-INF/include/footer.jsp" %>
+
+
+
+

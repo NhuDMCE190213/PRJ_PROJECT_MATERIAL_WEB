@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.AuthController;
 
-import dao.OrderDAO;
+import dao.TokenForgetDAO;
+import model.TokenForgetPassword;
+import model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,19 +14,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
-import model.Order;
-import model.User;
+import java.time.LocalDateTime;
+import dao.AuthDAO;
+import java.net.URLEncoder;
 
 /**
  *
- * @author Tieu Gia Huy - CE191594
+ * @author HP
  */
-@WebServlet(name = "OrderListController", urlPatterns = {"/orders"})
-public class OrderListController extends HttpServlet {
-
-    private final OrderDAO orderDAO = new OrderDAO();
+@WebServlet(name = "requestPassword", urlPatterns = {"/requestPassword"})
+public class requestPassword extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +42,10 @@ public class OrderListController extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet OrderListController</title>");
+            out.println("<title>Servlet requestPassword</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet OrderListController at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet requestPassword at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,24 +63,7 @@ public class OrderListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // 1) Nếu có action=updateStatus thì chạy cập nhật
-        String action = request.getParameter("action");
-        if ("updateStatus".equals(action)) {
-            String idStr = request.getParameter("id");
-            if (idStr != null) {
-                int orderId = Integer.parseInt(idStr);
-                orderDAO.updateStatus(orderId, "Hoàn thành");
-            }
-            // sau update redirect về lại list để tránh submit lại
-            response.sendRedirect(request.getContextPath() + "/orders");
-            return;
-        }
-
-        // 2) Load danh sách đơn hàng và forward tới JSP
-        List<Order> orders = orderDAO.getAllOrders();
-        request.setAttribute("orders", orders);
-        request.getRequestDispatcher("/WEB-INF/orders/list.jsp")
-                .forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/login/requestPassword.jsp").forward(request, response);
     }
 
     /**
@@ -95,15 +77,41 @@ public class OrderListController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action");
-        if ("updateStatus".equals(action)) {
-            int orderId = Integer.parseInt(request.getParameter("id"));
-            String status = request.getParameter("status");
-            new OrderDAO().updateStatus(orderId, status);
-            response.sendRedirect("orders"); // hoặc "order?view=orders"
+        AuthDAO dao = new AuthDAO();
+        String email = request.getParameter("email");
+        //email co ton tai trong db
+        User user = dao.getUserByEmail(email);
+        if (user == null) {
+            request.setAttribute("mess", "email khong ton tai");
+            request.getRequestDispatcher("/WEB-INF/login/requestPassword.jsp").forward(request, response);
             return;
-
         }
+        resetService service = new resetService();
+        String token = service.generateToken();
+
+        String domain = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+        String encodedToken = URLEncoder.encode(token, "UTF-8");
+        String linkReset = domain + request.getContextPath() + "/resetPassword?token=" + encodedToken;
+
+        TokenForgetPassword newTokenForget = new TokenForgetPassword(
+                user.getUserid(), false, token, service.expireDateTime());
+
+        //send link to this email
+        TokenForgetDAO daoToken = new TokenForgetDAO();
+        boolean isInsert = daoToken.insertTokenForget(newTokenForget);
+        if (!isInsert) {
+            request.setAttribute("mess", "have error in server");
+            request.getRequestDispatcher("/WEB-INF/login/requestPassword.jsp").forward(request, response);
+            return;
+        }
+        boolean isSend = service.sendEmail(email, linkReset, user.getFullName());
+        if (!isSend) {
+            request.setAttribute("mess", "can not send request");
+            request.getRequestDispatcher("/WEB-INF/login/requestPassword.jsp").forward(request, response);
+            return;
+        }
+        request.setAttribute("mess", "send request success");
+        request.getRequestDispatcher("/WEB-INF/login/requestPassword.jsp").forward(request, response);
     }
 
     /**

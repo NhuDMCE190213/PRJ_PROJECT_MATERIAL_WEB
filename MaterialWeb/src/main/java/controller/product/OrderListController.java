@@ -2,11 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller;
+package controller.product;
 
 import dao.OrderDAO;
-import dao.ProductDao;
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,16 +12,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
-import model.OrderReport;
-import model.ProductReport;
+import model.Order;
+import model.User;
 
 /**
  *
  * @author Tieu Gia Huy - CE191594
  */
-@WebServlet(name = "StatisticServlet", urlPatterns = {"/StatisticServlet"})
-public class StatisticServlet extends HttpServlet {
+@WebServlet(name = "OrderListController", urlPatterns = {"/orders"})
+public class OrderListController extends HttpServlet {
+
+    private final OrderDAO orderDAO = new OrderDAO();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +43,10 @@ public class StatisticServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StatisticServlet</title>");
+            out.println("<title>Servlet OrderListController</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StatisticServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrderListController at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,28 +64,24 @@ public class StatisticServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String type = request.getParameter("type");
-        String period = request.getParameter("period");
-        int year = Integer.parseInt(request.getParameter("year"));
-        String monthStr = request.getParameter("month");
-
-        if (type.equals("order")) {
-            List<OrderReport> reports;
-            if (period.equals("month")) {
-                reports = OrderDAO.getReportByMonth(year);
-            } else {
-                reports = OrderDAO.getReportByQuarter(year);
+        // 1) Nếu có action=updateStatus thì chạy cập nhật
+        String action = request.getParameter("action");
+        if ("updateStatus".equals(action)) {
+            String idStr = request.getParameter("id");
+            if (idStr != null) {
+                int orderId = Integer.parseInt(idStr);
+                orderDAO.updateStatus(orderId, "Hoàn thành");
             }
-            request.setAttribute("orderReports", reports);
-        } else {
-            int month = (monthStr == null || monthStr.isEmpty()) ? 0 : Integer.parseInt(monthStr);
-            List<ProductReport> reports = ProductDao.getTopSellingProducts(year, month);
-            request.setAttribute("productReports", reports);
+            // sau update redirect về lại list để tránh submit lại
+            response.sendRedirect(request.getContextPath() + "/orders");
+            return;
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/report/report-result.jsp");
-        rd.forward(request, response);
-
+        // 2) Load danh sách đơn hàng và forward tới JSP
+        List<Order> orders = orderDAO.getAllOrders();
+        request.setAttribute("orders", orders);
+        request.getRequestDispatcher("/WEB-INF/orders/list.jsp")
+                .forward(request, response);
     }
 
     /**
@@ -98,7 +95,15 @@ public class StatisticServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        if ("updateStatus".equals(action)) {
+            int orderId = Integer.parseInt(request.getParameter("id"));
+            String status = request.getParameter("status");
+            new OrderDAO().updateStatus(orderId, status);
+            response.sendRedirect("orders"); // hoặc "order?view=orders"
+            return;
+
+        }
     }
 
     /**

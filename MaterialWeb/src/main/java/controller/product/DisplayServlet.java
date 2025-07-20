@@ -1,8 +1,7 @@
-package controller.forUser;
+package controller.product;
 
 import static constant.CommonFunction.getTotalPages;
 import static constant.CommonFunction.isEmptyString;
-import controller.*;
 import dao.CategoriesDao;
 import dao.ProductDao;
 import dao.TheReviewDAO;

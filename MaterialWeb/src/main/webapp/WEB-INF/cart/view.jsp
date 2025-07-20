@@ -1,8 +1,9 @@
+<%@page import="java.util.List"%>
 <%@page import="model.CartItem"%>
 <%@page import="model.Cart"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/include/header.jsp"%>
-
+<%@page import="model.Sale"%>
 <%
     Cart cart = (Cart) request.getAttribute("cart");
 %>
@@ -34,8 +35,8 @@
     }
 
     th {
-        background-color: #007bff;
-        color: white;
+        background-color: wheat;
+        color: green;
     }
 
     tr:hover {
@@ -72,6 +73,10 @@
 
 <h2>🛒 Giỏ hàng của bạn</h2>
 
+<c:if test="${not empty error}">
+    <div style="color: red; text-align: center;">${error}</div>
+</c:if>
+
 <% if (cart == null || cart.getItems().isEmpty()) { %>
 <p style="text-align:center; color: #888;">Không có sản phẩm nào trong giỏ hàng.</p>
 <% } else { %>
@@ -86,16 +91,16 @@
             <th>Thành tiền (VNĐ)</th>
             <th>Xóa</th>
         </tr>
-        <% for (CartItem item : cart.getItems()) { %>
+        <% for (CartItem item : cart.getItems()) {%>
         <tr>
             <td>
-                <input type="checkbox" name="selectedProductIds" value="<%= item.getProduct().getId() %>">
-                <input type="hidden" name="quantity_<%= item.getProduct().getId() %>" value="<%= item.getQuantity() %>">
+                <input type="checkbox" name="selectedProductIds" value="<%= item.getProduct().getId()%>">
+                <input type="hidden" name="quantity_<%= item.getProduct().getId()%>" value="<%= item.getQuantity()%>">
             </td>
-            <td><%= item.getProduct().getName() %></td>
-            <td><%= item.getQuantity() %></td>
-            <td><%= String.format("%,d", item.getProduct().getPrice()) %></td>
-            <td><%= String.format("%,d", item.getTotalPrice()) %></td>
+            <td><%= item.getProduct().getName()%></td>
+            <td><%= item.getQuantity()%></td>
+            <td><%= String.format("%,d", item.getProduct().getPrice())%></td>
+            <td><%= String.format("%,d", item.getTotalPrice())%></td>
             <td>
                 <form action="carts" method="post" style="display:inline;">
                     <input type="hidden" name="action" value="decreaseQuantity">
@@ -107,18 +112,60 @@
                 <a class="btn-remove" href="carts?action=remove&id=<%= item.getProduct().getId()%>">Xóa tất cả</a>
             </td>
         </tr>
-        <% } %>
+        <% }%>
 
         <tr class="total-row">
-            <td colspan="4">Tổng cộng:</td>
+
+            <td colspan="4">Tổng cộng giỏ hàng:</td>
             <td colspan="2"><%= String.format("%,d", cart.getTotal()) %> VNĐ</td>
         </tr>
     </table>
-</form>
-    <div style="text-align: center; margin-top: 20px;">
-        <button class="btn btn-success" type="submit">Payment Now!</button>
-    </div>
+          
 
+           
+    </table>
+ 
+</form>
+
+
+
+<%
+    List<Sale> availableSales = (List<Sale>) request.getAttribute("availableSales");
+%>
+
+<% if (availableSales != null && !availableSales.isEmpty()) { %>
+    <h2 style="margin-top: 50px;">🎁 Khuyến mãi hiện tại</h2>
+    <table>
+        <tr>
+            <th>Áp dụng</th>
+            <th>Mã Sale</th>
+            <th>Giảm giá</th>
+            <th>Số lượng còn lại</th>
+            <th>Thời gian bắt đầu</th>
+            <th>Thời gian kết thúc</th>
+        </tr>
+        <% for (Sale sale : availableSales) { %>
+            <tr>
+                  <td>
+        <input type="radio" name="selectedSaleId" value="<%= sale.getId() %>">
+    </td>
+
+                <td><%= sale.getName() %></td>
+                <td><%= sale.getCurrentDiscount() %></td>
+                <td><%= sale.getCurrentAmount() %></td>
+                <td><%= sale.getDateStart() %></td>
+                <td><%= sale.getDateEnd() %></td>
+            </tr>
+        <% } %>
+    </table>
+<% } else { %>
+    <p style="text-align:center; color: #888;">Hiện tại không có khuyến mãi nào khả dụng.</p>
+<% } %>
+
+</form>
+<div class="text-center">
+        <button class="btn btn-outline-success mt-5" type="submit">Payment Now!</button>
+    </div>
 
 <script>
     function toggleAll(source) {
@@ -127,7 +174,7 @@
     }
 </script>
 
-<% } %>
+<% }%>
 
 <a class="back-link" href="${pageContext.request.contextPath}/display?view=list">← Quay lại danh sách sản phẩm</a>
 
