@@ -244,6 +244,16 @@ public class ProductDao extends DBContext {
         return 0;
     }
 
+    public void deleteByCategoryId(int categoryId) {
+        String sql = "DELETE FROM products WHERE category_id = ?";
+        try ( Connection conn = getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, categoryId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static List<ProductReport> getTopSellingProducts(int year, int month) {
         List<ProductReport> list = new ArrayList<>();
 

@@ -4,9 +4,11 @@
  */
 package model;
 
+import dao.AuthDAO;
+
 /**
  *
- * @author Tieu Gia Huy - CE191594
+ * @author Nguyen Thanh Nhan - CE190122
  */
 public class User {
 
@@ -115,5 +117,16 @@ public class User {
 
     public boolean isAdmin() {
         return role != null && role.equalsIgnoreCase("Admin");
+    }
+
+    public boolean checkpassdelete(String passwordcheck) {
+
+        AuthDAO dao = new AuthDAO();
+
+        String passhashcheck = dao.hashMd5(passwordcheck);
+        if (passhashcheck == null || this.password == null) {
+            return false;
+        }
+        return passhashcheck.equals(this.password);
     }
 }

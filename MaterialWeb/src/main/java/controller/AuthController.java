@@ -130,14 +130,14 @@ public class AuthController extends HttpServlet {
             if (user.getStatus().equalsIgnoreCase("active")) {
                 HttpSession session = request.getSession();
                 session.setAttribute("user", user);
-                request.setAttribute("member", user);
-
-//                
                 response.sendRedirect(request.getContextPath() + "/home");
+                return; 
+            } else {
+                request.setAttribute("msg", "Your account is not active.");
+                request.getRequestDispatcher("/WEB-INF/login/login.jsp").forward(request, response);
             }
-
         } else {
-            request.setAttribute("msg", "Login failed.Incorrect username or password");
+            request.setAttribute("msg", "Login failed. Incorrect username or password");
             request.getRequestDispatcher("/WEB-INF/login/login.jsp").forward(request, response);
         }
     }

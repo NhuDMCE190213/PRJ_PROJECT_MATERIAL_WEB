@@ -1,103 +1,50 @@
-<<<<<<< HEAD
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\OrderItem.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\TokenForgetDAO.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\User.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\OrderReport.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Account.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CategoriesDao.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\SaleDAO.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\CartServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\filter\CategoryFilter.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ProductServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\SaleServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\filter\UserFilter.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\TheReviewServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\OrderDAO.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ViewStatisticPageServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\AuthDAO.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\ProductDao.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\CommonFunction.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\requestPassword.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\resetPassword.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\forUser\DisplayServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\OrderListController.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Product.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Cart.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Order.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CartDao.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\HomeServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\CartItem.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\TheReviewDAO.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\UserServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\UserDAO.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Sale.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\Constants.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\AuthController.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\db\DBContext.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Category.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CategoryDAO.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\TheReview.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\filter\AuthenticationFilter.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\ProductReport.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ProfileServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\UpdateUserDAO.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\HashUtil.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\forUser\ConfirmedBuyServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\OrderServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\CategoryServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\StatisticServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\forUser\BuyServlet.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\TokenForgetPassword.java
-D:\source code\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\resetService.java
-=======
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\CategoryServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\OrderServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Account.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CategoriesDao.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\OrderReport.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\filter\AuthenticationFilter.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\CartItem.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\OrderDAO.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\User.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ProfileServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ViewStatisticPageServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Category.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\UserDAO.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Order.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\CartServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\OrderItem.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\resetService.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\Constants.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\ConfirmedBuyServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\db\DBContext.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\StatisticServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\SaleServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\AuthController.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\TokenForgetPassword.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\AuthDAO.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Product.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\TheReviewDAO.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\ProductDao.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\CommonFunction.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\forUser\BuyServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\forUser\DisplayServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\filter\CategoryFilter.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\HashUtil.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ProductServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\UserServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\TheReview.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\resetPassword.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Sale.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CategoryDAO.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\filter\UserFilter.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\OrderListController.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\TheReviewServlet.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Cart.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CartDao.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\SaleDAO.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\requestPassword.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\TokenForgetDAO.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\UpdateUserDAO.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\ProductReport.java
-D:\assignment\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\HomeServlet.java
->>>>>>> dbe0a8bc2fb19af92896fe26180f4a1c1935f089
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\UserDAO.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\filter\AuthenticationFilter.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Account.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Order.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\TheReview.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\OrderListController.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Cart.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CategoryDAO.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Category.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\requestPassword.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\HomeServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\filter\CategoryFilter.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\UserServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\filter\UserFilter.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\resetPassword.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CartDao.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\StatisticServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\CommonFunction.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\SaleDAO.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Sale.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Product.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\HashUtil.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\OrderDAO.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\TokenForgetDAO.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\ProductReport.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\AuthController.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\OrderReport.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\AuthDAO.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\forUser\BuyServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\UpdateUserDAO.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CategoriesDao.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\TheReviewServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ProfileServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\Constants.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\User.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\forUser\ConfirmedBuyServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ProductServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\db\DBContext.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\forUser\DisplayServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ViewStatisticPageServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\SaleServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\ProductDao.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\TheReviewDAO.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\CategoryServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\CartItem.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\OrderServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\CartServlet.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\OrderItem.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\resetService.java
+C:\Users\LEGION\Desktop\KI_4\PRJ\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\TokenForgetPassword.java

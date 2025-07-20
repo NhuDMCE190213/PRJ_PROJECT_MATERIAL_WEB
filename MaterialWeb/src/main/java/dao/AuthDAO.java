@@ -219,7 +219,7 @@ public class AuthDAO extends DBContext {
         }
     }
     
-    private String hashMd5(String raw) {
+    public String hashMd5(String raw) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] mess = md.digest(raw.getBytes());
