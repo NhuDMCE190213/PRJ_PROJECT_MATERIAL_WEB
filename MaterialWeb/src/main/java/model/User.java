@@ -18,6 +18,7 @@ public class User {
     private String phonenumbers;
     private int userid;
     private String role;
+    private String avatar;
 
     public User(String email, String password, String status, String fullName, String phonenumbers, int userid, String role) {
         this.email = email;
@@ -27,6 +28,7 @@ public class User {
         this.phonenumbers = phonenumbers;
         this.userid = userid;
         this.role = role;
+        
     }
 
     public User(String email, String password, String status, String fullName, String phonenumbers, int userid) {
@@ -73,11 +75,12 @@ public class User {
     public User() {
     }
 
-    public User(String username, String fullName, String email, String password) {
+    public User(String username, String fullName, String email, String password, String avatar) {
         this.username = username;
         this.fullName = fullName;
         this.email = email;
         this.password = password;
+        this.avatar = avatar;
     }
 
     // Getters and setters
@@ -113,6 +116,14 @@ public class User {
         this.password = password;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+    
     public boolean isAdmin() {
         return role != null && role.equalsIgnoreCase("Admin");
     }
