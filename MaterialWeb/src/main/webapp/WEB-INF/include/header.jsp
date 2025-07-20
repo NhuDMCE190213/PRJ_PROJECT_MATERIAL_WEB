@@ -125,15 +125,21 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link p-0" href="<%=request.getContextPath()%>/profile">
-                                    <img
-                                        src="<%=request.getContextPath()%>/assets/img/avatar-default-icon.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                        style="width:40px; height:40px; object-fit:cover;"
-                                        />
+                                <a class="nav-link p-0" href="${pageContext.request.contextPath}/profile">
+                                    <c:choose>
+                                        <c:when test="${not empty user.avatar}">
+                                            <img src="${pageContext.request.contextPath}/assets/img/${user.avatar}"
+                                                 alt="Avatar"
+                                                 class="rounded-circle"
+                                                 style="width:40px; height:40px; object-fit:cover;"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <i class="bi bi-person-circle" style="font-size:1.5rem; color:#fff;"></i>
+                                        </c:otherwise>
+                                    </c:choose>
                                 </a>
                             </li>
+
 
                             <!--                            <li><button type="button" class="btn btn-outline-light">Sign in</button></li>-->
 

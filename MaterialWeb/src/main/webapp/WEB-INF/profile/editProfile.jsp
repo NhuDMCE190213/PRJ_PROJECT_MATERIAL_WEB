@@ -3,14 +3,9 @@
     Created on : Jun 23, 2025, 1:31:17 PM
     Author     : Tieu Gia Huy - CE191594
 --%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="model.User"%>
-<%@include file="/WEB-INF/include/header.jsp" %>
-
-<c:if test="${empty user}">
-    <div class="alert alert-danger">No find user.</div>
-</c:if>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ include file="/WEB-INF/include/header.jsp" %>
 
 <c:if test="${not empty user}">
     <div class="container my-5">
@@ -25,38 +20,61 @@
                             <div class="alert alert-danger">${error}</div>
                         </c:if>
 
-                        <form action="profile?view=editProfile" method="post">
-                            <div class="mb-3">
-                                <label for="fullName" class="form-label">Name</label>
-                                <input type="text" id="fullName" name="fullName" class="form-control" value="${user.fullName}" required>
+                        <form action="${pageContext.request.contextPath}/profile?view=editProfile"
+                              method="post"
+                              enctype="multipart/form-data">
+
+                            <!-- Hiển thị avatar hiện tại -->
+                            <div class="text-center mb-3">
+                                <c:if test="${not empty user.avatar}">
+                                    <img src="${pageContext.request.contextPath}/assets/img/${user.avatar}"
+                                         class="rounded-circle"
+                                         style="width:100px; height:100px; object-fit:cover;"
+                                         alt="Avatar"/>
+                                </c:if>
                             </div>
 
+                            <!-- Chọn avatar mới -->
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" id="email" name="email" class="form-control" value="${user.email}" required>
+                                <label class="form-label">Avatar mới</label>
+                                <input type="file" name="avatarFile"
+                                       accept="image/*"
+                                       class="form-control"/>
                             </div>
 
+                            <!-- Các field cũ -->
                             <div class="mb-3">
-                                <label for="phone" class="form-label">Phone</label>
-                                <input type="text" id="phone" name="phone" class="form-control" value="${user.phonenumbers}" pattern="\d+" 
-                                       title="Chỉ được nhập số" required>
+                                <label class="form-label">Name</label>
+                                <input type="text" name="fullName" class="form-control"
+                                       value="${user.fullName}" required/>
                             </div>
-
                             <div class="mb-3">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" id="password" name="password" class="form-control" value="${user.password}" required>
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control"
+                                       value="${user.email}" required/>
                             </div>
-
                             <div class="mb-3">
-                                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" required>
+                                <label class="form-label">Phone</label>
+                                <input type="text" name="phone" class="form-control"
+                                       value="${user.phonenumbers}" pattern="\d+"
+                                       title="Chỉ nhập số" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" name="password" class="form-control"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Confirm Password</label>
+                                <input type="password" name="confirmPassword" class="form-control"/>
                             </div>
 
                             <div class="d-flex justify-content-between">
-                                <button type="submit" class="btn btn-success">Submit</button>
-                                <a href="profile" class="btn btn-secondary">Back</a>
+                                <button type="submit" class="btn btn-success">Save Changes</button>
+                                <a href="${pageContext.request.contextPath}/profile"
+                                   class="btn btn-secondary">Back</a>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -64,7 +82,8 @@
     </div>
 </c:if>
 
-<%@include file="/WEB-INF/include/footer.jsp" %>
+<%@ include file="/WEB-INF/include/footer.jsp" %>
+
 
 
 

@@ -164,13 +164,17 @@ public class UserDAO extends DBContext {
         }
     }
 
-    public void updateAvatar(int userId, String avatarFilename) throws SQLException {
-        String sql = "UPDATE users SET avatar = ? WHERE userid = ?";
-        try ( PreparedStatement ps = getConnection().prepareStatement(sql)) {
+    public void updateAvatar(int userId, String avatarFilename) {
+        String sql = "UPDATE user_login SET avatar = ? WHERE userID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, avatarFilename);
             ps.setInt(2, userId);
             ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
-
+    
+    
 }

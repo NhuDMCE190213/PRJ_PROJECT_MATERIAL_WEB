@@ -25,9 +25,9 @@ import java.nio.file.Paths;
  * @author Tieu Gia Huy - CE191594
  */
 @MultipartConfig(
-    fileSizeThreshold = 1024*1024,  // 1MB
-    maxFileSize = 5*1024*1024,      // 5MB
-    maxRequestSize = 10*1024*1024   // 10MB
+        fileSizeThreshold = 1024 * 1024, // 1MB
+        maxFileSize = 5 * 1024 * 1024, // 5MB
+        maxRequestSize = 10 * 1024 * 1024 // 10MB
 )
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
 public class ProfileServlet extends HttpServlet {
@@ -77,7 +77,6 @@ public class ProfileServlet extends HttpServlet {
 //            user = new User("huy123", "Huy Tiêu", "huy@example.com", "123456");
 //            session.setAttribute("user", user);
 //        }
-
         String view = request.getParameter("view");
 
         String namePage = "";
@@ -104,7 +103,7 @@ public class ProfileServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        
+
         if (user == null) {
             response.sendRedirect(request.getContextPath() + "/auth?view=login");
             return;
@@ -120,50 +119,59 @@ public class ProfileServlet extends HttpServlet {
             String rawPassword = request.getParameter("password");
             String confirmPassword = request.getParameter("confirmPassword");
             String phone = request.getParameter("phone");
-            
-            
+
             if (!rawPassword.equals(confirmPassword)) {
                 request.setAttribute("error", "Passwords do not match!");
                 request.setAttribute("user", user); // giữ lại dữ liệu đã nhập
                 request.getRequestDispatcher("profile?view=editProfile").forward(request, response);
                 return;
             }
-            
+
             String hashedPassword = HashUtil.toMD5(rawPassword);
 
             user.setFullName(fullName);
             user.setEmail(email);
             user.setPhonenumbers(phone);
             user.setPassword(hashedPassword);
-            
-            Part avatarPart = request.getPart("avatarFile");
-        if (avatarPart != null && avatarPart.getSize() > 0) {
-            // lấy filename
-            String submitted = Paths.get(avatarPart.getSubmittedFileName()).getFileName().toString();
-            // tạo unique tên file
-            String ext = submitted.substring(submitted.lastIndexOf('.'));
-            String fileName = "u" + user.getUserid() + "_" + System.currentTimeMillis() + ext;
-
-            // đường dẫn tuyệt đối đến webapp/uploads
-            String uploadsDir = getServletContext().getRealPath("/uploads");
-            File uploads = new File(uploadsDir);
-            if (!uploads.exists()) uploads.mkdirs();
-
-            // ghi file
-            avatarPart.write(new File(uploads, fileName).getAbsolutePath());
-
-            // cập nhật URL vào user
-            user.setAvatar(fileName);
-        }
 
             UserDAO dao = new UserDAO();
-            dao.updateUser(user); // bước này bạn cần tạo trong DAO
+            dao.updateUser(user);
+
+            Part avatarPart = request.getPart("avatarFile");
+            if (avatarPart != null && avatarPart.getSize() > 0) {
+                // Tách tên file gốc và phần mở rộng
+                String submitted = Paths.get(avatarPart.getSubmittedFileName())
+                        .getFileName().toString();
+                String ext = submitted.contains(".")
+                        ? submitted.substring(submitted.lastIndexOf('.'))
+                        : "";
+                // Tạo tên file duy nhất
+                String fileName = "u" + user.getUserid() + "_"
+                        + System.currentTimeMillis() + ext;
+
+                // Đường dẫn tuyệt đối tới webapp/assets/img
+                String imagesDir = getServletContext().getRealPath("/assets/img");
+                File dir = new File(imagesDir);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+
+                // Lưu file
+                avatarPart.write(new File(dir, fileName).getAbsolutePath());
+
+                // Cập nhật DB
+                dao.updateAvatar(user.getUserid(), fileName);
+                user.setAvatar(fileName);
+
+            }
 
             session.setAttribute("user", user);
         }
 
-        request.getSession().setAttribute("message", "Profile updated successfully!");
-        response.sendRedirect("profile");
+        request.getSession()
+                .setAttribute("message", "Profile updated successfully!");
+        response.sendRedirect(
+                "profile");
     }
 
     /**
