@@ -123,7 +123,7 @@ public class ProfileServlet extends HttpServlet {
             if (!rawPassword.equals(confirmPassword)) {
                 request.setAttribute("error", "Passwords do not match!");
                 request.setAttribute("user", user); // giữ lại dữ liệu đã nhập
-                request.getRequestDispatcher("profile?view=editProfile").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/profile/editProfile.jsp").forward(request, response);
                 return;
             }
 
