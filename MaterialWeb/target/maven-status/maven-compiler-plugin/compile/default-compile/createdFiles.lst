@@ -48,4 +48,4 @@ model\ProductReport.class
 db\DBContext.class
 model\TokenForgetPassword.class
 controller\product\ConfirmedBuyServlet.class
-controller\Statistic\ViewStatisticPageServlet.class
+controller\ReportServlet.class

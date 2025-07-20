@@ -283,7 +283,7 @@ public class ProductDao extends DBContext {
 
         return list;
     }
-<<<<<<< HEAD
+
     public void decreaseStockQuantity(int productId, int quantity) {
     String sql = "UPDATE products SET stock_quantity = stock_quantity - ? WHERE id = ?";
     try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
@@ -295,7 +295,7 @@ public class ProductDao extends DBContext {
     }
 }
 
-=======
+
 
     public static List<ProductReport> getTopSellingProductsByDay(LocalDate date) throws SQLException {
         List<ProductReport> list = new ArrayList<>();
@@ -364,5 +364,5 @@ public class ProductDao extends DBContext {
         }
         return list;
     }
->>>>>>> 8f426c72acfdc373c5235b1e91a794eadb19a115
+
 }

@@ -115,23 +115,19 @@
         <% }%>
 
         <tr class="total-row">
-<<<<<<< HEAD
+
             <td colspan="4">Tổng cộng giỏ hàng:</td>
             <td colspan="2"><%= String.format("%,d", cart.getTotal()) %> VNĐ</td>
         </tr>
     </table>
           
-=======
-            <td colspan="4">Tổng cộng:</td>
-            <td colspan="2"><%= String.format("%,d", cart.getTotal())%> VNĐ</td>
-        </tr>
+
+           
     </table>
-    <div style="text-align: center; margin-top: 20px;">
-        <button class="btn btn-success" type="submit">Payment Now!</button>
-    </div>
+ 
 </form>
 
->>>>>>> 8f426c72acfdc373c5235b1e91a794eadb19a115
+
 
 <%
     List<Sale> availableSales = (List<Sale>) request.getAttribute("availableSales");

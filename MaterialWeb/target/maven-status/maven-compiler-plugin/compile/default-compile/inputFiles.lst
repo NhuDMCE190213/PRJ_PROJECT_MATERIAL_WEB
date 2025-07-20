@@ -25,6 +25,7 @@ D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\mode
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\product\OrderListController.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Account.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Product.java
+D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\ReportServlet.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\TheReview.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\TheReviewDAO.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\UpdateUserDAO.java
@@ -35,7 +36,6 @@ D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\filt
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\CommonFunction.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\AuthController\AuthController.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Cart.java
-D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\Statistic\ViewStatisticPageServlet.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\UserDAO.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\ProductReport.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\AuthController\resetService.java
