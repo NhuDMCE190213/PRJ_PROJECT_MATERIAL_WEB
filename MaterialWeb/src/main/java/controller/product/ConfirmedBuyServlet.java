@@ -5,6 +5,7 @@
 
 package controller.product;
 
+import dao.CartDao;
 import dao.OrderDAO;
 import dao.ProductDao;
 import java.io.IOException;
@@ -70,7 +71,7 @@ public class ConfirmedBuyServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-  @Override
+ @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
 
@@ -87,31 +88,49 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
     ProductDao productDao = new ProductDao();
     OrderDAO dao = new OrderDAO();
+    CartDao cartDao = new CartDao(); // ✅ thêm dòng này
     int total = 0;
 
-    // First: Calculate total
+    // Tính tổng tiền
     for (int i = 0; i < productIds.length; i++) {
         int pid = Integer.parseInt(productIds[i]);
         int qty = Integer.parseInt(quantities[i]);
-
         Product p = productDao.getById(pid);
         total += p.getPrice() * qty;
     }
 
-    // Insert order
+    // Chèn đơn hàng
     int orderId = dao.insertOrder(currentUser.getUserid(), total);
 
-    // Insert order items
-    for (int i = 0; i < productIds.length; i++) {
-        int pid = Integer.parseInt(productIds[i]);
-        int qty = Integer.parseInt(quantities[i]);
+// Insert order items + remove from cart + decrease stock
+   for (int i = 0; i < productIds.length; i++) {
+    int pid = Integer.parseInt(productIds[i]);
+    int qty = Integer.parseInt(quantities[i]);
 
-        Product p = productDao.getById(pid);
-        dao.insertOrderItem(orderId, pid, qty, p.getPrice());
+    Product p = productDao.getById(pid);
+    dao.insertOrderItem(orderId, pid, qty, p.getPrice());
+
+    // Xóa khỏi giỏ hàng
+    try {
+        cartDao.removeFromCart(currentUser.getUserid(), pid);
+    } catch (Exception ex) {
+        ex.printStackTrace();
     }
+
+    // ✅ TRỪ KHO
+  try {
+    productDao.decreaseStockQuantity(pid, qty);
+} catch (Exception ex) {
+    ex.printStackTrace();
+}
+
+}
+
 
     response.sendRedirect("order");
 }
+
+
 
 
     /** 

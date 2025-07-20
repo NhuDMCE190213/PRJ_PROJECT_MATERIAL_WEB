@@ -280,4 +280,15 @@ public class ProductDao extends DBContext {
 
         return list;
     }
+    public void decreaseStockQuantity(int productId, int quantity) {
+    String sql = "UPDATE products SET stock_quantity = stock_quantity - ? WHERE id = ?";
+    try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+        ps.setInt(1, quantity);
+        ps.setInt(2, productId);
+        ps.executeUpdate();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
 }
