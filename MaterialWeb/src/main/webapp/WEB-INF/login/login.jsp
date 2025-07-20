@@ -7,7 +7,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
-        <link href="<%= request.getContextPath()%>/assets/css/style.css" rel="stylesheet">
+        <link href="<%= request.getContextPath()%>/assets/css/style.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet">
+
         <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     </head>
 

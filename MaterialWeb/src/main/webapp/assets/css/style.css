@@ -13,20 +13,25 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: seagreen;
+    background: url('https://fecon.com.vn/public/media/du_an/fpt-university-can-tho-636501535254597209.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 .wrapper{
     width: 420px;
     background: transparent;
     border: 2px solid rgba(255,255,255, .2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     color: #fff;
     border-radius: 10px;
     padding: 30px 40px;
 }
 
 .wrapper h1{
-    font: size 36px; ;
+    font: size 36px;
+    ;
     text-align: center;
 }
 
