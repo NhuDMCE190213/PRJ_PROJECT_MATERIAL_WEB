@@ -4,34 +4,85 @@
     Author     : Tieu Gia Huy - CE191594
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@include file="/WEB-INF/include/header.jsp" %>
-<html>
-    <head><title>Báo cáo thống kê</title></head>
-    <body>
-        <h2>Thống kê</h2>
-        <form action="<%=request.getContextPath()%>/StatisticServlet" method="get">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt" %>  
+<%@ page contentType="text/html;charset=UTF-8" %>  
+<%@ include file="/WEB-INF/include/header.jsp" %>
 
-            <label>Loại thống kê:</label>
-            <select name="type">
+<div class="container mt-4">
+    <h2>Thống kê</h2>
+
+    <!-- Hiện error nếu có -->
+    <c:if test="${not empty errorMessage}">
+        <div class="alert alert-danger">${errorMessage}</div>
+    </c:if>
+
+    <form action="${pageContext.request.contextPath}/report" method="get" class="row g-3">
+        <!-- Chọn loại -->
+        <div class="col-md-2">
+            <label class="form-label">Loại:</label>
+            <select name="type" class="form-select">
                 <option value="order">Đơn hàng</option>
-                <option value="product">Sản phẩm bán chạy</option>
-            </select><br/>
+                <option value="product">Sản phẩm</option>
+            </select>
+        </div>
 
-            <label>Thời gian:</label>
-            <select name="period">
-                <option value="month">Theo tháng</option>
-                <option value="quarter">Theo quý</option>
-            </select><br/>
+        <!-- Chọn năm -->
+        <div class="col-md-2">
+            <label class="form-label">Năm:</label>
+            <input type="number" name="year" value="2025" class="form-control"/>
+        </div>
 
-            <label>Năm:</label>
-            <input type="number" name="year" value="2025"/><br/>
+        <!-- Chọn cấp độ -->
+        <div class="col-md-2">
+            <label class="form-label">Theo:</label>
+            <select name="period" class="form-select" onchange="onPeriodChange(this.value)">
+                <option value="day">Ngày</option>
+                <option value="month">Tháng</option>
+                <option value="quarter">Quý</option>
+            </select>
+        </div>
 
-            <label>Tháng (nếu có):</label>
-            <input type="number" name="month" min="1" max="12"/><br/>
+        <!-- Ngày -->
+        <div class="col-md-2" id="divDate">
+            <label class="form-label">Chọn ngày:</label>
+            <input type="date" name="date" class="form-control"/>
+        </div>
 
-            <input type="submit" value="Thống kê"/>
-        </form>
-    </body>
-</html>
-<%@include file="/WEB-INF/include/footer.jsp" %>
+        <!-- Tháng -->
+        <div class="col-md-2" id="divMonth" style="display:none">
+            <label class="form-label">Chọn tháng:</label>
+            <input type="month" name="month" class="form-control"/>
+        </div>
+
+        <!-- Quý -->
+        <div class="col-md-2" id="divQuarter" style="display:none">
+            <label class="form-label">Chọn quý:</label>
+            <select name="quarter" class="form-select">
+                <option value="1">Quý 1</option>
+                <option value="2">Quý 2</option>
+                <option value="3">Quý 3</option>
+                <option value="4">Quý 4</option>
+            </select>
+        </div>
+
+        <!-- Nút thống kê -->
+        <div class="col-md-2 align-self-end">
+            <button type="submit" class="btn btn-primary">Thống kê</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function onPeriodChange(p) {
+        document.getElementById('divDate').style.display = p === 'day' ? '' : 'none';
+        document.getElementById('divMonth').style.display = p === 'month' ? '' : 'none';
+        document.getElementById('divQuarter').style.display = p === 'quarter' ? '' : 'none';
+    }
+</script>
+
+<%@ include file="/WEB-INF/include/footer.jsp" %>
+
+
+
+

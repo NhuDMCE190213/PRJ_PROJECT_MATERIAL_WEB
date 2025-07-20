@@ -73,6 +73,7 @@
                                         <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/theReview">Manager Review</a></li>
                                         <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/sale">Manager Sale</a></li>
                                         <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/orders">Manager Orders</a></li>
+                                        <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/report">Manager Report</a></li>
                                     </ul>
                                 </li>
                             </c:if>

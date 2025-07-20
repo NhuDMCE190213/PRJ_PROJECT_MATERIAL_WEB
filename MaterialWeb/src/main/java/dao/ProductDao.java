@@ -3,8 +3,11 @@ package dao;
 import db.DBContext;
 import model.Product;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 import model.ProductReport;
+import java.sql.Date;
+
 
 public class ProductDao extends DBContext {
     // Trả về danh sách sản phẩm theo từng trang (phân trang)
@@ -278,6 +281,74 @@ public class ProductDao extends DBContext {
             e.printStackTrace();
         }
 
+        return list;
+    }
+
+    public static List<ProductReport> getTopSellingProductsByDay(LocalDate date) throws SQLException {
+        List<ProductReport> list = new ArrayList<>();
+        String sql
+                = "SELECT oi.product_id AS period, SUM(oi.quantity) AS qty, SUM(oi.quantity*oi.price_at_time) AS rev "
+                + "FROM order_items oi JOIN orders o ON oi.order_id=o.id "
+                + "WHERE o.status='Hoàn thành' AND CAST(o.order_date AS DATE)=? "
+                + "GROUP BY oi.product_id ORDER BY qty DESC";
+        try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setDate(1, Date.valueOf(date));
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new ProductReport(
+                            rs.getInt("period"),
+                            rs.getInt("qty"),
+                            rs.getInt("rev")
+                    ));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<ProductReport> getTopSellingProductsByMonth(int year, int month) throws SQLException {
+        List<ProductReport> list = new ArrayList<>();
+        String sql
+                = "SELECT oi.product_id AS period, SUM(oi.quantity) AS qty, SUM(oi.quantity*oi.price_at_time) AS rev "
+                + "FROM order_items oi JOIN orders o ON oi.order_id=o.id "
+                + "WHERE o.status='Hoàn thành' AND YEAR(o.order_date)=? AND MONTH(o.order_date)=? "
+                + "GROUP BY oi.product_id ORDER BY qty DESC";
+        try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, year);
+            ps.setInt(2, month);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new ProductReport(
+                            rs.getInt("period"),
+                            rs.getInt("qty"),
+                            rs.getInt("rev")
+                    ));
+                }
+            }
+        }
+        return list;
+    }
+
+    public static List<ProductReport> getTopSellingProductsByQuarter(int year, int quarter) throws SQLException {
+        List<ProductReport> list = new ArrayList<>();
+        String sql
+                = "SELECT oi.product_id AS period, SUM(oi.quantity) AS qty, SUM(oi.quantity*oi.price_at_time) AS rev "
+                + "FROM order_items oi JOIN orders o ON oi.order_id=o.id "
+                + "WHERE o.status='Hoàn thành' AND YEAR(o.order_date)=? AND DATEPART(QUARTER, o.order_date)=? "
+                + "GROUP BY oi.product_id ORDER BY qty DESC";
+        try ( Connection conn = new DBContext().getConnection();  PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, year);
+            ps.setInt(2, quarter);
+            try ( ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(new ProductReport(
+                            rs.getInt("period"),
+                            rs.getInt("qty"),
+                            rs.getInt("rev")
+                    ));
+                }
+            }
+        }
         return list;
     }
 }
