@@ -2,12 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-<<<<<<< HEAD:MaterialWeb/src/main/java/controller/CategoryServlet.java
-package controller;
-=======
 
-package controller.product;
->>>>>>> 7bcf3856a53114d542d86db7e777630aed5d8ee6:MaterialWeb/src/main/java/controller/product/CategoryServlet.java
+package controller.Category;
 
 import java.io.IOException;
 import java.io.PrintWriter;

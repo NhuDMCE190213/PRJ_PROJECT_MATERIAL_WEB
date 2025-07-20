@@ -62,8 +62,7 @@
                         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                             <!--<li class="nav-item active">-->
 
-<<<<<<< HEAD
-=======
+
                             <c:if test="${not empty user and user.admin}">  
 
                                 <li class="nav-item dropdown">
@@ -81,7 +80,7 @@
                             </c:if>
 
 
->>>>>>> 7bcf3856a53114d542d86db7e777630aed5d8ee6
+
                             <li class="nav-item">
                                 <a class="nav-link" href="<%=request.getContextPath()%>/home">Home</a>
                             </li>
@@ -127,7 +126,7 @@
                                 </a>
                             </li>
 
-<<<<<<< HEAD
+
                             <c:choose>
                                 <c:when test="${not empty user}">
                                     <li class="nav-item dropdown">
@@ -177,20 +176,8 @@
                                     </li>
                                 </c:otherwise>
                             </c:choose>
-=======
-                            <li class="nav-item">
-                                <a class="nav-link p-0" href="<%=request.getContextPath()%>/profile">
-                                    <img
-                                        src="<%=request.getContextPath()%>/assets/img/avatar-default-icon.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                        style="width:40px; height:40px; object-fit:cover;"
-                                        />
-                                </a>
-                            </li>
->>>>>>> 7bcf3856a53114d542d86db7e777630aed5d8ee6
 
-                            <!--                            <li><button type="button" class="btn btn-outline-light">Sign in</button></li>-->
+
 
                             <c:choose>
                                 <c:when test="${not empty user}">
@@ -217,5 +204,5 @@
                 </div>
 
             </nav>
-            <!-- End Header/Navigation -->
+
         </header>
