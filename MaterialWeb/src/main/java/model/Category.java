@@ -9,21 +9,18 @@ package model;
  * @author Huynh Thai Duy Phuong - CE190603
  */
 public class Category {
+
     private int id;
     private String name;
     private String iconClass;
     private String textColor;
 
     // getters and setters
-
     public Category(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    
-    
-    
     public Category(int id, String name, String iconClass, String textColor) {
         this.id = id;
         this.name = name;
@@ -65,4 +62,5 @@ public class Category {
 
     public Category() {
     }
+
 }

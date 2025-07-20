@@ -62,6 +62,7 @@
                         <ul class="custom-navbar-nav navbar-nav ms-auto mb-2 mb-md-0">
                             <!--<li class="nav-item active">-->
 
+
                             <c:if test="${not empty user and user.admin}">  
 
                                 <li class="nav-item dropdown">
@@ -77,6 +78,7 @@
                                     </ul>
                                 </li>
                             </c:if>
+
 
 
                             <li class="nav-item">
@@ -124,33 +126,73 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link p-0" href="<%=request.getContextPath()%>/profile">
-                                    <img
-                                        src="<%=request.getContextPath()%>/assets/img/avatar-default-icon.png"
-                                        alt="Avatar"
-                                        class="rounded-circle"
-                                        style="width:40px; height:40px; object-fit:cover;"
-                                        />
-                                </a>
-                            </li>
-
-                            <!--                            <li><button type="button" class="btn btn-outline-light">Sign in</button></li>-->
 
                             <c:choose>
                                 <c:when test="${not empty user}">
-                                    <li class="nav-item d-flex align-items-center text-white me-2">
-                                        Hello, ${user.fullName}
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle user-icon" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                            <path d="M12.12 12.78C12.05 12.77 11.96 12.77 11.88 12.78C10.12 12.72 8.71997 11.28 8.71997 9.50998C8.71997 7.69998 10.18 6.22998 12 6.22998C13.81 6.22998 15.28 7.69998 15.28 9.50998C15.27 11.28 13.88 12.72 12.12 12.78Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M18.74 19.3801C16.96 21.0101 14.6 22.0001 12 22.0001C9.40001 22.0001 7.04001 21.0101 5.26001 19.3801C5.36001 18.4401 5.96001 17.5201 7.03001 16.8001C9.77001 14.9801 14.25 14.9801 16.97 16.8001C18.04 17.5201 18.64 18.4401 18.74 19.3801Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </a>
+                                        <ul class=" custom-navbar dropdown-menu" aria-labelledby="userDropdown">
+                                            <c:if test="${user.admin}">      
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/user">Manager User</a></li>
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/category">Manager Category</a></li>
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/product">Manager Product</a></li>
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/theReview">Manager Review</a></li>
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/sale">Manager Sale</a></li>
+                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/orders">Manager Orders</a></li>
+                                                <li><hr class="dropdown-divider"></li>
+                                                </c:if>
+                                            <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/profile">My Profile</a></li>
+                                            <li>
+                                                <form action="<%= request.getContextPath()%>/auth" method="post" style="display: inline;">
+                                                    <button type="submit" name="action" value="LOGOUT" class="dropdown-item text-light">Logout</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle user-icon" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+                                            <path d="M12.12 12.78C12.05 12.77 11.96 12.77 11.88 12.78C10.12 12.72 8.71997 11.28 8.71997 9.50998C8.71997 7.69998 10.18 6.22998 12 6.22998C13.81 6.22998 15.28 7.69998 15.28 9.50998C15.27 11.28 13.88 12.72 12.12 12.78Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M18.74 19.3801C16.96 21.0101 14.6 22.0001 12 22.0001C9.40001 22.0001 7.04001 21.0101 5.26001 19.3801C5.36001 18.4401 5.96001 17.5201 7.03001 16.8001C9.77001 14.9801 14.25 14.9801 16.97 16.8001C18.04 17.5201 18.64 18.4401 18.74 19.3801Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </a>
+                                        <ul class=" custom-navbar dropdown-menu" aria-labelledby="userDropdown">
+
+
+                                            <li>
+                                                <a class="dropdown-item border-bottom" href="<%= request.getContextPath()%>/auth?view=login">Login or Register</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+
+
+
+                            <c:choose>
+                                <c:when test="${not empty user}">
+                                    <li class="nav-item">
+                                        <span class="nav-link text-white">Hello, ${user.fullName}</span>
                                     </li>
                                     <form action="<%= request.getContextPath()%>/auth" method="post">
                                         <li class="nav-item">
-                                            <button class="btn btn-outline-light btn-sm" type="submit" name="action" value="LOGOUT" class="btn">Logout</button>
+                                            <button class="nav-link btn btn-outline-light btn-sm logbutton" type="submit" name="action" value="LOGOUT" class="btn">Logout</button>
                                         </li>
                                     </form>
                                 </c:when>
                                 <c:otherwise>
                                     <li class="nav-item">
-                                        <a class="btn btn-outline-light btn-sm" href="<%= request.getContextPath()%>/auth?view=login">Login</a>
+                                        <a class=" btn btn-outline-light btn logbutton" href="<%= request.getContextPath()%>/auth?view=login">Login</a>
                                     </li>
                                 </c:otherwise>
                             </c:choose>
@@ -162,5 +204,5 @@
                 </div>
 
             </nav>
-            <!-- End Header/Navigation -->
+
         </header>

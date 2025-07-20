@@ -38,7 +38,6 @@ model\Account.class
 constant\CommonFunction.class
 controller\product\TheReviewServlet.class
 dao\TheReviewDAO.class
-controller\product\CategoryServlet.class
 dao\SaleDAO.class
 filter\AuthenticationFilter.class
 model\Order.class
@@ -47,5 +46,6 @@ model\TheReview.class
 model\ProductReport.class
 db\DBContext.class
 model\TokenForgetPassword.class
+controller\Category\CategoryServlet.class
 controller\product\ConfirmedBuyServlet.class
 controller\ReportServlet.class

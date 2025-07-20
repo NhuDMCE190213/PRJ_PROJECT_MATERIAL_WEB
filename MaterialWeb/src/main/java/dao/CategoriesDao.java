@@ -156,4 +156,19 @@ public class CategoriesDao extends DBContext {
             e.printStackTrace();
         }
     }
+    
+    
+    public void delete(int id) {
+        try {
+            String sql = "DELETE FROM categories WHERE id = ?";
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
 }

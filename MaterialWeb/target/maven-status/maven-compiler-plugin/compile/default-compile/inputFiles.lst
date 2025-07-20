@@ -30,7 +30,6 @@ D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\mode
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\TheReviewDAO.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\UpdateUserDAO.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\db\DBContext.java
-D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\product\CategoryServlet.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\AuthDAO.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\filter\CategoryFilter.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\CommonFunction.java
@@ -45,6 +44,7 @@ D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\mode
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\constant\Constants.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\product\DisplayServlet.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\model\Order.java
+D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\Category\CategoryServlet.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\controller\product\CartServlet.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CartDao.java
 D:\[AAA]source code[AAA]\PRJ_PROJECT_MATERIAL_WEB\MaterialWeb\src\main\java\dao\CategoryDAO.java
