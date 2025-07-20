@@ -118,16 +118,17 @@
                                             </svg>
                                         </a>
                                         <ul class=" custom-navbar dropdown-menu" aria-labelledby="userDropdown">
-                                            <c:if test="${user.admin}">      
-                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/user">Manager User</a></li>
-                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/category">Manager Category</a></li>
-                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/product">Manager Product</a></li>
-                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/theReview">Manager Review</a></li>
-                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/sale">Manager Sale</a></li>
-                                                <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/orders">Manager Orders</a></li>
+                                            <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/profile">My Profile</a></li>
+                                                <c:if test="${user.admin}">      
+                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/user">Manager User</a></li>
+                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/category">Manager Category</a></li>
+                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/product">Manager Product</a></li>
+                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/theReview">Manager Review</a></li>
+                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/sale">Manager Sale</a></li>
+                                                <li><a class="dropdown-item " href="${pageContext.request.contextPath}/orders">Manager Orders</a></li>
                                                 <li><hr class="dropdown-divider"></li>
                                                 </c:if>
-                                            <li><a class="dropdown-item border-bottom" href="${pageContext.request.contextPath}/profile">My Profile</a></li>
+
                                             <li>
                                                 <form action="<%= request.getContextPath()%>/auth" method="post" style="display: inline;">
                                                     <button type="submit" name="action" value="LOGOUT" class="dropdown-item text-light">Logout</button>
