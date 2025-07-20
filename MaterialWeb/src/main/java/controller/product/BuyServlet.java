@@ -57,12 +57,8 @@ public class BuyServlet extends HttpServlet {
                     calculatedTotal += (long) product.getPrice() * quantity;
 
                     // Remove from DB
-                    cartDao.removeFromCart(userId, productId);
+                   
 
-                    // Remove from session
-                    if (cart != null) {
-                        cart.removeItem(productId);
-                    }
                 }
             }
 
