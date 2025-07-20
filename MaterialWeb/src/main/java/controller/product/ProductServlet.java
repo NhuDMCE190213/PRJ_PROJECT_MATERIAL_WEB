@@ -129,6 +129,17 @@ public class ProductServlet extends HttpServlet {
             String unit = request.getParameter("unit");
             String brandName = request.getParameter("brandName");
 
+            // ❗ Kiểm tra giá và số lượng
+            if (price <= 0 || stockQuantity < 0) {
+                request.setAttribute("error", "Giá phải lớn hơn 0 và số lượng không được âm.");
+                CategoriesDao categoryDAO = new CategoriesDao();
+                List<Category> categoryList = categoryDAO.getAllCategories();
+                request.setAttribute("categoryList", categoryList);
+                request.setAttribute("product", new Product(0, name, description, categoryId, price, stockQuantity, unit, brandName, ""));
+                request.getRequestDispatcher("/WEB-INF/product/create.jsp").forward(request, response);
+                return;
+            }
+
             Part filePart = request.getPart("img");
             String fileName = "";
             if (filePart != null && filePart.getSize() > 0) {
@@ -163,7 +174,7 @@ public class ProductServlet extends HttpServlet {
             ProductDao dao = new ProductDao();
             Product existingProduct = dao.getById(id);
             String oldImage = existingProduct != null ? existingProduct.getImage() : null;
-            
+
             Part filePart = request.getPart("img");
             String fileName = "";
             if (filePart != null && filePart.getSize() > 0) {

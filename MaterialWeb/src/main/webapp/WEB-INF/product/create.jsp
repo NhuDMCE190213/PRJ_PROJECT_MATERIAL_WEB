@@ -12,28 +12,27 @@
 <main>
     <div class="container">
         <h1 class="mt-5">Add New Product</h1>
+        <c:if test="${not empty error}">
+            <div class="alert alert-danger">${error}</div>
+        </c:if>
+
         <form method="post" action="${pageContext.request.contextPath}/product" enctype="multipart/form-data">
             <table class="table">
 
                 <tr>
                     <td><label for="name">Tên sản phẩm</label></td>
-                    <td><input type="text" name="name" id="name" value="${product.name}" required></td>
+                    <td><input class="form-control" type="text" name="name" id="name" value="${product.name}" required></td>
                 </tr>
 
                 <tr>
                     <td><label for="description">Mô tả</label></td>
-                    <td><textarea name="description" id="description" rows="3">${product.description}</textarea></td>
+                    <td><textarea class="form-control" name="description" id="description" rows="3">${product.description}</textarea></td>
                 </tr>
-
-                <!--                <tr>
-                                    <td><label for="categoryId">ID Danh mục</label></td>
-                                    <td><input type="number" name="categoryId" id="categoryId" value="${product.categoryId}" required></td>
-                                </tr>-->
 
                 <tr>
                     <td><label for="categoryId">Danh mục</label></td>
                     <td>
-                        <select name="categoryId" id="categoryId" required>
+                        <select class="form-select" name="categoryId" id="categoryId" required>
                             <c:forEach var="cat" items="${categoryList}">
                                 <option value="${cat.id}">${cat.name}</option>
                             </c:forEach>
@@ -44,22 +43,22 @@
 
                 <tr>
                     <td><label for="price">Giá</label></td>
-                    <td><input type="number" name="price" id="price" value="${product.price}" required></td>
+                    <td><input min="1" class="form-control" type="number" name="price" id="price" value="${product.price}" required></td>
                 </tr>
 
                 <tr>
                     <td><label for="stockQuantity">Số lượng</label></td>
-                    <td><input type="number" name="stockQuantity" id="stockQuantity" value="${product.stockQuantity}" required></td>
+                    <td><input min="1" class="form-control" type="number" name="stockQuantity" id="stockQuantity" value="${product.stockQuantity}" required></td>
                 </tr>
 
                 <tr>
                     <td><label for="unit">Đơn vị</label></td>
-                    <td><input type="text" name="unit" id="unit" value="${product.unit}" required></td>
+                    <td><input class="form-control" type="text" name="unit" id="unit" value="${product.unit}" required></td>
                 </tr>
 
                 <tr>
                     <td><label for="brandName">Thương hiệu</label></td>
-                    <td><input type="text" name="brandName" id="brandName" value="${product.brandName}"></td>
+                    <td><input class="form-control" type="text" name="brandName" id="brandName" value="${product.brandName}"></td>
                 </tr>
 
                 <tr>
