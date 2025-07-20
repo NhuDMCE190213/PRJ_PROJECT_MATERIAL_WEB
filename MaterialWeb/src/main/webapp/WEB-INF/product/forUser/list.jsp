@@ -33,10 +33,10 @@
                         <c:forEach var="p" items="${list}">
                             <div class="col-md-4 mb-4">
                                 <div class="card h-100 shadow-sm">
-                                     <!-- Product image -->
-    <c:if test="${not empty p.image}">
-        <img src="${pageContext.request.contextPath}/assets/images/${p.image}" class="card-img-top" alt="${p.name}" style="height: 200px; object-fit: contain;">
-    </c:if>
+                                    <!-- Product image -->
+                                    <c:if test="${not empty p.image}">
+                                        <img src="${pageContext.request.contextPath}/assets/images/${p.image}" class="card-img-top" alt="${p.name}" style="height: 200px; object-fit: contain;">
+                                    </c:if>
                                     <div class="card-body">
                                         <h5 class="card-title text-success">${p.name}</h5>
                                         <p class="card-text">${p.description}</p>
@@ -56,7 +56,17 @@
                                                     <fmt:formatNumber value="${p.price}" type="number" groupingUsed="true"/> VNĐ
                                                 </strong>
                                             </li>
-                                            <li class="list-group-item">Số lượng: ${p.stockQuantity} ${p.unit}</li>
+                                            <c:choose>
+                                                <c:when test="${p.stockQuantity <= 0}">
+                                                    <li class="list-group-item text-danger"><strong>Hết hàng</strong></li>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                    <li class="list-group-item">
+                                                        Số lượng: ${p.stockQuantity} ${p.unit}
+                                                    </li>
+                                                </c:otherwise>
+                                            </c:choose>
+
                                             <li class="list-group-item">Thương hiệu: ${p.brandName}</li>
                                         </ul>
                                         <div class="mt-3 d-flex justify-content-start gap-2">

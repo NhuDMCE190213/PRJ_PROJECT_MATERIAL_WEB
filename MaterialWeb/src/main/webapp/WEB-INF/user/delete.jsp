@@ -37,7 +37,7 @@
                 <tr>
                     <th><label for="role">Quyền</label></th>
                     <td>
-                        <select name="role" id="role" class="form-control" required>
+                        <select name="role" id="role" class="form-control" disabled>
                             <option value="Admin" ${user.role == 'Admin' ? 'selected' : ''}>Admin</option>
                             <option value="User" ${user.role == 'User' ? 'selected' : ''}>User</option>
                         </select>
@@ -47,7 +47,7 @@
                 <tr>
                     <th><label for="status">Trạng thái</label></th>
                     <td>
-                        <select name="status" id="status" class="form-control" required>
+                        <select name="status" id="status" class="form-control" disabled >
                             <option value="active" ${user.status == 'active' ? 'selected' : ''}>active</option>
                             <option value="ban" ${user.status == 'ban' ? 'selected' : ''}>ban</option>
                         </select>

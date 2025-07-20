@@ -37,8 +37,15 @@
                             <td>${u.status}</td>
                             <td>${u.role}</td>
                             <td>
-                                <a href="user?view=update&id=${u.userid}" class="btn btn-sm btn-warning">Sửa</a>
-                                <a href="user?view=delete&id=${u.userid}" class="btn btn-sm btn-danger">Xoá</a>
+                                <c:choose>
+                                    <c:when test="${sessionScope.user.userid == u.userid}">
+                                        <span class="text-muted">You are here</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="user?view=update&id=${u.userid}" class="btn btn-sm btn-warning">Sửa</a>
+                                        <a href="user?view=delete&id=${u.userid}" class="btn btn-sm btn-danger">Xoá</a>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                         </tr>
                     </c:forEach>

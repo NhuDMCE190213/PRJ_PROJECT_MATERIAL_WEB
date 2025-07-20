@@ -5,6 +5,7 @@
 
 package controller.product;
 
+import dao.CartDao;
 import dao.OrderDAO;
 import dao.ProductDao;
 import java.io.IOException;
@@ -17,6 +18,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import model.Product;
 import model.User;
+// Khai báo thêm
+import dao.SaleDAO;
+import java.util.List;
+import model.Sale;
 
 /**
  *
@@ -70,13 +75,17 @@ public class ConfirmedBuyServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-  @Override
+ @Override
 protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
 
     HttpSession session = request.getSession();
     User currentUser = (User) session.getAttribute("user");
+   // ✅ LẤY GIỎ HÀNG TỪ SESSION
+    List<model.CartItem> cart = (List<model.CartItem>) session.getAttribute("cart");
 
+  
+   
     String[] productIds = request.getParameterValues("productIds");
     String[] quantities = request.getParameterValues("quantities");
 
@@ -87,31 +96,75 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response)
 
     ProductDao productDao = new ProductDao();
     OrderDAO dao = new OrderDAO();
+    CartDao cartDao = new CartDao(); // ✅ thêm dòng này
     int total = 0;
 
-    // First: Calculate total
+    // Tính tổng tiền
     for (int i = 0; i < productIds.length; i++) {
         int pid = Integer.parseInt(productIds[i]);
         int qty = Integer.parseInt(quantities[i]);
-
         Product p = productDao.getById(pid);
         total += p.getPrice() * qty;
     }
 
-    // Insert order
+    // Chèn đơn hàng
     int orderId = dao.insertOrder(currentUser.getUserid(), total);
 
-    // Insert order items
-    for (int i = 0; i < productIds.length; i++) {
-        int pid = Integer.parseInt(productIds[i]);
-        int qty = Integer.parseInt(quantities[i]);
+// Insert order items + remove from cart + decrease stock
+   for (int i = 0; i < productIds.length; i++) {
+    int pid = Integer.parseInt(productIds[i]);
+    int qty = Integer.parseInt(quantities[i]);
 
-        Product p = productDao.getById(pid);
-        dao.insertOrderItem(orderId, pid, qty, p.getPrice());
+    Product p = productDao.getById(pid);
+    dao.insertOrderItem(orderId, pid, qty, p.getPrice());
+
+    // Xóa khỏi giỏ hàng
+    try {
+        cartDao.removeFromCart(currentUser.getUserid(), pid);
+    } catch (Exception ex) {
+        ex.printStackTrace();
     }
+
+    // ✅ TRỪ KHO
+  try {
+    productDao.decreaseStockQuantity(pid, qty);
+} catch (Exception ex) {
+    ex.printStackTrace();
+}
+
+}
+
+// ✅ Trừ số lượng khuyến mãi nếu có và không phải non-limit
+String saleIdParam = request.getParameter("selectedSaleId");
+if (saleIdParam != null && !saleIdParam.isEmpty()) {
+    try {
+        int saleId = Integer.parseInt(saleIdParam);
+        SaleDAO saleDao = new SaleDAO();
+        Sale selectedSale = saleDao.getElementByID(saleId);
+
+        // Chỉ giảm nếu không phải non-limit
+       if (selectedSale != null && selectedSale.getAmount() != Integer.MAX_VALUE) {
+            int newAmount = selectedSale.getAmount() - 1;
+            saleDao.update(
+                selectedSale.getId(),
+                selectedSale.getName(),
+                selectedSale.getDiscount(),
+                selectedSale.getTypeOfDiscount(),
+                newAmount,
+                selectedSale.isCoHanSuDung(),
+                selectedSale.getDateStart(),
+                selectedSale.getDateEnd()
+            );
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
+    }
+}
 
     response.sendRedirect("order");
 }
+
+
 
 
     /** 
