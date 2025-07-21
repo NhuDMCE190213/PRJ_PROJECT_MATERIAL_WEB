@@ -1,4 +1,4 @@
-.<%-- 
+<%-- 
     Document   : create
     Created on : Jul 11, 2025, 3:01:01 PM
     Author     : Nguyen Thanh Nhan - CE190122
@@ -16,8 +16,8 @@
             <table class="table">
 
                 <tr>
-                    <td><label for="name">Category</label></td>
-                    <td><input type="text" name="name" id="name" value="" required></td>
+                    <td><label for="name" class="form-label">Category</label></td>
+                    <td><input type="text" name="name" id="name" class="form-control" required></td>
                 </tr>
                 <tr>
                     <td></td>

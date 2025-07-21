@@ -26,8 +26,8 @@ public class AuthDAO extends DBContext {
     private final String CHECK_EMAIL = "select * from user_login where email = ?";
     private final String GET_ALL_MEMBER = "select * from user_login";
     private final String LOGIN_MEMBERS = "SELECT * FROM user_login WHERE email = ? AND password = ?";
-    private final String REGISTER_MEMBER = "INSERT INTO user_login ([FullName], [PhoneNumber], [email], [password], [Status])\n"
-            + "VALUES (?, ?, ?, ?, ?);";
+    private final String REGISTER_MEMBER = "INSERT INTO user_login ([FullName], [PhoneNumber], [email], [password], [Status], [Role])\n"
+            + "VALUES (?, ?, ?, ?, ?, ?);";
 
     public List<User> getAllUser() {
         List<User> listUser = new ArrayList<>();
@@ -123,6 +123,7 @@ public class AuthDAO extends DBContext {
             stm2.setString(3, email);
             stm2.setString(4, hashedPassword);
             stm2.setString(5, "active");
+            stm2.setString(6, "User");
 
             int check = stm2.executeUpdate();
 

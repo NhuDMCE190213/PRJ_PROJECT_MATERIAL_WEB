@@ -118,7 +118,7 @@ public class BuyServlet extends HttpServlet {
         // Send to JSP
         request.setAttribute("selectedItems", selectedItems);
         request.setAttribute("selectedSale", selectedSale);
-        request.setAttribute("calculatedTotal", totalAfterDiscount);
+        request.setAttribute("calculatedTotal", Math.ceil(totalAfterDiscount));
         request.getRequestDispatcher("/WEB-INF/product/forUser/buy.jsp").forward(request, response);
     }
 }

@@ -43,7 +43,7 @@
 
                 <tr>
                     <td colspan="1" style="text-align:left"><strong>Tổng tiền:</strong></td>
-                    <td colspan="3" style="text-align:center"><strong>${calculatedTotal}</strong></td>
+                    <td colspan="3" style="text-align:center"><strong>${calculatedTotal} VND</strong></td>
                 </tr>
             </tbody>
         </table>
